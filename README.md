@@ -1,3 +1,3 @@
 # vmman3
 
-Golang-based libvirt client
+Go-based libvirtd client
