@@ -1,11 +1,13 @@
-// Copyright © 2022 Jean-Francois Gratton <jean-francois@famillegratton.net>
+// vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
+// cmd/ls.go
+// 2022-08-16 17:47:06
 
 package cmd
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"vmman3/helpers"
 )
 
 // lsCmd represents the ls command
@@ -17,22 +19,13 @@ var lsCmd = &cobra.Command{
 Lists all virtual machines with some specs and their state.
 Specs are : number of vCpu, amount of vMem, storage, ip address.
 State is: status (running, stopped), the number of snapshots with
-the name of the current one, if any`,
+the name of the current one, if any, and so on.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("ls called")
+		fmt.Printf("\x1bc")
+		helpers.VM_List()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(lsCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// lsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// lsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

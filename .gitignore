@@ -4,7 +4,6 @@
 *.so
 *.exe
 
-vmman3
 # Folders
 _obj
 _test
