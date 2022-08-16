@@ -7,7 +7,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"vmman3/helpers"
+
+	"vmman3/inventory"
 )
 
 // lsCmd represents the ls command
@@ -22,7 +23,7 @@ State is: status (running, stopped), the number of snapshots with
 the name of the current one, if any, and so on.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("\x1bc")
-		helpers.VM_List()
+		inventory.VM_List()
 	},
 }
 
