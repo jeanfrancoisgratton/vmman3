@@ -5,19 +5,20 @@
 package snapshot_management
 
 import (
-	"fmt"
 	"libvirt.org/go/libvirt"
 )
 
-func GetCurrentSnapshot(conn libvirt.Connect, vmname string) string {
+func GetCurrentSnapshotName(conn libvirt.Connect, vmname string) string {
 	var vm, _ = conn.LookupDomainByName(vmname)
+	var currentSnapshot = "none"
 	var snapshots, _ = vm.ListAllSnapshots(0)
-	//var snapshot
 
-	for snapshot := range snapshots {
-		fmt.Printf("%T\n", snapshot)
-		fmt.Println(snapshot)
+	for _, snapshot := range snapshots {
+		var isCurrent, _ = snapshot.IsCurrent(0)
+		if isCurrent {
+			currentSnapshot, _ = snapshot.GetName()
+			break
+		}
 	}
-
-	return "" // not returning anything, yet
+	return currentSnapshot
 }

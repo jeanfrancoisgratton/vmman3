@@ -1,0 +1,30 @@
+ALPINE: IFACE = eth0
+build deps:
+    - gcompat
+    - pkgconfig
+    - libvirt
+    - libvirt-dev
+    - gcc
+    - musl-dev
+
+runtime deps:
+    - libvirt
+
+=======================================================
+ROCKY: IFACE = enp1s0
+build deps:
+    - libvirt-devel
+
+runtime deps:
+    - libvirt
+
+=======================================================
+DEBIAN:   IFACE = enp1s0
+build deps:
+    - pkg-config
+    - libvirt-daemon
+    - libvirt-dev
+    - gcc
+
+runtime deps:
+    libvirt-daemon

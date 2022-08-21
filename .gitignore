@@ -8,9 +8,6 @@
 _obj
 _test
 
-.idea/
-.idea/workspace.xml
-**/.idea/workspace.xml
 
 # mac hidden files
 .DS_Store
