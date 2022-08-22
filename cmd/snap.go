@@ -14,6 +14,7 @@ var snapCmd = &cobra.Command{
 	Long: `Snapshot management:
 
 List, add or remove a snapshot.`,
+	// FIXME : replace this command below with a snap help text
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("A subcommand { create | ls | rm } must be passed to the snap command")
 	},

@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// helpers/helpers.go
+// helpers/inventory-vm_man-helpers.go
 // 2022-08-16 17:50:17
 
 package helpers
@@ -9,8 +9,6 @@ import (
 	"io/ioutil"
 	"log"
 )
-
-var ConnectURI string
 
 // Changelog() :
 // Affiche simplement le changelog (le fichier _version)

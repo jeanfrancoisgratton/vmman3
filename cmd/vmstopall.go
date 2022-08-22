@@ -1,11 +1,10 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
+	"vmman3/vm_management"
 
 	"github.com/spf13/cobra"
 )
@@ -16,11 +15,12 @@ var stopallCmd = &cobra.Command{
 	Short: "Stop all VMs",
 	Long:  `Stops all the VMs under the given hypervisor.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("stopall called")
+		vm_management.StopAll()
 	},
 }
 
 func init() {
+	vmCmd.AddCommand(stopallCmd)
 	rootCmd.AddCommand(stopallCmd)
 
 	// Here you will define your flags and configuration settings.

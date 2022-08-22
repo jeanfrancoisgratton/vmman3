@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// inventory/ls.go
+// inventory/inventory-ls.go
 // 2022-08-16 17:51:19
 
 package inventory
@@ -20,42 +20,6 @@ type vmInfo struct {
 	viMem                                           uint64
 	viCpu, viSnapshot                               uint
 	viCurrentSnapshot, viInterfaceName, viIPaddress string
-}
-
-// getConn() : ouvre la connexion à l'hyperviseur
-func getConn() libvirt.Connect {
-	conn, err := libvirt.NewConnect(helpers.ConnectURI)
-
-	if err != nil {
-		fmt.Println("Error in inventory.getConn() : ", err)
-	}
-
-	return *conn
-}
-
-// getStateHelper() : transforme la variable DomainState (un int, en fait) en string
-func getStateHelper(state libvirt.DomainState) string {
-	ds := ""
-	switch state {
-	case libvirt.DOMAIN_NOSTATE:
-		ds = "no state"
-	case libvirt.DOMAIN_RUNNING:
-		ds = "Running"
-	case libvirt.DOMAIN_BLOCKED:
-		ds = "Blocked"
-	case libvirt.DOMAIN_CRASHED:
-		ds = "Crashed"
-	case libvirt.DOMAIN_SHUTDOWN:
-	case libvirt.DOMAIN_SHUTOFF:
-		ds = "Shutdown"
-	case libvirt.DOMAIN_PMSUSPENDED:
-		ds = "Suspended"
-	case libvirt.DOMAIN_PAUSED:
-		ds = "Paused"
-	default:
-		ds = "n/a"
-	}
-	return ds
 }
 
 // getInterfaceSpecs() : va chercher le nom de l'interface réseau principale, et son adresse IP
@@ -83,20 +47,6 @@ func getInterfaceSpecs(dom libvirt.Domain, vmname string) (string, string) {
 	return interfaceName, interfaceAddress
 }
 
-// getVMList() : Ammasse la liste des VMs sur cet hyperviseur
-func getVMlist() []libvirt.Domain {
-	var conn = getConn()
-
-	doms, err := conn.ListAllDomains(libvirt.CONNECT_LIST_DOMAINS_ACTIVE | libvirt.CONNECT_LIST_DOMAINS_INACTIVE)
-
-	if err != nil {
-		fmt.Println("Error in inventory.getVMlist() : ", err)
-	}
-
-	defer conn.Close()
-	return doms
-}
-
 // FIXME: needs cleanup and/or readability fixes
 // collecteInfo() : Inventaire détaillé des VMs
 func collectInfo() []vmInfo {
@@ -105,8 +55,8 @@ func collectInfo() []vmInfo {
 	vmspec := []vmInfo{}
 	var i vmInfo
 	var dState libvirt.DomainState
-	doms := getVMlist()
-	var conn = getConn()
+	doms := helpers.GetVMlist()
+	var conn = helpers.GetConn()
 
 	for _, dom := range doms {
 		var specs, err = dom.GetInfo()
@@ -118,7 +68,7 @@ func collectInfo() []vmInfo {
 		i.viName, _ = dom.GetName()
 		// VM STATE
 		dState, _, _ = dom.GetState()
-		i.viState = getStateHelper(dState)
+		i.viState = helpers.GetStateHelper(dState)
 		if i.viState == "Running" {
 			// INTERFACE INFO
 			i.viInterfaceName, i.viIPaddress = getInterfaceSpecs(dom, i.viName)
@@ -135,7 +85,7 @@ func collectInfo() []vmInfo {
 			i.viCurrentSnapshot = "n/a"
 		}
 
-		vmspec = append(vmspec, vmInfo{viId: i.viId, viName: i.viName, viState: getStateHelper(dState), viMem: specs.Memory / 1024, viCpu: specs.NrVirtCpu,
+		vmspec = append(vmspec, vmInfo{viId: i.viId, viName: i.viName, viState: helpers.GetStateHelper(dState), viMem: specs.Memory / 1024, viCpu: specs.NrVirtCpu,
 			viSnapshot: uint(numsnap), viCurrentSnapshot: i.viCurrentSnapshot, viInterfaceName: i.viInterfaceName, viIPaddress: i.viIPaddress})
 	}
 
