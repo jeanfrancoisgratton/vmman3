@@ -99,11 +99,6 @@ func getVMlist() []libvirt.Domain {
 
 // FIXME: needs cleanup and/or readability fixes
 // collecteInfo() : Inventaire détaillé des VMs
-//  1. On va chercher les noms des VMs (getVMlist())
-//  2. Pour chaque VM de la liste, on cherche :
-//     statut, connectionID (si online), #memore, #cpu, #snapshots, le nom du snapshot courrant, adresse IP
-//  3. Pour chaque stat, on popule la structure vmInfo
-//  4. On tabularise et on affiche
 func collectInfo() []vmInfo {
 	var snapshotflags libvirt.DomainSnapshotListFlags
 	var numsnap int
@@ -149,6 +144,8 @@ func collectInfo() []vmInfo {
 
 func VM_List() {
 	var vmspecs = collectInfo()
+
+	helpers.SurroundText("All domains on hypervisor "+helpers.ConnectURI, false)
 
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)

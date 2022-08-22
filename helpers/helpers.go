@@ -38,13 +38,13 @@ func SurroundText(text string, clearScr bool) {
 	i := 0
 	eq := ""
 
-	for i < txLen-1 {
+	for i < txLen {
 		eq += "="
 		i += 1
 	}
 
 	fmt.Println(eq)
-	fmt.Print(text)
+	fmt.Println(text)
 	fmt.Println(eq)
 	fmt.Println()
 }

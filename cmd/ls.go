@@ -5,7 +5,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 
 	"vmman3/inventory"
@@ -22,7 +21,7 @@ Specs are : number of vCpu, amount of vMem, storage, ip address.
 State is: status (running, stopped), the number of snapshots with
 the name of the current one, if any, and so on.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("\x1bc")
+		//fmt.Printf("\x1bc")
 		inventory.VM_List()
 	},
 }

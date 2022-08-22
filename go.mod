@@ -3,10 +3,9 @@ module vmman3
 go 1.19
 
 require (
-	github.com/jedib0t/go-pretty/v6 v6.3.6
+	github.com/jedib0t/go-pretty/v6 v6.3.7
 	github.com/spf13/cobra v1.5.0
 	libvirt.org/go/libvirt v1.8006.0
-	libvirt.org/libvirt-go v7.4.0+incompatible
 )
 
 require (
