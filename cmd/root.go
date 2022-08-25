@@ -11,7 +11,8 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 
-var version = "1.000-0 (2022.08.16)"
+// var version = "1.000-0 (2022.08.16)"
+var version = "0.100 (2022.08.24)"
 
 //var connectURI string
 
@@ -48,6 +49,7 @@ func init() {
 
 	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.vmman3.yaml)")
 	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "qemu:///system", "Hypervisor URI.")
+	rootCmd.PersistentFlags().BoolVarP(&helpers.BsingleHypervisor, "singleHypervisor", "s", false, "Make vmman multi hypervisor-aware")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -59,6 +61,7 @@ func init() {
 
 func initConfig() {
 	helpers.ConnectURI, _ = rootCmd.Flags().GetString("connection")
+	helpers.BsingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
 
 	if helpers.ConnectURI != "qemu:///system" {
 		connectURI := fmt.Sprintf("qemu+ssh://root@%s/system", helpers.ConnectURI)

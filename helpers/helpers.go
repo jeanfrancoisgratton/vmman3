@@ -6,9 +6,11 @@ package helpers
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 )
+
+var BsingleHypervisor bool
 
 // Changelog() :
 // Affiche simplement le changelog (le fichier _version)
@@ -16,7 +18,7 @@ func Changelog() {
 	//fmt.Printf("\x1b[2J")
 	fmt.Printf("\x1bc")
 
-	content, err := ioutil.ReadFile("_version")
+	content, err := os.ReadFile("_version")
 
 	if err != nil {
 		log.Fatal(err)

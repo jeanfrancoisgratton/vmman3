@@ -5,22 +5,23 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
+	"vmman3/db"
 )
 
 // dbBootstrapCmd represents the dbBootstrap command
 var dbBootstrapCmd = &cobra.Command{
-	Use:   "db bootstrap",
+	Use:   "bootstrap",
 	Short: "Bootstraps (initializes) the PGSQL back-end for multi-hypervisors environments",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Long: `This will use the user you will provide to create the software's built-in postgres user, db, schema and tables.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+You use this command only if :
+1- This is the very first time you use the software
+2- You want to completely wipe the former DB and start over.
+
+ALL PREVIOUS INFO WILL BE LOST`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("dbBootstrap called")
+		db.DbCreateDatabase()
 	},
 }
 

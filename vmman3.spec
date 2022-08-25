@@ -62,30 +62,4 @@ touch /var/log/vmman3.log && chown 0:kvm /var/log/vmman3.log && chmod 770 /var/l
 
 
 %changelog
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Tue Jul 19 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
 

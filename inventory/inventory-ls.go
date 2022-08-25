@@ -99,7 +99,12 @@ func VM_List() {
 
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
-	t.AppendHeader((table.Row{"ID", "VM name", "State", "vMemory", "vCPUs", "Snapshots", "Curr snapshot", "iface name", "IP address"}))
+	if helpers.BsingleHypervisor {
+		t.AppendHeader((table.Row{"ID", "VM name", "State", "vMemory", "vCPUs", "Snapshots", "Curr snapshot", "iface name", "IP address"}))
+	} else {
+		t.AppendHeader((table.Row{"ID", "VM name", "State", "vMemory", "vCPUs", "Snapshots", "Curr snapshot", "iface name", "IP address", "Last status change", "Hypervisor"}))
+	}
+
 	for _, vmspec := range vmspecs {
 		sID := ""
 		if vmspec.viId > 0 && vmspec.viId < 10 {
@@ -111,7 +116,12 @@ func VM_List() {
 		if vmspec.viId > 99 && vmspec.viId < 999 {
 			sID = fmt.Sprintf("0%d", vmspec.viId)
 		}
-		t.AppendRow([]interface{}{sID, vmspec.viName, vmspec.viState, vmspec.viMem, vmspec.viCpu, vmspec.viSnapshot, vmspec.viCurrentSnapshot, vmspec.viInterfaceName, vmspec.viIPaddress})
+		if helpers.BsingleHypervisor {
+			t.AppendRow([]interface{}{sID, vmspec.viName, vmspec.viState, vmspec.viMem, vmspec.viCpu, vmspec.viSnapshot, vmspec.viCurrentSnapshot, vmspec.viInterfaceName, vmspec.viIPaddress})
+		} else {
+			t.AppendRow([]interface{}{sID, vmspec.viName, vmspec.viState, vmspec.viMem, vmspec.viCpu, vmspec.viSnapshot, vmspec.viCurrentSnapshot, vmspec.viInterfaceName, vmspec.viIPaddress, "", ""})
+		}
+
 	}
 	t.SortBy([]table.SortBy{
 		{Name: "ID", Mode: table.Asc},
