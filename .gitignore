@@ -7,7 +7,7 @@
 # Folders
 _obj
 _test
-
+.vscode
 
 # mac hidden files
 .DS_Store
