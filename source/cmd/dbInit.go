@@ -1,32 +1,27 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+// vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
+// source/cmd/dbInit.go
+// 2022-08-25 00:01:18
 
-*/
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"vmman3/db"
 )
 
 // dbInitCmd represents the dbInit command
 var dbInitCmd = &cobra.Command{
-	Use:   "dbInit",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:   "init",
+	Short: "Initializes the db with a data file",
+	Long: `The database created with db bootstrap will now be populated with data that comes from a json, yaml or sql file.
+Be aware that the software assumes that the file is syntaxically correct.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("dbInit called")
+		db.Init()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(dbInitCmd)
+	dbCmd.AddCommand(dbInitCmd)
 
 	// Here you will define your flags and configuration settings.
 

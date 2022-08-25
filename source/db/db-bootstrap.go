@@ -10,34 +10,17 @@ package db
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/jackc/pgx/v4"
 	"os"
 	"vmman3/helpers"
 )
 
-// La structure utilisée pour créer la bd originale
-type dbCredsStruct struct {
-	Hostname   string `json:"hostname"`
-	RootUsr    string `json:"rootusr"`
-	RootPasswd string `json:"rootpasswd"`
-	Port       int    `json:"port"`
-}
-
-// creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
-func creds2json(jsonFile string, creds dbCredsStruct) {
-	jStream, err := json.Marshal(creds)
-	if err != nil {
-		fmt.Println("Error", err)
-	}
-	os.WriteFile(jsonFile, jStream, 0600)
-}
-
 // getCreds() : collecte les credentials nécessaires pour se connecter à la BD PGSQL, et créer la BD vmman
-func getCreds() dbCredsStruct {
+func getCreds() (dbCredsStruct, string, string) {
 	var dbCreds dbCredsStruct
 	var err error
+	var rootUsr, rootPasswd string
 
 	fmt.Print("Please enter the database hostname: ")
 	_, err = fmt.Scanln(&dbCreds.Hostname)
@@ -46,13 +29,13 @@ func getCreds() dbCredsStruct {
 		os.Exit(-1)
 	}
 	fmt.Print("Please enter the root account username: ")
-	_, err = fmt.Scanln(&dbCreds.RootUsr)
+	_, err = fmt.Scanln(&rootUsr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
 
-	dbCreds.RootPasswd = helpers.GetPassword("Please enter that account's password: ")
+	rootPasswd = helpers.GetPassword("Please enter that account's password: ")
 
 	fmt.Print("Please enter the database port: ")
 	_, err = fmt.Scanln(&dbCreds.Port)
@@ -60,7 +43,8 @@ func getCreds() dbCredsStruct {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
-	return dbCreds
+	fmt.Println()
+	return dbCreds, rootUsr, rootPasswd
 }
 
 // checkIfConfigExists() : Vérifie si le répertoire existe; s'il existe, vérifie si le fichier de config existe
@@ -92,18 +76,20 @@ func checkIfConfigExists() string {
 	return vmman3rcdir
 }
 
-func DbCreateDatabase() {
+// CreateDatabase() : action du db bootstrap
+func CreateDatabase() {
 	var creds dbCredsStruct
+	var user, passwd string
 	//connStr := "postgresql://<username>:<password>@<database_ip>:<port>/<dbname>?sslmode=disable
 
 	// checkIfConfigExists() needs extra cleanup (subdivisions)
 	rcFile := checkIfConfigExists()
 	if rcFile != "" {
-		creds = getCreds()
+		creds, user, passwd = getCreds()
 		creds2json(rcFile, creds)
 	}
 
-	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", user, passwd, creds.Hostname, creds.Port)
 
 	conn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
@@ -130,4 +116,9 @@ func createUser(conn *pgx.Conn) bool {
 	conn.Exec(context.Background(), "ALTER DEFAULT PRIVILEGES FOR USER vmman IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO vmman;")
 
 	return true
+}
+
+// wipeDB() : Drop la base de données au complet
+func wipeDB(conn *pgx.Conn) {
+
 }

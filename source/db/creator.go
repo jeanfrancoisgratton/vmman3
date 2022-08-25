@@ -23,19 +23,19 @@ func createTablesSchemas(hostname string, port int) {
 	}
 	defer conn.Close(context.Background())
 
-	fmt.Print("Drop/Create ...")
+	fmt.Print("Drop/Create... ")
 	conn.Exec(context.Background(), "DROP SCHEMA IF EXISTS config ;")
 	conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS config AUTHORIZATION vmman;")
-	fmt.Print("Completed\n\n")
-	fmt.Print("Sequences ...")
+	fmt.Print("Completed\n")
+	fmt.Print("Sequences... ")
 	createSeqs(conn)
-	fmt.Print("Completed\n\n")
-	fmt.Print("Tables ...")
+	fmt.Print("Completed\n")
+	fmt.Print("Tables... ")
 	createTables(conn)
-	fmt.Print("Completed\n\n")
-	fmt.Print("Ownership ...")
+	fmt.Print("Completed\n")
+	fmt.Print("Ownership... ")
 	setTableOwnership(conn)
-	fmt.Print("Completed\n\n\n")
+	fmt.Print("Completed\n\n")
 }
 
 // createSeqs() : crée les sequences dans la BD

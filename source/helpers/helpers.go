@@ -48,3 +48,10 @@ func SurroundText(text string, clearScr bool) {
 	fmt.Println(eq)
 	fmt.Println()
 }
+
+// GetRCdir() : retourne le répertoire de configurations de l'usager
+func GetRCdir() string {
+	rcDir, _ := os.UserConfigDir()
+
+	return rcDir + "/vmman3/"
+}

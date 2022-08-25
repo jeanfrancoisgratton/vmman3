@@ -21,7 +21,7 @@ You use this command only if :
 
 ALL PREVIOUS INFO WILL BE LOST`,
 	Run: func(cmd *cobra.Command, args []string) {
-		db.DbCreateDatabase()
+		db.CreateDatabase()
 	},
 }
 
@@ -36,5 +36,5 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// dbBootstrapCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// dbBootstrapCmd.Flags().BoolP("unstrap", "u", false, "Unstrap (wipe)")
 }
