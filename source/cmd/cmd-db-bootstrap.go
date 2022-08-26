@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// cmd/dbBootstrap.go
+// cmd/cmd-bootstrap.go
 // 2022-08-22 07:08:44
 
 package cmd

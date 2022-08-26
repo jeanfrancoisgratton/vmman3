@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// source/cmd/dbInit.go
+// source/cmd/cmd-db-dbInit.go
 // 2022-08-25 00:01:18
 
 package cmd
@@ -18,6 +18,10 @@ Be aware that the software assumes that the file is syntaxically correct.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		db.Init()
 	},
+}
+
+func checkfile() {
+	
 }
 
 func init() {

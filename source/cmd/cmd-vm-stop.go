@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// cmd/vmstop.go
+// cmd/cmd-vm-stop.go
 // 2022-08-22 13:16:31
 
 package cmd

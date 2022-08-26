@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// db/db-bootstrap.go
+// db/bootstrap.go
 // 2022-08-22 20:02:37
 
 // FIXME FIXME FIXME

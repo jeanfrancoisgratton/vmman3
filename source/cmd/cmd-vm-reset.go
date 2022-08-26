@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// cmd/reset.go
+// cmd/cmd-vm-reset.go
 // 2022-08-22 19:23:22
 
 package cmd

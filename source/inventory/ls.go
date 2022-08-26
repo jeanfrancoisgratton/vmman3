@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// inventory/inventory-ls.go
+// inventory/inventory-cmd-ls.go
 // 2022-08-16 17:51:19
 
 package inventory

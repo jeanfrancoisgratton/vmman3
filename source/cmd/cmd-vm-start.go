@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// cmd/vmstart.go
+// cmd/cmd-vm-start.go
 // 2022-08-22 13:15:26
 
 package cmd
