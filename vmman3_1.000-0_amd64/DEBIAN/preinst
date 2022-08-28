@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+
+if [ $(getent group kvm) ]; then
+  exit 0
+else
+  /usr/sbin/groupadd kvm 2> /dev/null
+fi
+
