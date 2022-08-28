@@ -124,7 +124,7 @@ func createUser(conn *pgx.Conn, username string, passwd string) bool {
 	conn.Exec(context.Background(), "GRANT ALL PRIVILEGES ON DATABASE vmman TO "+username+";")
 	conn.Exec(context.Background(), "ALTER USER "+username+" CREATEDB;")
 	conn.Exec(context.Background(), "ALTER USER "+username+" WITH SUPERUSER;")
-	conn.Exec(context.Background(), "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO vmman;")
+	conn.Exec(context.Background(), "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "+username+";")
 
 	return true
 }
