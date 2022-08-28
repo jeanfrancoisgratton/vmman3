@@ -3,3 +3,7 @@
 // 2022-08-24 22:20:39
 
 package db
+
+func InitJson() bool {
+	return true
+}

@@ -49,14 +49,14 @@ func init() {
 
 	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.vmman3.yaml)")
 	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "qemu:///system", "Hypervisor URI.")
-	rootCmd.PersistentFlags().BoolVarP(&helpers.BsingleHypervisor, "singleHypervisor", "s", false, "Make vmman multi hypervisor-aware")
+	rootCmd.PersistentFlags().BoolVarP(&helpers.BsingleHypervisor, "singleHypervisor", "1", false, "Make vmman multi hypervisor-aware")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	snapCmd.AddCommand(lssnapCmd)
-	snapCmd.AddCommand(createsnapCmd)
-	snapCmd.AddCommand(rmsnapCmd)
+	//snapCmd.AddCommand(lssnapCmd)
+	//snapCmd.AddCommand(createsnapCmd)
+	//snapCmd.AddCommand(rmsnapCmd)
 }
 
 func initConfig() {

@@ -11,12 +11,6 @@ import (
 	"vmman3/helpers"
 )
 
-// La structure utilisée pour créer la bd originale
-type dbCredsStruct struct {
-	Hostname string `json:"hostname"`
-	Port     int    `json:"port"`
-}
-
 // creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
 func creds2json(jsonFile string, creds dbCredsStruct) {
 	jStream, err := json.Marshal(creds)

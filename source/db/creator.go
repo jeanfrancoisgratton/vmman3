@@ -12,7 +12,7 @@ import (
 )
 
 // createTablesSchemas() : crée la bd, schemas et tables
-// FIXME : transactions, everyone ? :p
+// FIXME : transactions, anyone ? :p
 func createTablesSchemas(hostname string, port int) {
 	connString := fmt.Sprintf("postgresql://vmman:vmman@%s:%d/vmman", hostname, port)
 
@@ -51,7 +51,7 @@ func createSeqs(conn *pgx.Conn) {
 }
 
 // createTables() : crée les tables dans la BD
-// FIXME : transactions, everyone ? :p
+// FIXME : transactions, anyone ? :p
 func createTables(conn *pgx.Conn) {
 	conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS config.storagePools "+
 		"(spID smallint NOT NULL DEFAULT nextval('config.\"storagePools_spID_seq\"'::regclass),"+
@@ -75,7 +75,7 @@ func createTables(conn *pgx.Conn) {
 }
 
 // setOwnership() : change la propriété des tables pour vmman
-// FIXME : transactions, everyone ? :p
+// FIXME : transactions, anyone ? :p
 func setTableOwnership(conn *pgx.Conn) {
 	conn.Exec(context.Background(), "ALTER TABLE IF EXISTS config.storagePools OWNER to vmman;")
 	conn.Exec(context.Background(), "ALTER TABLE IF EXISTS config.hypervisors OWNER to vmman;")

@@ -8,6 +8,7 @@
 _obj
 _test
 .vscode
+dbdump
 
 # mac hidden files
 .DS_Store

@@ -3,7 +3,7 @@
 // 2022-08-22 20:02:37
 
 // FIXME FIXME FIXME
-// FILE NEEDS CLEANUP AND GETTING RID OF PASSWORD IN JSON DOCUMENT
+// FILE NEEDS CLEANUP AND GETTING RID OF PASSWORD IN JSON/ANY DOCUMENT
 // FIXME FIXME FIXME
 
 package db
@@ -17,10 +17,9 @@ import (
 )
 
 // getCreds() : collecte les credentials nécessaires pour se connecter à la BD PGSQL, et créer la BD vmman
-func getCreds() (dbCredsStruct, string, string) {
+func getCreds() dbCredsStruct {
 	var dbCreds dbCredsStruct
 	var err error
-	var rootUsr, rootPasswd string
 
 	fmt.Print("Please enter the database hostname: ")
 	_, err = fmt.Scanln(&dbCreds.Hostname)
@@ -28,23 +27,36 @@ func getCreds() (dbCredsStruct, string, string) {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
-	fmt.Print("Please enter the root account username: ")
-	_, err = fmt.Scanln(&rootUsr)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
-		os.Exit(-1)
-	}
-
-	rootPasswd = helpers.GetPassword("Please enter that account's password: ")
-
 	fmt.Print("Please enter the database port: ")
 	_, err = fmt.Scanln(&dbCreds.Port)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
+	fmt.Print("Please enter the root account username: ")
+	_, err = fmt.Scanln(&dbCreds.RootUsr)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
+		os.Exit(-1)
+	}
+	dbCreds.RootPasswd = helpers.GetPassword("Please enter that account's password: ")
+
+	fmt.Print("Please enter the application's username: ")
+	_, err = fmt.Scanln(&dbCreds.DbUsr)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
+		os.Exit(-1)
+	}
+
+	fmt.Print("Please enter the application's password: ")
+	_, err = fmt.Scanln(&dbCreds.DbPasswd)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
+		os.Exit(-1)
+	}
+
 	fmt.Println()
-	return dbCreds, rootUsr, rootPasswd
+	return dbCreds
 }
 
 // checkIfConfigExists() : Vérifie si le répertoire existe; s'il existe, vérifie si le fichier de config existe
@@ -79,17 +91,16 @@ func checkIfConfigExists() string {
 // CreateDatabase() : action du db bootstrap
 func CreateDatabase() {
 	var creds dbCredsStruct
-	var user, passwd string
 	//connStr := "postgresql://<username>:<password>@<database_ip>:<port>/<dbname>?sslmode=disable
 
 	// checkIfConfigExists() needs extra cleanup (subdivisions)
 	rcFile := checkIfConfigExists()
 	if rcFile != "" {
-		creds, user, passwd = getCreds()
+		creds = getCreds()
 		creds2json(rcFile, creds)
 	}
 
-	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", user, passwd, creds.Hostname, creds.Port)
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
 
 	conn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
@@ -98,22 +109,22 @@ func CreateDatabase() {
 	}
 	defer conn.Close(context.Background())
 
-	if createUser(conn) {
+	if createUser(conn, creds.DbUsr, creds.DbPasswd) {
 		createTablesSchemas(creds.Hostname, creds.Port)
 	}
 }
 
 // createUser() : crée le user vmman
 // TODO: error checking
-func createUser(conn *pgx.Conn) bool {
+func createUser(conn *pgx.Conn, username string, passwd string) bool {
 	conn.Exec(context.Background(), "DROP DATABASE IF EXISTS vmman;")
 	conn.Exec(context.Background(), "CREATE DATABASE vmman;")
-	conn.Exec(context.Background(), "CREATE ROLE vmman CREATEDB INHERIT LOGIN PASSWORD 'vmman';")
-	conn.Exec(context.Background(), "GRANT CONNECT ON DATABASE vmman TO vmman;")
-	conn.Exec(context.Background(), "GRANT ALL PRIVILEGES ON DATABASE vmman TO vmman;")
-	conn.Exec(context.Background(), "ALTER USER vmman CREATEDB;")
-	conn.Exec(context.Background(), "ALTER USER vmman WITH SUPERUSER;")
-	conn.Exec(context.Background(), "ALTER DEFAULT PRIVILEGES FOR USER vmman IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO vmman;")
+	conn.Exec(context.Background(), "CREATE ROLE "+username+" CREATEDB INHERIT LOGIN PASSWORD '"+passwd+"';")
+	conn.Exec(context.Background(), "GRANT CONNECT ON DATABASE vmman TO "+username+";")
+	conn.Exec(context.Background(), "GRANT ALL PRIVILEGES ON DATABASE vmman TO "+username+";")
+	conn.Exec(context.Background(), "ALTER USER "+username+" CREATEDB;")
+	conn.Exec(context.Background(), "ALTER USER "+username+" WITH SUPERUSER;")
+	conn.Exec(context.Background(), "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO vmman;")
 
 	return true
 }
