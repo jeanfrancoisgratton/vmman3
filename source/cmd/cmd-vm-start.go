@@ -12,8 +12,9 @@ import (
 
 // vmstartCmd represents the vmstart command
 var vmstartCmd = &cobra.Command{
-	Use:   "vmstart",
-	Short: "A brief description of your command",
+	Use:     "start",
+	Aliases: []string{"up"},
+	Short:   "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

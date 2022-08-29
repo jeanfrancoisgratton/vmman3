@@ -12,13 +12,11 @@ import (
 // exportCmd represents the export command
 var exportCmd = &cobra.Command{
 	Use:   "export",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Dump database in selected format",
+	Long: `This will dump the DB tables in the format you select (default is JSON).
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+All tables will be dumped in JSON unless you toggle it off with -j=false.
+You will need to specify the directory where to dump the files. If the directory does not exist, it will be created.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		db.Export()
 	},
