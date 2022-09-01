@@ -1,7 +1,6 @@
 %define debug_package   %{nil}
 %define _name   vmman3
 %define _prefix /opt
-#%define _homedir %{_prefix}/%{_name}
 %define _version 1.000
 %define _rel 0
 %define _arch amd64
@@ -19,7 +18,7 @@ Source0:    %{name}-%{version}.tar.gz
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel
-Requires: libvirt,virt-clone,sudo
+Requires: libvirt-devel,libvirt,virt-clone,sudo
 
 %description
 GoLang-based libvirt client
