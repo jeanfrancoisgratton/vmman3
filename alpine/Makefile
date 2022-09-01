@@ -3,8 +3,7 @@ all:
 	go build . -o ./vmman3.exe
 
 prepare:
-	/opt/bin/install_golang.sh 1.19 amd64
-	apk add --no-cache gcompat pkgconfig libvirt libvirt-dev gcc musl-dev
+	sudo /opt/bin/install_golang.sh 1.19 amd64
 	sudo apk add --no-cache pkgconfig libvirt libvirt-dev gcc musl-dev
 
 
