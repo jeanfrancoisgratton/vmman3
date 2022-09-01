@@ -1,0 +1,28 @@
+# Maintainer: Jean-Francois Gratton <jean-francois@famillegratton.net>
+# PACKAGER: APK Builder <builder@famillegratton.net>
+pkgname=vmman3
+pkgver=1.000
+pkgrel=0
+pkgdir=/data/packages
+builddir="$srcdir/BUILD"
+pkgdesc="GO-based QEMU virtual machines manager"
+url="https://git.famillegratton.net:3000/devops/vmman3"
+arch=amd64
+license=GPL2
+depends="libvirt libvirt-qemu virt-install sudo"
+install="$pkgname.post-install"
+source="$pkgname-$pkgver-$pkgrel.tar.bz2::http://localhost/$pkgname-$pkgver-$pkgrel.tar.bz2"
+
+
+build() {
+        mkdir -p "$builddir"
+        cd "$builddir"
+        make -f "$startdir"/Makefile SRCDIR="$srcdir" TARBALL="$pkgname-$pkgver-$pkgrel.tar.bz2" all
+}
+
+package() {
+        make -f "$startdir"/Makefile BUILDDIR="$builddir" PREFIX=/opt PKGNM="$pkgname" DESTDIR="$pkgdir" install
+}
+sha512sums="
+b04e1942d9ca1b22840120bede89bcd80d198fe0f999092ed7413ea14e196f0b13b5f3b62157bdaf6eb678c3bd88587efa89d2271cdbbf71fc883b2dc95522c4  vmman1-1.131-1.tar.bz2
+"

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#echo "Installing requirements"
+#pip3 install --upgrade pip > /dev/null 2>&1
+#pip3 install -r /opt/vmman1/requirements.txt > /dev/null 2>&1

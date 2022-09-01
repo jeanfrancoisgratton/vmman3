@@ -29,7 +29,7 @@ ___
 1. Everything Alpine-related needs to be in the alpine/ directory
 2. Ensure that the file _current_pkg_release corresponds to the version number where the sources are located
 3. Customize your APKBUILD file if needed
-4. Run `./prepare-tarball.sh`
+4. Run `make prepare`, to ensure that you have every build-time dependenccy installed
 5. `abuild checksum` once you're confident everything is good
 6. `abuild -r [-k -K]` and you're good to go
 
