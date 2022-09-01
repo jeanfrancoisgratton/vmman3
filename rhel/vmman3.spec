@@ -25,7 +25,6 @@ GoLang-based libvirt client
 
 %prep
 %setup -q
-microdnf install -y libvirt-devel > /dev/null
 
 %build
 go build -o %{_name}.exe .
@@ -40,7 +39,7 @@ microdnf remove -y libvirt-devel
 exit 0
 
 %install
-%{__mkdir_p} "$RPM_BUILD_ROOT"
+%{__mkdir_p} "$RPM_BUILD_ROOT%{_prefix}/bin"
 install -Dpm 0755 "$RPM_BUILD_ROOT/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/%{_name}"
 
 %post
