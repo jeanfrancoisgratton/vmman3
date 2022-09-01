@@ -25,12 +25,14 @@ GoLang-based libvirt client
 
 %prep
 %setup -q
+microdnf install -y libvirt-devel > /dev/null
 
 %build
-go build -v -o %{_name}.exe
+go build -o %{_name}.exe .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+microdnf remove -y libvirt-devel
 
 %pre
 /usr/sbin/groupadd kvm 2> /dev/null
@@ -38,14 +40,12 @@ rm -rf $RPM_BUILD_ROOT
 exit 0
 
 %install
-
 %{__mkdir_p} "$RPM_BUILD_ROOT"
 install -Dpm 0755 "$RPM_BUILD_ROOT/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/%{_name}"
 
 %post
 
 %preun
-
 
 %postun
 
@@ -55,10 +55,3 @@ install -Dpm 0755 "$RPM_BUILD_ROOT/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/%{_n
 
 
 %changelog
-* Thu Sep 01 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Thu Sep 01 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-
