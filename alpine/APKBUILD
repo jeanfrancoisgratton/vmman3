@@ -4,26 +4,27 @@ pkgname=vmman3
 pkgver=1.000
 pkgrel=0
 pkgdir=/data/packages
-builddir="$srcdir/BUILD"
+builddir="$startdir/src/BUILD"
 pkgdesc="GO-based QEMU virtual machines manager"
 url="https://git.famillegratton.net:3000/devops/vmman3"
-arch=amd64
+arch=x86_64
 license=GPL2
 depends="libvirt libvirt-qemu virt-install sudo"
 install="$pkgname.post-install"
-source="$pkgname-$pkgver-$pkgrel.tar.bz2::http://localhost/$pkgname-$pkgver-$pkgrel.tar.bz2"
-
+#source="$pkgname-$pkgver-$pkgrel.tar.bz2::http://localhost/$pkgname-$pkgver-$pkgrel.tar.bz2"
 
 build() {
-        mkdir -p "$builddir"/source
-        cd "$builddir"/source
-        make -f "$startdir"/Makefile prepare
-        go build . -o ../vmman3.exe
+	pwd
+	mkdir -p "$builddir" && cd "$builddir"/.. && rm -rf BUILD && cp -R "$startdir"/../source . && mv source BUILD
+        cd "$builddir"
+        #make -f "$startdir"/Makefile prepare
+	pwd
+        go build -o vmman3.exe .
+	#make -f "$startdir"/Makefile build
 }
 
 package() {
         make -f "$startdir"/Makefile BUILDDIR="$builddir" PREFIX=/opt PKGNM="$pkgname" DESTDIR="$pkgdir" install
 }
-sha512sums="
-b04e1942d9ca1b22840120bede89bcd80d198fe0f999092ed7413ea14e196f0b13b5f3b62157bdaf6eb678c3bd88587efa89d2271cdbbf71fc883b2dc95522c4  vmman1-1.131-1.tar.bz2
-"
+
+
