@@ -15,9 +15,10 @@ source="$pkgname-$pkgver-$pkgrel.tar.bz2::http://localhost/$pkgname-$pkgver-$pkg
 
 
 build() {
-        mkdir -p "$builddir"
-        cd "$builddir"
-        make -f "$startdir"/Makefile SRCDIR="$srcdir" TARBALL="$pkgname-$pkgver-$pkgrel.tar.bz2" all
+        mkdir -p "$builddir"/source
+        cd "$builddir"/source
+        make -f "$startdir"/Makefile prepare
+        go build . -o ../vmman3.exe
 }
 
 package() {

@@ -11,8 +11,7 @@ prepare:
 install:
 	test -d $(DESTDIR)$(PREFIX) || mkdir -p $(DESTDIR)$(PREFIX)
 
-	install -pm 644 $(BUILDDIR)$(PREFIX)/$(PKGNM)/* $(DESTDIR)$(PREFIX)/$(PKGNM)/
 	install -pm 644 $(BUILDDIR)$(PREFIX)/etc/$(PKGNM)/README.md $(DESTDIR)$(PREFIX)/etc/$(PKGNM)/README.md
-	chmod 755 $(DESTDIR)$(PREFIX)/$(PKGNM)/vmman
+
 
 	
