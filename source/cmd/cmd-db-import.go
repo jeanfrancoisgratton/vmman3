@@ -5,7 +5,9 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
+	"os"
 	"vmman3/db"
 )
 
@@ -17,10 +19,20 @@ var dbInitCmd = &cobra.Command{
 	Long: `The database created with db bootstrap will now be populated with data that comes from a json, yaml or sql file.
 Be aware that the software assumes that the file is syntaxically correct.
 
-Also, this subcommand will ignore all subcommand argument except the last, which will be treated as a filename`,
+Also, this subcommand will ignore all subcommand argument except the last, which will be treated as a dirname`,
 	Run: func(cmd *cobra.Command, args []string) {
 		db.Import(args[len(args)-1])
 	},
+}
+
+func runImport(args []string) {
+	nLen := len(args)
+	if nLen != 1 {
+		fmt.Println("You need to specify a target directory")
+		os.Exit(-1)
+	} else {
+		db.Import(args[nLen-1])
+	}
 }
 
 func init() {
@@ -35,4 +47,7 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// dbInitCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	dbInitCmd.Flags().BoolVarP(&db.Bjson, "jsonfmt", "j", true, "Export in JSON format (default)")
+	dbInitCmd.Flags().BoolVarP(&db.Byaml, "yamlfmt", "y", false, "Export in YAML format")
+	dbInitCmd.Flags().BoolVarP(&db.Bsql, "sqlfmt", "s", false, "Export in SQL format")
 }

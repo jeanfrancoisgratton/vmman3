@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// source/db/export.go
+// source/db/db-export.go
 // 2022-08-26 17:18:20
 
 // SEE SCANNY ON https://stackoverflow.com/questions/61704842/how-to-scan-a-queryrow-into-a-struct-with-pgx
@@ -15,6 +15,34 @@ import (
 	"log"
 	"os"
 )
+
+// Export() : point d'entrée de l'exportation
+func Export(filename string) {
+	creds := json2creds()
+
+	createDumpDir(filename)
+	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
+	conn, err := pgx.Connect(context.Background(), connString)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	defer conn.Close(context.Background())
+
+	hypervisors := getHypervisorData(conn)
+	storagePools := getSpData(conn)
+	vmStates := getVmStateData(conn)
+
+	if err := serialize(hypervisors, "hypervisors"); err != nil {
+		log.Fatal(err)
+	}
+	if err := serialize(storagePools, "storagepools"); err != nil {
+		log.Fatal(err)
+	}
+	if err := serialize(vmStates, "vmtates"); err != nil {
+		log.Fatal(err)
+	}
+}
 
 // serialize() : Serialise toutes les tables, selon le(s) format(s) choisi(s) (pour le moment: json & yaml, pas encore sql)
 func serialize(v interface{}, filename string) error {
@@ -126,33 +154,4 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 		}
 	}
 	return vmss
-}
-
-func Export() {
-	creds := json2creds()
-
-	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
-	conn, err := pgx.Connect(context.Background(), connString)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-	defer conn.Close(context.Background())
-
-	hypervisors := getHypervisorData(conn)
-	storagePools := getSpData(conn)
-	vmStates := getVmStateData(conn)
-
-	if err := serialize(hypervisors, "hypervisors"); err != nil {
-		log.Fatal(err)
-	}
-	if err := serialize(storagePools, "storagepools"); err != nil {
-		log.Fatal(err)
-	}
-	if err := serialize(vmStates, "vmtates"); err != nil {
-		log.Fatal(err)
-	}
-
-	//serialize(storagePools)
-	//serialize(vmStates)
 }

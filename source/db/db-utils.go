@@ -1,8 +1,15 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// source/db/structures.go
-// 2022-08-26 17:38:31
+// source/db/db-utils.go
+// 2022-08-25 13:32:28
 
 package db
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+	"vmman3/helpers"
+)
 
 var Bjson, Byaml, Bsql bool
 
@@ -44,4 +51,36 @@ type dbVmStates struct {
 	VmLastStateChange string `json:"laststatechange" yaml:"laststatechange"`
 }
 
-//type dbVmStateSlice []dbVmStates
+// type dbVmStateSlice []dbVmStates
+// creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
+func creds2json(jsonFile string, creds dbCredsStruct) {
+	jStream, err := json.Marshal(creds)
+	if err != nil {
+		fmt.Println("Error", err)
+	}
+	os.WriteFile(jsonFile, jStream, 0600)
+}
+
+func json2creds() dbCredsStruct {
+	var payload dbCredsStruct
+	rcFile := helpers.GetRCdir() + "database.json"
+	jFile, _ := os.ReadFile(rcFile)
+	err := json.Unmarshal(jFile, &payload)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	return payload
+}
+
+func createDumpDir(filename string) {
+	_, err := os.Stat(filename)
+
+	if err != nil {
+		if os.IsNotExist(err) {
+			os.MkdirAll(filename, 0755)
+		} else {
+			panic(err)
+		}
+	}
+	os.Chdir(filename)
+}

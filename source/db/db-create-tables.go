@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// db/creator.go
+// db/db-create-tables.go
 // 2022-08-24 21:28:02
 
 package db
