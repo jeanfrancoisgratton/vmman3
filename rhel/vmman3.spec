@@ -54,3 +54,6 @@ install -Dpm 0755 "$RPM_BUILD_ROOT/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/%{_n
 
 
 %changelog
+* Thu Sep 01 2022 builder <builder@famillegratton.net> 1.000-0
+- new package built with tito
+
