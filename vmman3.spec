@@ -14,7 +14,7 @@ Group:      virtualMachines/orchestration
 License:    GPL2.0
 URL:        http://git.famillegratton.net:3000/devops/vmman3
 
-Source0:    %{name}_%{_version}-%{_rel}.tar.gz
+Source0:    %{name}-%{_version}.tar.gz
 BuildRoot:  %{_tmppath}/%{name}_%{version}-%{_rel}-root-%(%{__id_u} -n)
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel,wget,gcc
@@ -28,7 +28,7 @@ GoLang-based libvirt client
 
 %build
 #cd "$RPM_BUILD_ROOT/source"
-cd %{_sourcedir}/%{_name}_%{_version}-%{_rel}/source
+cd %{_sourcedir}/%{_name}_%{_version}/source
 PATH=$PATH:/opt/go/bin go build -o %{_buildrootdir}/%{_name}.exe .
 
 %clean
