@@ -14,7 +14,7 @@ Group:      virtualMachines/orchestration
 License:    GPL2.0
 URL:        http://git.famillegratton.net:3000/devops/vmman3
 
-Source0:    %{name}_%{_version}-%{_rel}.tar.gz
+Source0:    %{name}-%{_version}.tar.gz
 BuildRoot:  %{_tmppath}/%{name}_%{version}-%{_rel}-root-%(%{__id_u} -n)
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel,wget,gcc
@@ -56,6 +56,9 @@ install -Dpm 0755 %{_buildrootdir}/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/%{_n
 
 
 %changelog
+* Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
+- new package built with tito
+
 * Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
 - new package built with tito
 
