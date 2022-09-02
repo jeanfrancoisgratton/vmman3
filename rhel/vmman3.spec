@@ -17,7 +17,7 @@ URL:        http://git.famillegratton.net:3000/devops/vmman3
 Source0:    %{name}-%{version}.tar.gz
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArchitectures: x86_64
-BuildRequires: libvirt-devel
+BuildRequires: libvirt-devel,wget
 Requires: libvirt-devel,libvirt,virt-clone,sudo
 
 %description
@@ -27,7 +27,7 @@ GoLang-based libvirt client
 %setup -q
 
 %build
-go build -o %{_name}.exe .
+PATH=$PATH:/opt/go/bin go build -o %{_name}.exe .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
