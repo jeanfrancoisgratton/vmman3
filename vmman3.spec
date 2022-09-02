@@ -15,7 +15,7 @@ License:    GPL2.0
 URL:        http://git.famillegratton.net:3000/devops/vmman3
 
 Source0:    %{name}_%{_version}-%{_rel}.tar.gz
-BuildRoot:  %{_tmppath}/%{name}_%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRoot:  %{_tmppath}/%{name}_%{version}-%{_rel}-root-%(%{__id_u} -n)
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel,wget,gcc
 Requires: libvirt-devel,libvirt,virt-clone,sudo
