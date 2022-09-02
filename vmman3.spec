@@ -42,7 +42,7 @@ exit 0
 
 %install
 %{__mkdir_p} "$RPM_BUILD_ROOT%{_prefix}/bin"
-install -Dpm 0755 %{_buildrootdir}/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/%{_name}"
+install -Dpm 0755 %{_buildrootdir}/%{_name}.exe "$RPM_BUILD_ROOT%{_prefix}/%{_name}"
 
 %post
 
@@ -58,20 +58,4 @@ install -Dpm 0755 %{_buildrootdir}/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/%{_n
 %changelog
 * Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
 - new package built with tito
-
-* Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Fri Sep 02 2022 builder <builder@famillegratton.net>
-- new package built with tito
-
-* Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
 
