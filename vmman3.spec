@@ -42,7 +42,7 @@ exit 0
 
 %install
 %{__mkdir_p} "$RPM_BUILD_ROOT%{_prefix}/bin"
-install -Dpm 0755 "$RPM_BUILD_ROOT"/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/bin/%{_name}"
+install -Dpm 0755 "$RPM_BUILD_ROOT/%{_name}.exe" "$RPM_BUILD_ROOT%{_prefix}/bin/%{_name}"
 
 %post
 
