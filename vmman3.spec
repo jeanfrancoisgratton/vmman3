@@ -56,3 +56,6 @@ exit 0
 
 
 %changelog
+* Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
+- new package built with tito
+
