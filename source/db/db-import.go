@@ -19,7 +19,7 @@ func Import(filename string) {
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
 	conn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 		os.Exit(1)
 	}
 	defer conn.Close(context.Background())

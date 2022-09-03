@@ -21,7 +21,7 @@ func Changelog() {
 	content, err := os.ReadFile("_version")
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
 	fmt.Println(string(content))
