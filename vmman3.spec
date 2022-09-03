@@ -56,6 +56,9 @@ install -Dpm 0755 %{buildroot}/%{_name} "$RPM_BUILD_ROOT%{_prefix}/bin/"
 
 
 %changelog
+* Sat Sep 03 2022 builder <builder@famillegratton.net> 1.000-0
+- new package built with tito
+
 * Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
 - new package built with tito
 
