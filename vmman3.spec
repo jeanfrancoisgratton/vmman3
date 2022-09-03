@@ -15,7 +15,7 @@ License:    GPL2.0
 URL:        http://git.famillegratton.net:3000/devops/vmman3
 
 Source0:    %{name}-%{_version}.tar.gz
-BuildRoot:  %{_tmppath}/%{name}_%{version}-%{_rel}-root-%(%{__id_u} -n)
+#BuildRoot:  %{_tmppath}/%{name}_%{version}-%{_rel}-root-%(%{__id_u} -n)
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel,wget,gcc
 Requires: libvirt-devel,libvirt,virt-clone,sudo
@@ -24,12 +24,14 @@ Requires: libvirt-devel,libvirt,virt-clone,sudo
 GoLang-based libvirt client
 
 %prep
-%setup -q
+#%setup -q
+%autosetup
 
 %build
 #cd "$RPM_BUILD_ROOT/source"
 cd %{_sourcedir}/%{_name}-%{_version}/source
-PATH=$PATH:/opt/go/bin go build -o %{buildroot}/%{_name} .
+#PATH=$PATH:/opt/go/bin go build -o %{buildroot}/%{_name} .
+PATH=$PATH:/opt/go/bin go build .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -41,8 +43,9 @@ microdnf remove -y libvirt-devel gcc
 exit 0
 
 %install
-%{__mkdir_p} "$RPM_BUILD_ROOT%{_prefix}/bin"
-install -Dpm 0755 %{buildroot}/%{_name} "$RPM_BUILD_ROOT%{_prefix}/bin/"
+#%{__mkdir_p} "$RPM_BUILD_ROOT%{_prefix}/bin"
+#install -Dpm 0755 %{buildroot}/%{_name} "$RPM_BUILD_ROOT%{_prefix}/bin/"
+install -Dpm 0755 %{name} %{buildroot}%{_bindir}/%{name}
 
 %post
 
@@ -52,14 +55,7 @@ install -Dpm 0755 %{buildroot}/%{_name} "$RPM_BUILD_ROOT%{_prefix}/bin/"
 
 %files
 %defattr(-,root,root,-)
-%{_prefix}/bin/%{_name}
+%{_bindir}/%{name}
 
 
 %changelog
-* Sat Sep 03 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Fri Sep 02 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-
