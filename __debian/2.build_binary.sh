@@ -11,5 +11,5 @@ cd ../source
 go build -o ../__debian/${PKGDIR}/opt/bin/vmman3 .
 
 echo "Binary built. Now packaging..."
-cd ../${PKGDIR}
-dpkg-deb -b .
+cd ../__debian/
+dpkg-deb -b ${PKGDIR}
