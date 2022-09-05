@@ -4,7 +4,7 @@ PKGDIR=vmman3_`cat ../_current_pkg_release`_amd64
 
 mkdir -p ${PKGDIR}/opt/bin ${PKGDIR}/DEBIAN
 mv control ${PKGDIR}/DEBIAN/
-mv preinst $${PKGDIR}/DEBIAN/
+mv preinst ${PKGDIR}/DEBIAN/
 
 echo "Building binary from source"
 cd ../source
