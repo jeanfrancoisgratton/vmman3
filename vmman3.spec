@@ -30,8 +30,8 @@ GoLang-based libvirt client
 %build
 #cd "$RPM_BUILD_ROOT/source"
 cd %{_sourcedir}/%{_name}-%{_version}/source
-#PATH=$PATH:/opt/go/bin go build -o %{buildroot}/%{_name} .
-PATH=$PATH:/opt/go/bin go build .
+PATH=$PATH:/opt/go/bin go build -o %{_sourcedir}/%{_name} .
+#PATH=$PATH:/opt/go/bin go build .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -45,7 +45,7 @@ exit 0
 %install
 #%{__mkdir_p} "$RPM_BUILD_ROOT%{_prefix}/bin"
 #install -Dpm 0755 %{buildroot}/%{_name} "$RPM_BUILD_ROOT%{_prefix}/bin/"
-install -Dpm 0755 %{name} %{buildroot}%{_bindir}/%{name}
+install -Dpm 0755 %{_sourcedir}/%{name} %{buildroot}%{_bindir}/%{name}
 
 %post
 
