@@ -11,7 +11,7 @@ runtime deps:
     - libvirt
 
 =======================================================
-ROCKY: IFACE = enp1s0
+FEDORA: IFACE = enp1s0
 build deps:
     - libvirt-devel
 

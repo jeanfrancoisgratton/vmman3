@@ -3,8 +3,8 @@
 %define _name   vmman3
 %define _prefix /opt
 %define _version 1.000
-%define _rel 771
-%define _arch amd64
+%define _rel 0
+%define _arch x86_64
 
 Name:       vmman3
 Version:    %{_version}
@@ -16,7 +16,6 @@ License:    GPL2.0
 URL:        http://git.famillegratton.net:3000/devops/vmman3
 
 Source0:    %{name}-%{_version}.tar.gz
-#BuildRoot:  %{_tmppath}/%{name}_%{version}-%{_rel}-root-%(%{__id_u} -n)
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel,wget,gcc
 Requires: libvirt-devel,libvirt,virt-clone,sudo
@@ -34,7 +33,6 @@ PATH=$PATH:/opt/go/bin go build -o %{_sourcedir}/%{_name} .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-#microdnf remove -y libvirt-devel gcc
 
 %pre
 /usr/sbin/groupadd kvm 2> /dev/null

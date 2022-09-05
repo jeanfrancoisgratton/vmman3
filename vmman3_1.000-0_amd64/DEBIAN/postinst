@@ -1,8 +1,0 @@
-#!/bin/bash
-set -e
-
-pip3 install --upgrade pip > /dev/null 2>&1
-pip3 install -r /opt/vmman1/requirements.txt > /dev/null 2>&1
-chmod 755 /opt/vmman1/vmman
-cd /var/log && touch vmman.log && chown 0:kvm vmman.log && chmod 770 vmman.log
-systemctl start libvirtd

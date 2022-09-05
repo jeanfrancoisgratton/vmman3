@@ -6,15 +6,16 @@ ___
 - https://wiki.debian.org/HowToPackageForDebian
 - https://wiki.debian.org/BuildingTutorial
 
-`dpkg-deb -b $DIR`
+cd into `__debian` and then run all scripts in their numerical order<br>
+**DO NOT `GIT COMMIT` THE CHANGES ONCE COMPLETED**
 
-(where $DIR is the directory containing DEBIAN/ and control files)
+
 
 # RPM (RedHat, Rocky, Fedora, CentOS, Oracle) PACKAGE :
 
 Basic steps:
 
-- specfiles with `BuildRequires` need those packages to be installed ahead of tito build; run `rhel/install-build-deps.sh`
+ - specfiles with `BuildRequires` need those packages to be installed ahead of tito build; run `rhel/install-build-deps.sh`
 - `tito init` (already done, as the presence of the .tito/ directory asserts)
 - `tito tag`, to tag an upcoming release (`tito tag --keep-version` if you do not wish to update the release number)
 - `git push --follow-tags origin`

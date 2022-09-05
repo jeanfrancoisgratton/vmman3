@@ -1,0 +1,8 @@
+Package: vmman3
+Version: 1.000-0
+Architecture: amd64
+Maintainer: J.F.Gratton <nexus@famillegratton.net>
+Description: A golang-based libvirt client to manage VMs
+ This is the 3rd implementation of vmman, the first one being developped in Ruby, the second in Python3.
+Section: Administration Utilities
+Depends: libvirt-dev, gcc, libvirt-daemon, libvirt-daemon-system
