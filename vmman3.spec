@@ -59,3 +59,9 @@ install -Dpm 0755 %{_sourcedir}/%{name} %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Mon Sep 05 2022 builder <builder@famillegratton.net> 1.000-0
+- new package built with tito
+
+* Sat Sep 03 2022 builder <builder@famillegratton.net> 1.000-0
+- new package built with tito
+
