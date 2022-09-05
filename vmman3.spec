@@ -3,7 +3,7 @@
 %define _name   vmman3
 %define _prefix /opt
 %define _version 1.000
-%define _rel 1
+%define _rel 771
 %define _arch amd64
 
 Name:       vmman3
@@ -58,18 +58,3 @@ install -Dpm 0755 %{_sourcedir}/%{name} %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
-* Mon Sep 05 2022 builder <builder@famillegratton.net> 1.000-1
-- new package built with tito
-
-* Mon Sep 05 2022 builder <builder@famillegratton.net> 1.000-1
-- new package built with tito
-
-* Mon Sep 05 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Mon Sep 05 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
-* Sat Sep 03 2022 builder <builder@famillegratton.net> 1.000-0
-- new package built with tito
-
