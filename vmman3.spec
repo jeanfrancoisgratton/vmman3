@@ -29,14 +29,12 @@ GoLang-based libvirt client
 %autosetup
 
 %build
-#cd "$RPM_BUILD_ROOT/source"
 cd %{_sourcedir}/%{_name}-%{_version}/source
 PATH=$PATH:/opt/go/bin go build -o %{_sourcedir}/%{_name} .
-#PATH=$PATH:/opt/go/bin go build .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-microdnf remove -y libvirt-devel gcc
+#microdnf remove -y libvirt-devel gcc
 
 %pre
 /usr/sbin/groupadd kvm 2> /dev/null
