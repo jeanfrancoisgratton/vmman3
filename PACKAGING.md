@@ -7,7 +7,7 @@ ___
 - https://wiki.debian.org/BuildingTutorial
 
 cd into `__debian` and then run all scripts in their numerical order<br>
-**DO NOT `GIT COMMIT` THE CHANGES ONCE COMPLETED**
+**DO NOT `GIT COMMIT` THE CHANGES IN `__DEBIAN` ONCE COMPLETED**
 
 
 

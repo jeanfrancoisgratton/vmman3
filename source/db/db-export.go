@@ -74,19 +74,6 @@ func serialize(v interface{}, filename string) error {
 		_, err = f.Write(data)
 	}
 
-	if Bsql {
-		//f, err = os.Create(filename + ".sql")
-		//if err != nil {
-		//	return err
-		//}
-		fmt.Println("SQL export not yet implemented.")
-		return nil
-		//if err != nil {
-		//	return err
-		//}
-		//_, err = f.Write(data)
-	}
-
 	return err
 }
 
