@@ -11,7 +11,7 @@ import (
 	"vmman3/helpers"
 )
 
-var Bjson, Byaml bool
+var Byaml bool
 
 // La structure utilisée pour créer la bd originale
 type dbCredsStruct struct {

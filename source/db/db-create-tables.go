@@ -24,8 +24,8 @@ func createTablesSchemas(hostname string, port int) {
 	defer conn.Close(context.Background())
 
 	fmt.Print("Drop/Create... ")
-	conn.Exec(context.Background(), "DROP SCHEMA IF EXISTS config ;")
-	conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS config AUTHORIZATION vmman;")
+	conn.Exec(context.Background(), "DROP SCHEMA IF EXISTS configs ;")
+	conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS configs AUTHORIZATION vmman;")
 	fmt.Print("Completed\n")
 	fmt.Print("Sequences... ")
 	createSeqs(conn)

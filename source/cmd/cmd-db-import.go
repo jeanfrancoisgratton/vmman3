@@ -12,7 +12,7 @@ import (
 )
 
 // dbInitCmd represents the dbInit command
-var dbInitCmd = &cobra.Command{
+var dbImportCmd = &cobra.Command{
 	Use:     "import",
 	Aliases: []string{"init"},
 	Short:   "Initializes the db with a data file",
@@ -36,7 +36,7 @@ func runImport(args []string) {
 }
 
 func init() {
-	dbCmd.AddCommand(dbInitCmd)
+	dbCmd.AddCommand(dbImportCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -47,11 +47,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// dbInitCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	dbInitCmd.Flags().BoolVarP(&db.Byaml, "yamlfmt", "y", false, "Export in YAML format")
-
-	if db.Byaml {
-		db.Bjson = false
-	} else {
-		db.Bjson = true
-	}
+	dbImportCmd.Flags().BoolVarP(&db.Byaml, "yaml", "y", false, "Export in YAML format")
 }

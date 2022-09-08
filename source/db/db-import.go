@@ -29,27 +29,45 @@ func Import(directory string) {
 	}
 	defer conn.Close(context.Background())
 
-	if Bjson {
-		hypervisors, storagePools, vmStates = getJsonTables(directory)
-	} else {
-		hypervisors, storagePools, vmStates = getYamlTables(directory)
-	}
+	hypervisors, storagePools, vmStates = getTables(directory)
 
 	structs2DB(conn, hypervisors, storagePools, vmStates)
 }
 
 // getJsonTables() : Collecte les données en format JSON
-func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
-	if noEnt(directory)
-	return nil, nil, nil
-}
+func getTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
+	if !checkNOENT(directory, "hypervisors.json") {
+		os.Exit(1)
+	}
 
-// getJsonTables() : Collecte les données en format JSON
-func getYamlTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
 	return nil, nil, nil
 }
 
 // structs2DB() : Injecte les structures dans la BD
 func structs2DB(conn *pgx.Conn, hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
 
+}
+
+// checkNOENT() : Vérifie si le fichier existe, les perms sont OK, ou autre
+func checkNOENT(directory string, file string) bool {
+	var fullpath string
+	bExists := true
+
+	if directory[:len(directory)-1] == "/" {
+		fullpath = fmt.Sprintf("%s%s", directory, file)
+	} else {
+		fullpath = fmt.Sprintf("%s/%s", directory, file)
+	}
+	_, err := os.Stat(fullpath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			fmt.Printf("File %s either does not exist or has permission issues. Aborting.\n", fullpath)
+			bExists = false
+		} else {
+			fmt.Printf("Unhandled error with file %s :\n%s.\nAborting.\n", fullpath, err)
+			bExists = false
+		}
+	}
+
+	return bExists
 }

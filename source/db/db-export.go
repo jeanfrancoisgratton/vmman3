@@ -51,23 +51,22 @@ func serialize(v interface{}, filename string) error {
 	var err error
 
 	defer f.Close()
-	if Bjson {
-		f, err = os.Create(filename + ".json")
-		if err != nil {
-			return err
-		}
-		data, err = json.Marshal(v)
-		if err != nil {
-			return err
-		}
-		_, err = f.Write(data)
-	}
 	if Byaml {
 		f, err = os.Create(filename + ".yaml")
 		if err != nil {
 			return err
 		}
 		data, err = yaml.Marshal(v)
+		if err != nil {
+			return err
+		}
+		_, err = f.Write(data)
+	} else {
+		f, err = os.Create(filename + ".json")
+		if err != nil {
+			return err
+		}
+		data, err = json.Marshal(v)
 		if err != nil {
 			return err
 		}

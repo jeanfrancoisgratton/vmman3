@@ -12,7 +12,7 @@ import (
 )
 
 // exportCmd represents the export command
-var exportCmd = &cobra.Command{
+var dbExportCmd = &cobra.Command{
 	Use:   "export",
 	Short: "Dump database in selected format",
 	Long: `This will dump the DB tables in the format you select (default is JSON).
@@ -37,7 +37,7 @@ func runExport(args []string) {
 }
 
 func init() {
-	dbCmd.AddCommand(exportCmd)
+	dbCmd.AddCommand(dbExportCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -48,11 +48,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	//exportCmd.Flags().BoolVarP(&db.Bjson, "jsonfmt", "j", true, "Export in JSON format (default)")
-	exportCmd.Flags().BoolVarP(&db.Byaml, "yamlfmt", "y", false, "Export in YAML format")
-
-	if db.Byaml {
-		db.Bjson = false
-	} else {
-		db.Bjson = true
-	}
+	dbExportCmd.Flags().BoolVarP(&db.Byaml, "yaml", "y", false, "Export in YAML format")
 }
