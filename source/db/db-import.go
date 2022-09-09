@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v4"
+	"gopkg.in/yaml.v3"
 	"log"
 	"os"
 )
@@ -29,13 +30,36 @@ func Import(directory string) {
 	}
 	defer conn.Close(context.Background())
 
-	hypervisors, storagePools, vmStates = getTables(directory)
+	if Byaml {
+		hypervisors, storagePools, vmStates = getYamlTables(directory)
+	} else {
+		hypervisors, storagePools, vmStates = getJsonTables(directory)
+	}
 
 	structs2DB(conn, hypervisors, storagePools, vmStates)
 }
 
+// https://stackoverflow.com/questions/59406919/read-and-write-yaml-files-with-go
+// https://zetcode.com/golang/yaml/
+// --> https://kenanbek.medium.com/golang-how-to-parse-yaml-file-31b78141bda7  <--
+// getYamlTables() : Collecte les données en format YAML
+func getYamlTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
+	if !checkNOENT(directory, "hypervisors.yaml") && !checkNOENT(directory, "hypervisors.yml") {
+		os.Exit(1)
+	}
+	yamlFile, err := os.ReadFile("conf.yaml")
+	if err != nil {
+		log.Printf("yamlFile.Get err   #%v ", err)
+	}
+	err = yaml.Unmarshal(yamlFile, c)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	return nil, nil, nil
+}
+
 // getJsonTables() : Collecte les données en format JSON
-func getTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
+func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
 	if !checkNOENT(directory, "hypervisors.json") {
 		os.Exit(1)
 	}
