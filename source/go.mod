@@ -7,6 +7,7 @@ require (
 	github.com/jedib0t/go-pretty/v6 v6.3.7
 	github.com/spf13/cobra v1.5.0
 	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8
+	gopkg.in/yaml.v3 v3.0.1
 	libvirt.org/go/libvirt v1.8006.0
 )
 
