@@ -11,21 +11,6 @@ import (
 
 var BsingleHypervisor bool
 
-// Changelog() :
-// Affiche simplement le changelog (le fichier _version)
-func Changelog() {
-	//fmt.Printf("\x1b[2J")
-	fmt.Printf("\x1bc")
-
-	fmt.Print(`
-VERSION     DATE            COMMENT
--------     ----            -------
-0.100       2022.08.24      db-bootstrap, hypervisor-aware
-0.000       2022.06.18      Initial version
-`)
-	fmt.Println()
-}
-
 // SurroundText()
 // Fonction stupide pour afficher du texte "proprement" (avec un header-footer)
 func SurroundText(text string, clearScr bool) {
