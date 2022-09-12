@@ -32,6 +32,8 @@ func Export(filename string) {
 	hypervisors := getHypervisorData(conn)
 	storagePools := getSpData(conn)
 	vmStates := getVmStateData(conn)
+	clusters := getClusterData(conn)
+	servers := getServerData(conn)
 
 	if err := serialize(hypervisors, "hypervisors"); err != nil {
 		log.Fatalln(err)
@@ -40,6 +42,12 @@ func Export(filename string) {
 		log.Fatalln(err)
 	}
 	if err := serialize(vmStates, "vmtates"); err != nil {
+		log.Fatalln(err)
+	}
+	if err := serialize(clusters, "clusters"); err != nil {
+		log.Fatalln(err)
+	}
+	if err := serialize(servers, "servers"); err != nil {
 		log.Fatalln(err)
 	}
 }
@@ -124,7 +132,7 @@ func getSpData(conn *pgx.Conn) []dbStoragePools {
 func getVmStateData(conn *pgx.Conn) []dbVmStates {
 	var vmss []dbVmStates
 
-	rows, err := conn.Query(context.Background(), "SELECT vmid, vmname, vmip, vmonline,vmlaststatechange from config.vmstate")
+	rows, err := conn.Query(context.Background(), "SELECT vmid, vmname, vmip, vmonline, vmlaststatechange from config.vmstate")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
@@ -140,4 +148,48 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 		}
 	}
 	return vmss
+}
+
+// getServerData() : prend le contenu de la table servers
+func getServerData(conn *pgx.Conn) []dbServers {
+	var servers []dbServers
+
+	rows, err := conn.Query(context.Background(), "SELECT sid, sname, soperatingsystem, slasthypervisor from config.servers")
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var srv dbServers
+		err := rows.Scan(&srv.Sid, &srv.Sname, &srv.SoperatingSystem, &srv.SlastHypervisor)
+		if err != nil {
+			fmt.Println("Error:", err)
+		} else {
+			servers = append(servers, srv)
+		}
+	}
+	return servers
+}
+
+// getClusterData() : prend le contenu de la table servers
+func getClusterData(conn *pgx.Conn) []dbClusters {
+	var clusters []dbClusters
+
+	rows, err := conn.Query(context.Background(), "SELECT cid, cname from config.clusters")
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var cluster dbClusters
+		err := rows.Scan(&cluster.CID, &cluster.Cname)
+		if err != nil {
+			fmt.Println("Error:", err)
+		} else {
+			clusters = append(clusters, cluster)
+		}
+	}
+	return clusters
 }

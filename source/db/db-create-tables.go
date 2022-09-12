@@ -40,44 +40,57 @@ func createTablesSchemas(hostname string, port int) {
 
 // createSeqs() : crée les sequences dans la BD
 func createSeqs(conn *pgx.Conn) {
-	//conn.Exec(context.Background(), "DROP SEQUENCE IF EXISTS config.\"storagePools_spID_seq\" CASCADE;")
-	//conn.Exec(context.Background(), "DROP SEQUENCE IF EXISTS config.\"hypervisors_hID_seq\" CASCADE;")
-	conn.Exec(context.Background(), "CREATE SEQUENCE IF NOT EXISTS config.\"storagePools_spID_seq\" "+
+	ctx := context.Background()
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"storagePools_spID_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
-	conn.Exec(context.Background(), "CREATE SEQUENCE IF NOT EXISTS config.\"hypervisors_hID_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"hypervisors_hID_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
-	conn.Exec(context.Background(), "CREATE SEQUENCE IF NOT EXISTS config.\"vmState_vmId_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"vmState_vmId_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;")
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"clusters_cID_seq\" "+
+		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"servers_sID__seq\" "+
+		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 }
 
 // createTables() : crée les tables dans la BD
 // FIXME : transactions, anyone ? :p
 func createTables(conn *pgx.Conn) {
-	conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS config.storagePools "+
+	ctx := context.Background()
+	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.storagePools "+
 		"(spID smallint NOT NULL DEFAULT nextval('config.\"storagePools_spID_seq\"'::regclass),"+
-		"spName character varying(24) COLLATE pg_catalog.default NOT NULL,"+
-		"spPath character varying(512) COLLATE pg_catalog.default NOT NULL,"+
-		"spOwner character varying(24) COLLATE pg_catalog.default, "+
-		"CONSTRAINT storagePools_pkey PRIMARY KEY (spID)) TABLESPACE pg_default;")
+		"spName character varying(24) NOT NULL, spPath character varying(512) NOT NULL,"+
+		"spOwner character varying(24) CONSTRAINT storagePools_pkey PRIMARY KEY (spID)) TABLESPACE pg_default;")
 
-	conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS config.hypervisors "+
+	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.hypervisors "+
 		"(hID smallint NOT NULL DEFAULT nextval('config.\"hypervisors_hID_seq\"'::regclass),"+
-		"hName character varying(24) COLLATE pg_catalog.default NOT NULL,"+
-		"hAddress character varying(128) COLLATE pg_catalog.default NOT NULL DEFAULT '127.0.0.1'::character varying,"+
-		"CONSTRAINT hypervisors_pkey PRIMARY KEY (hID)) TABLESPACE pg_default;")
+		"hName character varying(24) NOT NULL, hAddress character varying(128) NOT NULL DEFAULT '127.0.0.1'::character varying,"+
+		"CONSTRAINT hypervisors_pkey PRIMARY KEY (hID));")
 
-	conn.Exec(context.Background(), "CREATE TABLE IF NOT EXISTS config.vmState "+
+	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.vmState "+
 		"(vmId integer NOT NULL DEFAULT nextval('config.\"vmState_vmId_seq\"'::regclass), "+
-		"vmName character varying(24) COLLATE pg_catalog.default NOT NULL, "+
-		"vmIP inet, vmOnline boolean NOT NULL DEFAULT false, "+
+		"vmName character varying(24) NOT NULL, vmIP inet, vmOnline boolean NOT NULL DEFAULT false, "+
 		"vmLastStateChange character varying(24) NOT NULL DEFAULT 'unseen', "+
-		"CONSTRAINT vmState_pkey PRIMARY KEY (vmId)) TABLESPACE pg_default;")
+		"CONSTRAINT vmState_pkey PRIMARY KEY (vmId));")
+
+	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.clusters "+
+		"(cid smallint NOT NULL DEFAULT nextval('config.\"clusters_cID_seq\"'::regclass), "+
+		"cname character(24) NOT NULL DEFAULT 'cluster'::bpchar, CONSTRAINT clusters_pkey PRIMARY KEY (cid)));")
+
+	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.servers "+
+		"(sid smallint NOT NULL DEFAULT nextval('config.\"servers_sID_seq\"'::regclass), "+
+		"sname character(16) NOT NULL DEFAULT 'server'::bpchar, soperatingsystem character(50) NOT NULL DEFAULT 'linux'::bpchar, "+
+		"slasthypervisor character(24) NOT NULL DEFAULT 'localhost', CONSTRAINT servers_pkey PRIMARY KEY (sid));")
+
 }
 
 // setOwnership() : change la propriété des tables pour vmman
 // FIXME : transactions, anyone ? :p
 func setTableOwnership(conn *pgx.Conn) {
-	conn.Exec(context.Background(), "ALTER TABLE IF EXISTS config.storagePools OWNER to vmman;")
-	conn.Exec(context.Background(), "ALTER TABLE IF EXISTS config.hypervisors OWNER to vmman;")
-	conn.Exec(context.Background(), "ALTER TABLE IF EXISTS config.vmState OWNER to vmman;")
+	ctx := context.Background()
+	conn.Exec(ctx, "ALTER TABLE IF EXISTS config.storagePools OWNER to vmman;")
+	conn.Exec(ctx, "ALTER TABLE IF EXISTS config.hypervisors OWNER to vmman;")
+	conn.Exec(ctx, "ALTER TABLE IF EXISTS config.vmState OWNER to vmman;")
+	conn.Exec(ctx, "ALTER TABLE IF EXISTS config.clusters OWNER to vmman;")
+	conn.Exec(ctx, "ALTER TABLE IF EXISTS config.servers OWNER to vmman;")
 }

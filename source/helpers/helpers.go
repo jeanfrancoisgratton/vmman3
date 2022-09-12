@@ -55,3 +55,14 @@ func GetRCdir() string {
 
 	return rcDir + "/vmman3/"
 }
+
+// BuildPath() : une fonction pour construire le full pathname d'un fichier
+func BuildPath(directory, file string) string {
+	var fullpath string
+	if directory[:len(directory)-1] == "/" {
+		fullpath = fmt.Sprintf("%s%s", directory, file)
+	} else {
+		fullpath = fmt.Sprintf("%s/%s", directory, file)
+	}
+	return fullpath
+}

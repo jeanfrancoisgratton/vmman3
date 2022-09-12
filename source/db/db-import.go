@@ -11,6 +11,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"log"
 	"os"
+	"vmman3/helpers"
 )
 
 // Import() : injecte un JSON/YAML dans la BD. LA TABLE SE DOIT D'ÊTRE VIDE. Hard-requirement
@@ -47,11 +48,11 @@ func getYamlTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools
 	if !checkNOENT(directory, "hypervisors.yaml") && !checkNOENT(directory, "hypervisors.yml") {
 		os.Exit(1)
 	}
-	yamlFile, err := os.ReadFile("conf.yaml")
+	yamlFile, err := os.ReadFile(helpers.BuildPath(directory, "hypervisors.yaml"))
 	if err != nil {
 		log.Printf("yamlFile.Get err   #%v ", err)
 	}
-	err = yaml.Unmarshal(yamlFile, c)
+	err = yaml.Unmarshal(yamlFile, &hyps)
 	if err != nil {
 		log.Fatalf("Unmarshal: %v", err)
 	}
@@ -74,14 +75,9 @@ func structs2DB(conn *pgx.Conn, hyps []dbHypervisors, sps []dbStoragePools, vms 
 
 // checkNOENT() : Vérifie si le fichier existe, les perms sont OK, ou autre
 func checkNOENT(directory string, file string) bool {
-	var fullpath string
+	fullpath := helpers.BuildPath(directory, file)
 	bExists := true
 
-	if directory[:len(directory)-1] == "/" {
-		fullpath = fmt.Sprintf("%s%s", directory, file)
-	} else {
-		fullpath = fmt.Sprintf("%s/%s", directory, file)
-	}
 	_, err := os.Stat(fullpath)
 	if err != nil {
 		if os.IsNotExist(err) {
