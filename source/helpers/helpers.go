@@ -6,7 +6,6 @@ package helpers
 
 import (
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -18,13 +17,13 @@ func Changelog() {
 	//fmt.Printf("\x1b[2J")
 	fmt.Printf("\x1bc")
 
-	content, err := os.ReadFile("_version")
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	fmt.Println(string(content))
+	fmt.Print(`
+VERSION     DATE            COMMENT
+-------     ----            -------
+0.100       2022.08.24      db-bootstrap, hypervisor-aware
+0.000       2022.06.18      Initial version
+`)
+	fmt.Println()
 }
 
 // SurroundText()

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-go build -o /opt/bin/vmman3 .
+go build -o /opt/bin/vmman .
 

@@ -45,17 +45,24 @@ func Import(directory string) {
 // --> https://kenanbek.medium.com/golang-how-to-parse-yaml-file-31b78141bda7  <--
 // getYamlTables() : Collecte les données en format YAML
 func getYamlTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
-	if !checkNOENT(directory, "hypervisors.yaml") && !checkNOENT(directory, "hypervisors.yml") {
-		os.Exit(1)
+	tables := []string{"hypervisors", "storagepools", "vmstate", "clusters", "servers"}
+
+	for table := range tables {
+		fname := fmt.Sprintf("%s.yaml", table)
+		if !checkNOENT(directory, fname) {
+			os.Exit(1)
+		}
+		yamlFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+		if err != nil {
+			log.Printf("yamlFile.Get err   #%v ", err)
+		}
+		// FIXME: fix following line
+		err = yaml.Unmarshal(yamlFile, &hyps)
+		if err != nil {
+			log.Fatalf("Unmarshal: %v", err)
+		}
 	}
-	yamlFile, err := os.ReadFile(helpers.BuildPath(directory, "hypervisors.yaml"))
-	if err != nil {
-		log.Printf("yamlFile.Get err   #%v ", err)
-	}
-	err = yaml.Unmarshal(yamlFile, &hyps)
-	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
+
 	return nil, nil, nil
 }
 
