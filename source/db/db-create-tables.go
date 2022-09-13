@@ -24,8 +24,8 @@ func createTablesSchemas(hostname string, port int) {
 	defer conn.Close(context.Background())
 
 	fmt.Print("Drop/Create... ")
-	conn.Exec(context.Background(), "DROP SCHEMA IF EXISTS configs ;")
-	conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS configs AUTHORIZATION vmman;")
+	conn.Exec(context.Background(), "DROP SCHEMA IF EXISTS config ;")
+	conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS config AUTHORIZATION vmman;")
 	fmt.Print("Completed\n")
 	fmt.Print("Sequences... ")
 	createSeqs(conn)
@@ -41,15 +41,15 @@ func createTablesSchemas(hostname string, port int) {
 // createSeqs() : crée les sequences dans la BD
 func createSeqs(conn *pgx.Conn) {
 	ctx := context.Background()
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS configs.\"storagePools_spID_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"storagePools_spID_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS configs.\"hypervisors_hID_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"hypervisors_hID_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS configs.\"vmState_vmId_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"vmState_vmId_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;")
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS configs.\"clusters_cID_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"clusters_cID_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS configs.\"servers_sID__seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"servers_sID__seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 }
 
@@ -57,26 +57,39 @@ func createSeqs(conn *pgx.Conn) {
 // TODO : transactions, anyone ? :p
 func createTables(conn *pgx.Conn) {
 	ctx := context.Background()
-	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS configs.storagePools "+
-		"(spID smallint NOT NULL DEFAULT nextval('configs.\"storagePools_spID_seq\"'::regclass),"+
-		"spName character varying(24) NOT NULL, spPath character varying(512) NOT NULL,"+
-		"spOwner character varying(24) CONSTRAINT storagePools_pkey PRIMARY KEY (spID));")
-
-	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS configs.hypervisors "+
-		"(hID smallint NOT NULL DEFAULT nextval('configs.\"hypervisors_hID_seq\"'::regclass),"+
+	_, err := conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.storagepools "+
+		"(spID smallint NOT NULL DEFAULT nextval('config.\"storagepools_spID_seq\"'::regclass), "+
+		"spName character varying(24) NOT NULL, spPath character varying(512) NOT NULL, "+
+		"spOwner character varying(24) NOT NULL DEFAULT 'localhost'::character varying, "+
+		"CONSTRAINT storagepools_pkey PRIMARY KEY (spID));")
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
+	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.hypervisors "+
+		"(hID smallint NOT NULL DEFAULT nextval('config.\"hypervisors_hID_seq\"'::regclass),"+
 		"hName character varying(24) NOT NULL, hAddress character varying(128) NOT NULL DEFAULT '127.0.0.1'::character varying,"+
 		"CONSTRAINT hypervisors_pkey PRIMARY KEY (hID));")
-
-	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS configs.vmStates "+
-		"(vmId integer NOT NULL DEFAULT nextval('configs.\"vmState_vmId_seq\"'::regclass), "+
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
+	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.vmStates "+
+		"(vmId integer NOT NULL DEFAULT nextval('config.\"vmState_vmId_seq\"'::regclass), "+
 		"vmName character varying(24) NOT NULL, vmIP inet, vmOnline boolean NOT NULL DEFAULT false, "+
 		"vmLastStateChange character varying(24) NOT NULL DEFAULT 'unseen', vmOperatingSystem character(50) NOT NULL DEFAULT 'linux', "+
 		"slasthypervisor character(24) NOT NULL DEFAULT 'localhost', CONSTRAINT vmState_pkey PRIMARY KEY (vmId));")
-
-	conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS configs.clusters "+
-		"(cid smallint NOT NULL DEFAULT nextval('configs.\"clusters_cID_seq\"'::regclass), "+
-		"cname character(24) NOT NULL DEFAULT 'cluster', CONSTRAINT clusters_pkey PRIMARY KEY (cid)));")
-
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
+	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.clusters "+
+		"(cid smallint NOT NULL DEFAULT nextval('config.\"clusters_cID_seq\"'::regclass), "+
+		"cname character(24) NOT NULL, CONSTRAINT clusters_pkey PRIMARY KEY (cid));")
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
 }
 
 // setTableOwnership() : change la propriété des tables pour vmman

@@ -15,12 +15,9 @@ import (
 var dbExportCmd = &cobra.Command{
 	Use:   "export",
 	Short: "Dump database in selected format",
-	Long: `This will dump the DB tables in the format you select (default is JSON).
+	Long: `This will dump the DB tables in JSON format
 
-All tables will be dumped in JSON unless you toggle it off with -j=false.
-You will need to specify the full path and where to dump the files.
-
-Please note: You HAVE to specify a target directory. If it does not exist, it will be created.`,
+You will need to specify the directory where to dump the files.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		runExport(args)
 	},
