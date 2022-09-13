@@ -29,13 +29,15 @@ type dbStoragePools struct {
 	SpOwner string `json:"spowner,omitempty" yaml:"spowner,omitempty"`
 }
 
-// table: config.vmstate
+// table: config.vmstates
 type dbVmStates struct {
 	VmID              uint8  `json:"vmid" yaml:"vmid"`
 	VmName            string `json:"vmname" yaml:"vmname"`
 	VmIP              string `json:"vmip,omitempty" yaml:"vmip,omitempty"`
 	VmOnline          bool   `json:"online" yaml:"online"`
 	VmLastStateChange string `json:"laststatechange" yaml:"laststatechange"`
+	VmOperatingSystem string `json:"vmos",yaml:"vmos"`
+	VmLastHypervisor  string `json:"lasthypervisor",yaml:"lasthypervisor"`
 }
 
 // table: config.clusters
@@ -44,10 +46,8 @@ type dbClusters struct {
 	Cname string `json:"cname",yaml:"cname"`
 }
 
-// table: config.servers
-type dbServers struct {
-	Sid              uint8  `json:"sid",yaml:"sid"`
-	Sname            string `json:"sname",yaml:"sname"`
-	SoperatingSystem string `json:"sos",yaml:"sos"`
-	SlastHypervisor  string `json:"slasthypervisor",yaml:"slasthypervisor"`
+// structure d'info sur les tables
+type tableInfo struct {
+	tablename     string
+	datastructure []interface{}
 }

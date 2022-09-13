@@ -9,6 +9,7 @@ import (
 	"os"
 )
 
+// var BsingleHypervisor bool
 var BsingleHypervisor bool
 
 // SurroundText()

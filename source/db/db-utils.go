@@ -11,8 +11,6 @@ import (
 	"vmman3/helpers"
 )
 
-var Byaml bool
-
 // creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
 func creds2json(jsonFile string, creds dbCredsStruct) {
 	jStream, err := json.Marshal(creds)

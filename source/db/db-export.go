@@ -11,7 +11,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/jackc/pgx/v4"
-	"gopkg.in/yaml.v3"
 	"log"
 	"os"
 )
@@ -33,21 +32,17 @@ func Export(filename string) {
 	storagePools := getSpData(conn)
 	vmStates := getVmStateData(conn)
 	clusters := getClusterData(conn)
-	servers := getServerData(conn)
 
-	if err := serialize(hypervisors, "hypervisors"); err != nil {
+	if err := serialize(hypervisors, "hypervisors.json"); err != nil {
 		log.Fatalln(err)
 	}
-	if err := serialize(storagePools, "storagepools"); err != nil {
+	if err := serialize(storagePools, "storagepools.json"); err != nil {
 		log.Fatalln(err)
 	}
-	if err := serialize(vmStates, "vmtates"); err != nil {
+	if err := serialize(vmStates, "vmtates.json"); err != nil {
 		log.Fatalln(err)
 	}
-	if err := serialize(clusters, "clusters"); err != nil {
-		log.Fatalln(err)
-	}
-	if err := serialize(servers, "servers"); err != nil {
+	if err := serialize(clusters, "clusters.json"); err != nil {
 		log.Fatalln(err)
 	}
 }
@@ -59,28 +54,15 @@ func serialize(v interface{}, filename string) error {
 	var err error
 
 	defer f.Close()
-	if Byaml {
-		f, err = os.Create(filename + ".yaml")
-		if err != nil {
-			return err
-		}
-		data, err = yaml.Marshal(v)
-		if err != nil {
-			return err
-		}
-		_, err = f.Write(data)
-	} else {
-		f, err = os.Create(filename + ".json")
-		if err != nil {
-			return err
-		}
-		data, err = json.Marshal(v)
-		if err != nil {
-			return err
-		}
-		_, err = f.Write(data)
+	f, err = os.Create(filename)
+	if err != nil {
+		return err
 	}
-
+	data, err = json.Marshal(v)
+	if err != nil {
+		return err
+	}
+	_, err = f.Write(data)
 	return err
 }
 
@@ -148,28 +130,6 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 		}
 	}
 	return vmss
-}
-
-// getServerData() : prend le contenu de la table servers
-func getServerData(conn *pgx.Conn) []dbServers {
-	var servers []dbServers
-
-	rows, err := conn.Query(context.Background(), "SELECT sid, sname, soperatingsystem, slasthypervisor from config.servers")
-	if err != nil {
-		fmt.Println("Error: ", err)
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var srv dbServers
-		err := rows.Scan(&srv.Sid, &srv.Sname, &srv.SoperatingSystem, &srv.SlastHypervisor)
-		if err != nil {
-			fmt.Println("Error:", err)
-		} else {
-			servers = append(servers, srv)
-		}
-	}
-	return servers
 }
 
 // getClusterData() : prend le contenu de la table servers

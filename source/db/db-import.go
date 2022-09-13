@@ -20,6 +20,7 @@ func Import(directory string) {
 	var hypervisors []dbHypervisors
 	var storagePools []dbStoragePools
 	var vmStates []dbVmStates
+	var vmClusters []dbClusters
 
 	//ctx := context.Background()
 
@@ -31,24 +32,39 @@ func Import(directory string) {
 	}
 	defer conn.Close(context.Background())
 
-	if Byaml {
-		hypervisors, storagePools, vmStates = getYamlTables(directory)
-	} else {
-		hypervisors, storagePools, vmStates = getJsonTables(directory)
-	}
+	hypervisors, storagePools, vmStates, vmClusters = getJsonTables(directory)
 
-	structs2DB(conn, hypervisors, storagePools, vmStates)
+	structs2DB(conn, hypervisors, storagePools, vmStates, vmClusters)
 }
 
-// https://stackoverflow.com/questions/59406919/read-and-write-yaml-files-with-go
-// https://zetcode.com/golang/yaml/
-// --> https://kenanbek.medium.com/golang-how-to-parse-yaml-file-31b78141bda7  <--
-// getYamlTables() : Collecte les données en format YAML
-func getYamlTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
-	tables := []string{"hypervisors", "storagepools", "vmstate", "clusters", "servers"}
+// getJsonTables() : Collecte les données en format YAML
+func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
+	// mapping empty interfaces to data structures
+	dbH := make([]interface{}, len(hyps))
+	for i, v := range hyps {
+		dbH[i] = v
+	}
+	dbSP := make([]interface{}, len(sps))
+	for i, v := range sps {
+		dbSP[i] = v
+	}
+	dbVMs := make([]interface{}, len(vms))
+	for i, v := range vms {
+		dbVMs[i] = v
+	}
+	dbC := make([]interface{}, len(vmc))
+	for i, v := range vmc {
+		dbC[i] = v
+	}
+	tables := []tableInfo{
+		{tablename: "hypervisors", datastructure: dbH},
+		{tablename: "storagepools", datastructure: dbSP},
+		{tablename: "vmstates", datastructure: dbVMs},
+		{tablename: "clusters", datastructure: dbC},
+	}
 
 	for table := range tables {
-		fname := fmt.Sprintf("%s.yaml", table)
+		fname := fmt.Sprintf("%s.json", table)
 		if !checkNOENT(directory, fname) {
 			os.Exit(1)
 		}
@@ -57,26 +73,18 @@ func getYamlTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools
 			log.Printf("yamlFile.Get err   #%v ", err)
 		}
 		// FIXME: fix following line
+		// Will be fixed around line 45
 		err = yaml.Unmarshal(yamlFile, &hyps)
 		if err != nil {
 			log.Fatalf("Unmarshal: %v", err)
 		}
 	}
 
-	return nil, nil, nil
-}
-
-// getJsonTables() : Collecte les données en format JSON
-func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
-	if !checkNOENT(directory, "hypervisors.json") {
-		os.Exit(1)
-	}
-
-	return nil, nil, nil
+	return nil, nil, nil, vmc
 }
 
 // structs2DB() : Injecte les structures dans la BD
-func structs2DB(conn *pgx.Conn, hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates) {
+func structs2DB(conn *pgx.Conn, hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmClusters []dbClusters) {
 
 }
 
