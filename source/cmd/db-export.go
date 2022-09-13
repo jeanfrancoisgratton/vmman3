@@ -48,5 +48,4 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	//exportCmd.Flags().BoolVarP(&db.Bjson, "jsonfmt", "j", true, "Export in JSON format (default)")
-	dbExportCmd.Flags().BoolVarP(&db.Byaml, "yaml", "y", false, "Export in YAML format")
 }
