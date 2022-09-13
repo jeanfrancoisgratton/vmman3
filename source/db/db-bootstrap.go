@@ -48,12 +48,7 @@ func getCreds() dbCredsStruct {
 		os.Exit(-1)
 	}
 
-	fmt.Print("Please enter the application's password: ")
-	_, err = fmt.Scanln(&dbCreds.DbPasswd)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
-		os.Exit(-1)
-	}
+	dbCreds.DbPasswd = helpers.GetPassword("Please enter the application's user password: ")
 
 	fmt.Println()
 	return dbCreds
