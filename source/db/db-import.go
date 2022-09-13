@@ -6,9 +6,9 @@ package db
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/jackc/pgx/v4"
-	"gopkg.in/yaml.v3"
 	"log"
 	"os"
 	"vmman3/helpers"
@@ -56,6 +56,7 @@ func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools
 	for i, v := range vmc {
 		dbC[i] = v
 	}
+	// populating the tableInfo struct with the above mapping
 	tables := []tableInfo{
 		{tablename: "hypervisors", datastructure: dbH},
 		{tablename: "storagepools", datastructure: dbSP},
@@ -68,19 +69,18 @@ func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools
 		if !checkNOENT(directory, fname) {
 			os.Exit(1)
 		}
-		yamlFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+		// TODO: The 2 next blocks need to be in a for .. range block
+		jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
 		if err != nil {
-			log.Printf("yamlFile.Get err   #%v ", err)
+			log.Printf("jsonFile.Get err   #%v ", err)
 		}
-		// FIXME: fix following line
-		// Will be fixed around line 45
-		err = yaml.Unmarshal(yamlFile, &hyps)
+		err = json.Unmarshal(jsonFile, &hyps)
 		if err != nil {
 			log.Fatalf("Unmarshal: %v", err)
 		}
 	}
 
-	return nil, nil, nil, vmc
+	return hyps, sps, vms, vmc
 }
 
 // structs2DB() : Injecte les structures dans la BD
