@@ -43,3 +43,24 @@ func createDumpDir(filename string) {
 	}
 	os.Chdir(filename)
 }
+
+func interface2struct(hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) ([]interface{}, []interface{}, []interface{}, []interface{}) {
+	dbH := make([]interface{}, len(hyps))
+	for i, v := range hyps {
+		dbH[i] = v
+	}
+	dbSP := make([]interface{}, len(sps))
+	for i, v := range sps {
+		dbSP[i] = v
+	}
+	dbVMs := make([]interface{}, len(vms))
+	for i, v := range vms {
+		dbVMs[i] = v
+	}
+	dbC := make([]interface{}, len(vmc))
+	for i, v := range vmc {
+		dbC[i] = v
+	}
+
+	return dbH, dbSP, dbVMs, dbC
+}

@@ -40,22 +40,24 @@ func Import(directory string) {
 // getJsonTables() : Collecte les données en format YAML
 func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
 	// mapping empty interfaces to data structures
-	dbH := make([]interface{}, len(hyps))
-	for i, v := range hyps {
-		dbH[i] = v
-	}
-	dbSP := make([]interface{}, len(sps))
-	for i, v := range sps {
-		dbSP[i] = v
-	}
-	dbVMs := make([]interface{}, len(vms))
-	for i, v := range vms {
-		dbVMs[i] = v
-	}
-	dbC := make([]interface{}, len(vmc))
-	for i, v := range vmc {
-		dbC[i] = v
-	}
+	//dbH := make([]interface{}, len(hyps))
+	//for i, v := range hyps {
+	//	dbH[i] = v
+	//}
+	//dbSP := make([]interface{}, len(sps))
+	//for i, v := range sps {
+	//	dbSP[i] = v
+	//}
+	//dbVMs := make([]interface{}, len(vms))
+	//for i, v := range vms {
+	//	dbVMs[i] = v
+	//}
+	//dbC := make([]interface{}, len(vmc))
+	//for i, v := range vmc {
+	//	dbC[i] = v
+	//}
+
+	dbH, dbSP, dbVMs, dbC := interface2struct(hyps, sps, vms, vmc)
 	// populating the tableInfo struct with the above mapping
 	tables := []tableInfo{
 		{tablename: "hypervisors", datastructure: dbH},

@@ -41,15 +41,13 @@ func createTablesSchemas(hostname string, port int) {
 // createSeqs() : crée les sequences dans la BD
 func createSeqs(conn *pgx.Conn) {
 	ctx := context.Background()
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"storagePools_spID_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"storagepools_spid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"hypervisors_hID_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"hypervisors_hid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"vmState_vmId_seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"vmstate_vmid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;")
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"clusters_cID_seq\" "+
-		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
-	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"servers_sID__seq\" "+
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"clusters_cid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 }
 
@@ -58,33 +56,34 @@ func createSeqs(conn *pgx.Conn) {
 func createTables(conn *pgx.Conn) {
 	ctx := context.Background()
 	_, err := conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.storagepools "+
-		"(spID smallint NOT NULL DEFAULT nextval('config.\"storagepools_spID_seq\"'::regclass), "+
-		"spName character varying(24) NOT NULL, spPath character varying(512) NOT NULL, "+
-		"spOwner character varying(24) NOT NULL DEFAULT 'localhost'::character varying, "+
-		"CONSTRAINT storagepools_pkey PRIMARY KEY (spID));")
+		"(spid smallint NOT NULL DEFAULT nextval('config.\"storagepools_spid_seq\"'::regclass), "+
+		"spname character varying(24) NOT NULL, sppath character varying(512) NOT NULL, "+
+		"spowner character varying(24) NOT NULL DEFAULT 'localhost'::character varying, "+
+		"CONSTRAINT storagepools_pkey PRIMARY KEY (spid));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
 	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.hypervisors "+
-		"(hID smallint NOT NULL DEFAULT nextval('config.\"hypervisors_hID_seq\"'::regclass),"+
-		"hName character varying(24) NOT NULL, hAddress character varying(128) NOT NULL DEFAULT '127.0.0.1'::character varying,"+
-		"CONSTRAINT hypervisors_pkey PRIMARY KEY (hID));")
+		"(hid smallint NOT NULL DEFAULT nextval('config.\"hypervisors_hid_seq\"'::regclass),"+
+		"hname character varying(24) NOT NULL, haddress character varying(128) NOT NULL DEFAULT '127.0.0.1'::character varying,"+
+		"CONSTRAINT hypervisors_pkey PRIMARY KEY (hid));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
 	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.vmStates "+
-		"(vmId integer NOT NULL DEFAULT nextval('config.\"vmState_vmId_seq\"'::regclass), "+
-		"vmName character varying(24) NOT NULL, vmIP inet, vmOnline boolean NOT NULL DEFAULT false, "+
-		"vmLastStateChange character varying(24) NOT NULL DEFAULT 'unseen', vmOperatingSystem character(50) NOT NULL DEFAULT 'linux', "+
-		"slasthypervisor character(24) NOT NULL DEFAULT 'localhost', CONSTRAINT vmState_pkey PRIMARY KEY (vmId));")
+		"(vmid integer NOT NULL DEFAULT nextval('config.\"vmstate_vmid_seq\"'::regclass), "+
+		"vmname character varying(24) NOT NULL, vmip character varying(15), vmonline boolean NOT NULL DEFAULT false, "+
+		"vmlaststatechange character varying(24) NOT NULL DEFAULT 'unseen', "+
+		"vmoperatingsystem character varying (50) NOT NULL DEFAULT 'linux', "+
+		"vmlasthypervisor character varying (24) NOT NULL DEFAULT 'unseen', CONSTRAINT vmState_pkey PRIMARY KEY (vmid));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
 	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.clusters "+
-		"(cid smallint NOT NULL DEFAULT nextval('config.\"clusters_cID_seq\"'::regclass), "+
+		"(cid smallint NOT NULL DEFAULT nextval('config.\"clusters_cid_seq\"'::regclass), "+
 		"cname character(24) NOT NULL, CONSTRAINT clusters_pkey PRIMARY KEY (cid));")
 	if err != nil {
 		fmt.Println("Error: ", err)

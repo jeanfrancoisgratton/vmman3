@@ -114,7 +114,8 @@ func getSpData(conn *pgx.Conn) []dbStoragePools {
 func getVmStateData(conn *pgx.Conn) []dbVmStates {
 	var vmss []dbVmStates
 
-	rows, err := conn.Query(context.Background(), "SELECT vmid, vmname, vmip, vmonline, vmlaststatechange from config.vmstate")
+	//rows, err := conn.Query(context.Background(), "SELECT vmid, vmname, vmip, vmonline, vmlaststatechange, vmoperatingsystem, vmlasthypervisor from config.vmstates")
+	rows, err := conn.Query(context.Background(), "SELECT * from config.vmstates;")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
@@ -122,7 +123,7 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 
 	for rows.Next() {
 		var vms dbVmStates
-		err := rows.Scan(&vms.VmID, &vms.VmName, &vms.VmIP, &vms.VmOnline, &vms.VmLastStateChange)
+		err := rows.Scan(&vms.VmID, &vms.VmName, &vms.VmIP, &vms.VmOnline, &vms.VmLastStateChange, &vms.VmOperatingSystem, &vms.VmLastHypervisor)
 		if err != nil {
 			fmt.Println("Error:", err)
 		} else {
