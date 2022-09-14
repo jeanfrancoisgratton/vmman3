@@ -72,13 +72,13 @@ func createTables(conn *pgx.Conn) {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
-	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.vmStates "+
+	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.vmstates "+
 		"(vmid integer NOT NULL DEFAULT nextval('config.\"vmstate_vmid_seq\"'::regclass), "+
 		"vmname character varying(24) NOT NULL, vmip character varying(15), vmonline boolean NOT NULL DEFAULT false, "+
 		"vmlaststatechange character varying(24) NOT NULL DEFAULT 'unseen', "+
-		"vmoperatingsystem character varying (50) NOT NULL DEFAULT 'linux', "+
-		"vmlasthypervisor character varying (24) NOT NULL DEFAULT 'unseen', "+
-		"vmstoragepool character varying(24) NOT NULL DEFAULT 'vmpool'"+
+		"vmoperatingsystem character varying(50) NOT NULL DEFAULT 'linux', "+
+		"vmlasthypervisor character varying(24) NOT NULL DEFAULT 'unseen', "+
+		"vmstoragepool character varying(24) NOT NULL DEFAULT 'vmpool', "+
 		"CONSTRAINT vmState_pkey PRIMARY KEY (vmid));")
 	if err != nil {
 		fmt.Println("Error: ", err)

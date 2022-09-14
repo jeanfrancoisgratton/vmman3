@@ -48,8 +48,8 @@ func getTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vm
 		{tablename: "clusters", datastructure: dbC},
 	}
 
-	for i, v := range tables {
-		fname := fmt.Sprintf("%s.json", v)
+	for _, v := range tables {
+		fname := fmt.Sprintf("%s.json", v.tablename)
 		if !checkNOENT(directory, fname) {
 			os.Exit(1)
 		}
@@ -58,7 +58,7 @@ func getTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vm
 		if err != nil {
 			log.Printf("jsonFile.Get err   #%v ", err)
 		}
-		err = json.Unmarshal(jsonFile, &hyps)
+		err = json.Unmarshal(jsonFile, &v.datastructure)
 		if err != nil {
 			log.Fatalf("Unmarshal: %v", err)
 		}

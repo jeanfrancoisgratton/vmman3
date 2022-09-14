@@ -112,8 +112,16 @@ func checkIfConfigExists() string {
 // createUser() : crée le user vmman
 // TODO: error checking
 func createUser(conn *pgx.Conn, username string, passwd string) bool {
-	conn.Exec(context.Background(), "DROP DATABASE IF EXISTS vmman;")
-	conn.Exec(context.Background(), "CREATE DATABASE vmman;")
+	_, err := conn.Exec(context.Background(), "DROP DATABASE IF EXISTS vmman;")
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
+	_, err = conn.Exec(context.Background(), "CREATE DATABASE vmman;")
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
 	conn.Exec(context.Background(), "CREATE ROLE "+username+" CREATEDB INHERIT LOGIN PASSWORD '"+passwd+"';")
 	conn.Exec(context.Background(), "GRANT CONNECT ON DATABASE vmman TO "+username+";")
 	conn.Exec(context.Background(), "GRANT ALL PRIVILEGES ON DATABASE vmman TO "+username+";")

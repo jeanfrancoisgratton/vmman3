@@ -39,7 +39,7 @@ func Export(filename string) {
 	if err := serialize(storagePools, "storagepools.json"); err != nil {
 		log.Fatalln(err)
 	}
-	if err := serialize(vmStates, "vmtates.json"); err != nil {
+	if err := serialize(vmStates, "vmstates.json"); err != nil {
 		log.Fatalln(err)
 	}
 	if err := serialize(clusters, "clusters.json"); err != nil {
