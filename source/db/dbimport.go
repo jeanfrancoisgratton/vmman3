@@ -32,31 +32,13 @@ func Import(directory string) {
 	}
 	defer conn.Close(ctx)
 
-	hypervisors, storagePools, vmStates, vmClusters = getJsonTables(directory)
+	hypervisors, storagePools, vmStates, vmClusters = getTables(directory)
 
 	structs2DB(conn, hypervisors, storagePools, vmStates, vmClusters)
 }
 
-// getJsonTables() : Collecte les données en format YAML
-func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
-	// mapping empty interfaces to data structures
-	//dbH := make([]interface{}, len(hyps))
-	//for i, v := range hyps {
-	//	dbH[i] = v
-	//}
-	//dbSP := make([]interface{}, len(sps))
-	//for i, v := range sps {
-	//	dbSP[i] = v
-	//}
-	//dbVMs := make([]interface{}, len(vms))
-	//for i, v := range vms {
-	//	dbVMs[i] = v
-	//}
-	//dbC := make([]interface{}, len(vmc))
-	//for i, v := range vmc {
-	//	dbC[i] = v
-	//}
-
+// getTables() : Collecte les données en format YAML
+func getTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
 	dbH, dbSP, dbVMs, dbC := interface2struct(hyps, sps, vms, vmc)
 	// populating the tableInfo struct with the above mapping
 	tables := []tableInfo{
@@ -66,8 +48,8 @@ func getJsonTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools
 		{tablename: "clusters", datastructure: dbC},
 	}
 
-	for table := range tables {
-		fname := fmt.Sprintf("%s.json", table)
+	for i, v := range tables {
+		fname := fmt.Sprintf("%s.json", v)
 		if !checkNOENT(directory, fname) {
 			os.Exit(1)
 		}
