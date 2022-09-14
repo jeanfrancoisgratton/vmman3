@@ -21,7 +21,7 @@ Be aware that the software assumes that the file is syntaxically correct.
 
 Also, this subcommand will ignore all subcommand argument except the last, which will be treated as a dirname`,
 	Run: func(cmd *cobra.Command, args []string) {
-		db.Import(args[len(args)-1])
+		runImport(args)
 	},
 }
 

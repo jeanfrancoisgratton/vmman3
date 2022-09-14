@@ -3,7 +3,7 @@
 // 2022-08-22 20:02:37
 
 // FIXME FIXME FIXME
-// FILE NEEDS CLEANUP AND GETTING RID OF PASSWORD IN JSON/ANY DOCUMENT
+// FILE NEEDS CLEANUP AND GETTING RID OF PASSWORD IN JSON DOCUMENT
 // FIXME FIXME FIXME
 
 package db
@@ -15,6 +15,32 @@ import (
 	"os"
 	"vmman3/helpers"
 )
+
+// CreateDatabase() : action du db bootstrap
+func CreateDatabase() {
+	var creds dbCredsStruct
+	//connStr := "postgresql://<username>:<password>@<database_ip>:<port>/<dbname>?sslmode=disable
+
+	// checkIfConfigExists() needs extra cleanup (subdivisions)
+	rcFile := checkIfConfigExists()
+	if rcFile != "" {
+		creds = getCreds()
+		creds2json(rcFile, creds)
+	}
+
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
+
+	conn, err := pgx.Connect(context.Background(), connString)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+	defer conn.Close(context.Background())
+
+	if createUser(conn, creds.DbUsr, creds.DbPasswd) {
+		createTablesSchemas(creds.Hostname, creds.Port)
+	}
+}
 
 // getCreds() : collecte les credentials nécessaires pour se connecter à la BD PGSQL, et créer la BD vmman
 func getCreds() dbCredsStruct {
@@ -81,32 +107,6 @@ func checkIfConfigExists() string {
 		os.Remove(vmman3rcdir)
 	}
 	return vmman3rcdir
-}
-
-// CreateDatabase() : action du db bootstrap
-func CreateDatabase() {
-	var creds dbCredsStruct
-	//connStr := "postgresql://<username>:<password>@<database_ip>:<port>/<dbname>?sslmode=disable
-
-	// checkIfConfigExists() needs extra cleanup (subdivisions)
-	rcFile := checkIfConfigExists()
-	if rcFile != "" {
-		creds = getCreds()
-		creds2json(rcFile, creds)
-	}
-
-	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
-
-	conn, err := pgx.Connect(context.Background(), connString)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
-		os.Exit(1)
-	}
-	defer conn.Close(context.Background())
-
-	if createUser(conn, creds.DbUsr, creds.DbPasswd) {
-		createTablesSchemas(creds.Hostname, creds.Port)
-	}
 }
 
 // createUser() : crée le user vmman

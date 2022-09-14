@@ -38,6 +38,7 @@ type dbVmStates struct {
 	VmLastStateChange string `json:"laststatechange" yaml:"laststatechange"`
 	VmOperatingSystem string `json:"vmos",yaml:"vmos"`
 	VmLastHypervisor  string `json:"lasthypervisor",yaml:"lasthypervisor"`
+	VmStoragePool     string `json:"storagepool",yaml:"storagepool"`
 }
 
 // table: config.clusters

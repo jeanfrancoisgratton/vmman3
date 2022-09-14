@@ -22,15 +22,15 @@ func Import(directory string) {
 	var vmStates []dbVmStates
 	var vmClusters []dbClusters
 
-	//ctx := context.Background()
+	ctx := context.Background()
 
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
-	conn, err := pgx.Connect(context.Background(), connString)
+	conn, err := pgx.Connect(ctx, connString)
 	if err != nil {
 		log.Fatalln(err)
 		os.Exit(1)
 	}
-	defer conn.Close(context.Background())
+	defer conn.Close(ctx)
 
 	hypervisors, storagePools, vmStates, vmClusters = getJsonTables(directory)
 

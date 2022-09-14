@@ -77,7 +77,9 @@ func createTables(conn *pgx.Conn) {
 		"vmname character varying(24) NOT NULL, vmip character varying(15), vmonline boolean NOT NULL DEFAULT false, "+
 		"vmlaststatechange character varying(24) NOT NULL DEFAULT 'unseen', "+
 		"vmoperatingsystem character varying (50) NOT NULL DEFAULT 'linux', "+
-		"vmlasthypervisor character varying (24) NOT NULL DEFAULT 'unseen', CONSTRAINT vmState_pkey PRIMARY KEY (vmid));")
+		"vmlasthypervisor character varying (24) NOT NULL DEFAULT 'unseen', "+
+		"vmstoragepool character varying(24) NOT NULL DEFAULT 'vmpool'"+
+		"CONSTRAINT vmState_pkey PRIMARY KEY (vmid));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)

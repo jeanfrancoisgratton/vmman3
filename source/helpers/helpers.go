@@ -51,3 +51,22 @@ func BuildPath(directory, file string) string {
 	}
 	return fullpath
 }
+
+// checkNOENT() : Vérifie si le fichier existe, les perms sont OK, ou autre
+func CheckNOENT(directory string, file string) bool {
+	fullpath := BuildPath(directory, file)
+	bExists := true
+
+	_, err := os.Stat(fullpath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			fmt.Printf("File %s either does not exist or has permission issues. Aborting.\n", fullpath)
+			bExists = false
+		} else {
+			fmt.Printf("Unhandled error with file %s :\n%s.\nAborting.\n", fullpath, err)
+			bExists = false
+		}
+	}
+
+	return bExists
+}

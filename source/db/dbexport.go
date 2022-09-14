@@ -123,7 +123,7 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 
 	for rows.Next() {
 		var vms dbVmStates
-		err := rows.Scan(&vms.VmID, &vms.VmName, &vms.VmIP, &vms.VmOnline, &vms.VmLastStateChange, &vms.VmOperatingSystem, &vms.VmLastHypervisor)
+		err := rows.Scan(&vms.VmID, &vms.VmName, &vms.VmIP, &vms.VmOnline, &vms.VmLastStateChange, &vms.VmOperatingSystem, &vms.VmLastHypervisor, &vms.VmStoragePool)
 		if err != nil {
 			fmt.Println("Error:", err)
 		} else {

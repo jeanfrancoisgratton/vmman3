@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// source/cmd/cmd-db-db-export.go
+// source/cmd/cmd-db-dbexport.go
 // 2022-08-26 17:17:33
 
 package cmd
