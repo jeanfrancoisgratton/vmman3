@@ -37,31 +37,21 @@ func Import(directory string) {
 	structs2DB(conn, hypervisors, storagePools, vmStates, vmClusters)
 }
 
-// getTables() : Collecte les données en format YAML
+// Une fonction par table ? Ça aurait plus d'allure....
+// getTables() : Collecte les données en format JSON
 func getTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
-	dbH, dbSP, dbVMs, dbC := interface2struct(hyps, sps, vms, vmc)
-	// populating the tableInfo struct with the above mapping
-	tables := []tableInfo{
-		{tablename: "hypervisors", datastructure: dbH},
-		{tablename: "storagepools", datastructure: dbSP},
-		{tablename: "vmstates", datastructure: dbVMs},
-		{tablename: "clusters", datastructure: dbC},
-	}
 
-	for _, v := range tables {
-		fname := fmt.Sprintf("%s.json", v.tablename)
-		if !checkNOENT(directory, fname) {
-			os.Exit(1)
-		}
-		// TODO: The 2 next blocks need to be in a for .. range block
-		jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
-		if err != nil {
-			log.Printf("jsonFile.Get err   #%v ", err)
-		}
-		err = json.Unmarshal(jsonFile, &v.datastructure)
-		if err != nil {
-			log.Fatalf("Unmarshal: %v", err)
-		}
+	fname := "hypervisors.json"
+	if !checkNOENT(directory, fname) {
+		os.Exit(1)
+	}
+	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+	if err != nil {
+		log.Printf("jsonFile.Get err   #%v ", err)
+	}
+	err = json.Unmarshal(jsonFile, &hyps)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
 	}
 
 	return hyps, sps, vms, vmc

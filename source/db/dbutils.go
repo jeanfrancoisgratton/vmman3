@@ -22,7 +22,7 @@ func creds2json(jsonFile string, creds dbCredsStruct) {
 
 func json2creds() dbCredsStruct {
 	var payload dbCredsStruct
-	rcFile := helpers.GetRCdir() + "database.json"
+	rcFile := helpers.GetRCdir() + "databaseCreds.json"
 	jFile, _ := os.ReadFile(rcFile)
 	err := json.Unmarshal(jFile, &payload)
 	if err != nil {

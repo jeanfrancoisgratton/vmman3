@@ -10,7 +10,4 @@ func main() {
 	//fmt.Printf("\x1bc")
 
 	cmd.Execute()
-
-	//x := fmt.Sprintf("Currently selected hypervisor is %s.\n", helpers.ConnectURI)
-	//helpers.SurroundText(x, true)
 }
