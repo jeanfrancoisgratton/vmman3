@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/usr/bin/getent group kvm 2>&1 > /dev/null || /usr/sbin/groupadd kvm
+/usr/bin/getent group devops 2>&1 > /dev/null || /usr/sbin/groupadd devops

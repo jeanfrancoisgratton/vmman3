@@ -10,7 +10,7 @@ url="https://git.famillegratton.net:3000/devops/vmman3"
 arch=x86_64
 license=GPL2
 depends="libvirt libvirt-qemu virt-install sudo"
-install="$pkgname.post-install"
+install="$pkgname.pre-install"
 #source="$pkgname-$pkgver-$pkgrel.tar.bz2::http://localhost/$pkgname-$pkgver-$pkgrel.tar.bz2"
 
 build() {
