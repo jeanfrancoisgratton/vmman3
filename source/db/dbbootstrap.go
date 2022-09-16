@@ -22,7 +22,7 @@ func CreateDatabase() {
 	//connStr := "postgresql://<username>:<password>@<database_ip>:<port>/<dbname>?sslmode=disable
 
 	// checkIfConfigExists() needs extra cleanup (subdivisions)
-	rcFile := checkIfConfigExists()
+	rcFile := helpers.CheckIfConfigExists()
 	if rcFile != "" {
 		creds = getCreds()
 		creds2json(rcFile, creds)
@@ -59,7 +59,7 @@ func getCreds() dbCredsStruct {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
-	fmt.Print("Please enter the root account username: ")
+	fmt.Print("Please enter the administrative account username: ")
 	_, err = fmt.Scanln(&dbCreds.RootUsr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
@@ -78,36 +78,6 @@ func getCreds() dbCredsStruct {
 
 	fmt.Println()
 	return dbCreds
-}
-
-// checkIfConfigExists() : Vérifie si le répertoire existe; s'il existe, vérifie si le fichier de config existe
-// s'il existe, on l'efface, il sera écrasé plus tard
-func checkIfConfigExists() string {
-	vmman3rcdir, _ := os.UserConfigDir()
-	vmman3rcdir += "/vmman3"
-
-	fi, err := os.Stat(vmman3rcdir)
-	fmt.Println("fileinfo := ", fi)
-	if err != nil {
-		if os.IsNotExist(err) {
-			os.Mkdir(vmman3rcdir, 0700)
-		} else {
-			panic(err)
-		}
-	}
-	vmman3rcdir += "/databaseCreds.json"
-
-	_, err = os.Stat(vmman3rcdir)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return vmman3rcdir
-		} else {
-			panic(err)
-		}
-	} else {
-		os.Remove(vmman3rcdir)
-	}
-	return vmman3rcdir
 }
 
 // createUser() : crée le user vmman
