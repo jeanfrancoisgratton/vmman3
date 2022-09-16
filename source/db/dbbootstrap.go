@@ -86,7 +86,8 @@ func checkIfConfigExists() string {
 	vmman3rcdir, _ := os.UserConfigDir()
 	vmman3rcdir += "/vmman3"
 
-	_, err := os.Stat(vmman3rcdir)
+	fi, err := os.Stat(vmman3rcdir)
+	fmt.Println("fileinfo := ", fi)
 	if err != nil {
 		if os.IsNotExist(err) {
 			os.Mkdir(vmman3rcdir, 0700)
@@ -94,7 +95,7 @@ func checkIfConfigExists() string {
 			panic(err)
 		}
 	}
-	vmman3rcdir += "/database.json"
+	vmman3rcdir += "/databaseCreds.json"
 
 	_, err = os.Stat(vmman3rcdir)
 	if err != nil {

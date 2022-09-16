@@ -17,10 +17,10 @@ import (
 // Import() : injecte un JSON/YAML dans la BD. LA TABLE SE DOIT D'ÊTRE VIDE. Hard-requirement
 func Import(directory string) {
 	creds := json2creds()
-	var hypervisors []dbHypervisors
-	var storagePools []dbStoragePools
-	var vmStates []dbVmStates
-	var vmClusters []dbClusters
+	hypervisors := getHypervisorTable(directory)
+	storagePools := getStoragePoolTable(directory)
+	vmStates := getVMStatesTable(directory)
+	vmClusters := getClustersTable(directory)
 
 	ctx := context.Background()
 
@@ -32,34 +32,19 @@ func Import(directory string) {
 	}
 	defer conn.Close(ctx)
 
-	hypervisors, storagePools, vmStates, vmClusters = getTables(directory)
-
 	structs2DB(conn, hypervisors, storagePools, vmStates, vmClusters)
 }
 
-// Une fonction par table ? Ça aurait plus d'allure....
-// getTables() : Collecte les données en format JSON
-func getTables(directory string) (hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
-
-	fname := "hypervisors.json"
-	if !checkNOENT(directory, fname) {
-		os.Exit(1)
-	}
-	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
-	if err != nil {
-		log.Printf("jsonFile.Get err   #%v ", err)
-	}
-	err = json.Unmarshal(jsonFile, &hyps)
-	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
-
-	return hyps, sps, vms, vmc
-}
-
 // structs2DB() : Injecte les structures dans la BD
+// Ce n'est pas la méthode la plus efficace : on fait un INSERT par ligne, mais la quantité
+// De données par table ne justifie pas l'emploi de transactions
 func structs2DB(conn *pgx.Conn, hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmClusters []dbClusters) {
-
+	ctx := context.Background()
+	// hyperviseurs
+	for _, h := range hyps {
+		sqlStr := fmt.Sprintf("INSERT INTO config.hypervisors (hid, hname, haddress) VALUES %s,%s,%s", h.HID, h.Hname, h.Haddress)
+		conn.Exec(ctx, sqlStr)
+	}
 }
 
 // checkNOENT() : Vérifie si le fichier existe, les perms sont OK, ou autre
@@ -79,4 +64,73 @@ func checkNOENT(directory string, file string) bool {
 	}
 
 	return bExists
+}
+
+// getXXXTable() : une fonction par table, pour aller chercher le JSON des tables et l'intégre à la bonne struct
+func getHypervisorTable(directory string) []dbHypervisors {
+	var hyps []dbHypervisors
+	fname := "hypervisors.json"
+	if !checkNOENT(directory, fname) {
+		os.Exit(1)
+	}
+	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+	if err != nil {
+		log.Printf("jsonFile.Get err   #%v ", err)
+	}
+	err = json.Unmarshal(jsonFile, &hyps)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	return hyps
+}
+
+func getStoragePoolTable(directory string) []dbStoragePools {
+	var sps []dbStoragePools
+	fname := "storagepools.json"
+	if !checkNOENT(directory, fname) {
+		os.Exit(1)
+	}
+	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+	if err != nil {
+		log.Printf("jsonFile.Get err   #%v ", err)
+	}
+	err = json.Unmarshal(jsonFile, &sps)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	return sps
+}
+
+func getVMStatesTable(directory string) []dbVmStates {
+	var vms []dbVmStates
+	fname := "vmstates.json"
+	if !checkNOENT(directory, fname) {
+		os.Exit(1)
+	}
+	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+	if err != nil {
+		log.Printf("jsonFile.Get err   #%v ", err)
+	}
+	err = json.Unmarshal(jsonFile, &vms)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	return vms
+}
+
+func getClustersTable(directory string) []dbClusters {
+	var dbc []dbClusters
+	fname := "clusters.json"
+	if !checkNOENT(directory, fname) {
+		os.Exit(1)
+	}
+	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+	if err != nil {
+		log.Printf("jsonFile.Get err   #%v ", err)
+	}
+	err = json.Unmarshal(jsonFile, &dbc)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	return dbc
 }
