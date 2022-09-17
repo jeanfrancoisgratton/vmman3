@@ -18,7 +18,7 @@ cd into `__debian` and then run all scripts in their numerical order<br>
 Basic steps:
 
 - from the projetc directory, run `tito init` . This is unneeded if there already is a `.tito` directory.
- - specfiles with `BuildRequires` need those packages to be installed ahead of tito build; run `__rhel/install-build-deps.sh`
+- cd into `__rhel` now. Specfiles with `BuildRequires` need those packages to be installed ahead of tito build; run `./install-build-deps.sh`
 - `tito tag`, to tag an upcoming release (`tito tag --keep-version` if you do not wish to update the release number)
 - `git push --follow-tags origin`
 - `tito build --rpm` to actually build the package. You will need to manually upload it to Nexus
