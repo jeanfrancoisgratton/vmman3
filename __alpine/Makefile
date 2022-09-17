@@ -3,7 +3,7 @@ all:
 	go build . -o ./vmman3.exe
 
 prepare:
-	sudo /opt/bin/install_golang.sh `grep ^go ../src/go.mod | awk '{print $2}'` amd64
+	sudo /opt/bin/install_golang.sh `grep ^go ../src/go.mod |cut -d' ' -f2` amd64
 	sudo apk update
 	sudo apk add --no-cache pkgconfig libvirt libvirt-dev gcc musl-dev
 
