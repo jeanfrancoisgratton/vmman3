@@ -48,7 +48,7 @@ func getInterfaceSpecs(dom libvirt.Domain, vmname string) (string, string) {
 }
 
 // FIXME: needs cleanup and/or readability fixes
-// collecteInfo() : Inventaire détaillé des VMs
+// collectInfo() : Inventaire détaillé des VMs
 func collectInfo() []vmInfo {
 	var snapshotflags libvirt.DomainSnapshotListFlags
 	var numsnap int

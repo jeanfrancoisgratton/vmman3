@@ -86,7 +86,7 @@ func createTables(conn *pgx.Conn) {
 	}
 	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.clusters "+
 		"(cid smallint NOT NULL DEFAULT nextval('config.\"clusters_cid_seq\"'::regclass), "+
-		"cname character(24) NOT NULL, CONSTRAINT clusters_pkey PRIMARY KEY (cid));")
+		"cname character varying(24) NOT NULL, CONSTRAINT clusters_pkey PRIMARY KEY (cid));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)

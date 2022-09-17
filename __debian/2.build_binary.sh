@@ -7,12 +7,10 @@ mv control ${PKGDIR}/DEBIAN/
 mv preinst ${PKGDIR}/DEBIAN/
 
 echo "Building binary from source"
-cd ../source
+cd ../src
 go build -o ../__debian/${PKGDIR}/opt/bin/vmman3 .
 
 echo "Binary built. Now packaging..."
 cd ../__debian/
 dpkg-deb -b ${PKGDIR}
-
-echo "REMINDER... do not git push/commit anything under __debian/"
 
