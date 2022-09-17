@@ -28,7 +28,7 @@ GoLang-based libvirt client
 %autosetup
 
 %build
-cd %{_sourcedir}/%{_name}-%{_version}/source
+cd %{_sourcedir}/%{_name}-%{_version}/src
 PATH=$PATH:/opt/go/bin go build -o %{_sourcedir}/%{_name} .
 
 %clean
