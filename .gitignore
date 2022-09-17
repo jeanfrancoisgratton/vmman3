@@ -9,6 +9,7 @@ _obj
 _test
 .vscode
 .idea
+__debian/
 
 # mac hidden files
 .DS_Store
