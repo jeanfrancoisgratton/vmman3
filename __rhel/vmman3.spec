@@ -56,5 +56,8 @@ install -Dpm 0755 %{_sourcedir}/%{name} %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Sat Sep 17 2022 builder <builder@famillegratton.net> 0.200-0
+- First (dry-run) package
+
 
 
