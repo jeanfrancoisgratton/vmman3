@@ -32,8 +32,6 @@ ___
 
 1. Everything Alpine-related needs to be in the `__alpine/' directory
 2. Customize your APKBUILD file if needed
-3. Run `make prepare`, to ensure that you have every build-time dependency installed
-4. `abuild checksum` once you're confident everything is good (for non-compiled packages)
-5. `abuild -r [-k -K]` and you're good to go
+3. Run `abuild -r [-k -K]` and you're good to go
 
 If you need specific languages to be installed to perform build operations, have a look at `/opt/bin/`
