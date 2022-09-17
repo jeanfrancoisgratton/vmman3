@@ -17,7 +17,7 @@ build() {
 	pwd
 	mkdir -p "$builddir" && cd "$builddir"/.. && rm -rf BUILD && cp -R "$startdir"/../src . && mv src BUILD
     cd "$builddir"
-    make -f "$startdir"/Makefile prepare
+    make -f "$startdir"/Makefile SRCDIR="$startdir"/../src prepare
     go build -o vmman3.exe .
 }
 
