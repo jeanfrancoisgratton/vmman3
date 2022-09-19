@@ -91,6 +91,15 @@ func createTables(conn *pgx.Conn) {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
+
+	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.templates "+
+		"(tid smallint NOT NULL DEFAULT nextval('config.\"templates_tid_seq\"'::regclass), "+
+		"tname character varying(24) NOT NULL, towner character varying(24) NOT NULL"+
+		"tstoragepool character varying(24), CONSTRAINT clusters_pkey PRIMARY KEY (tid));")
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
 }
 
 // setTableOwnership() : change la propriété des tables pour vmman

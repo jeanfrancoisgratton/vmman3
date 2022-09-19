@@ -21,6 +21,8 @@ func Import(directory string) {
 	storagePools := getStoragePoolTable(directory)
 	vmStates := getVMStatesTable(directory)
 	vmClusters := getClustersTable(directory)
+	templates := getTemplatesTable(directory)
+
 	ctx := context.Background()
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
 
@@ -31,13 +33,13 @@ func Import(directory string) {
 	}
 	defer conn.Close(ctx)
 
-	structs2DB(conn, hypervisors, storagePools, vmStates, vmClusters)
+	structs2DB(conn, hypervisors, storagePools, vmStates, vmClusters, templates)
 }
 
 // structs2DB() : Injecte les structures dans la BD
 // Ce n'est pas la méthode la plus efficace : on fait un INSERT par ligne, mais la quantité
 // De données par table ne justifie pas l'emploi de transactions
-func structs2DB(conn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
+func structs2DB(conn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters, tpt []dbTemplates) {
 	ctx := context.Background()
 	// hyperviseurs
 	for _, h := range hyps {
@@ -70,6 +72,15 @@ func structs2DB(conn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms 
 	// clusters
 	for _, c := range vmc {
 		sqlStr := fmt.Sprintf("INSERT INTO config.clusters (cid, cname) VALUES (%d,'%s');", c.CID, c.Cname)
+		_, err := conn.Exec(ctx, sqlStr)
+		if err != nil {
+			panic(err)
+		}
+	}
+	// templates
+	for _, t := range tpt {
+		sqlStr := fmt.Sprintf("INSERT INTO config.templates (tid, tname, towner, tstoragepool) "+
+			"VALUES (%d,'%s','%s','%s');", t.TID, t.Tname, t.Towner, t.TstoragePool)
 		_, err := conn.Exec(ctx, sqlStr)
 		if err != nil {
 			panic(err)
@@ -144,4 +155,21 @@ func getClustersTable(directory string) []dbClusters {
 		log.Fatalf("Unmarshal: %v", err)
 	}
 	return dbc
+}
+
+func getTemplatesTable(directory string) []dbTemplates {
+	var dbt []dbTemplates
+	fname := "templates.json"
+	if !helpers.CheckNOENT(directory, fname) {
+		os.Exit(1)
+	}
+	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+	if err != nil {
+		log.Printf("jsonFile.Get err   #%v ", err)
+	}
+	err = json.Unmarshal(jsonFile, &dbt)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	return dbt
 }

@@ -32,6 +32,7 @@ func Export(filename string) {
 	storagePools := getSpData(conn)
 	vmStates := getVmStateData(conn)
 	clusters := getClusterData(conn)
+	templates := getTemplateData(conn)
 
 	if err := serialize(hypervisors, "hypervisors.json"); err != nil {
 		log.Fatalln(err)
@@ -43,6 +44,9 @@ func Export(filename string) {
 		log.Fatalln(err)
 	}
 	if err := serialize(clusters, "clusters.json"); err != nil {
+		log.Fatalln(err)
+	}
+	if err := serialize(templates, "templates.json"); err != nil {
 		log.Fatalln(err)
 	}
 }
@@ -153,4 +157,26 @@ func getClusterData(conn *pgx.Conn) []dbClusters {
 		}
 	}
 	return clusters
+}
+
+// getTemplateData(): importe le contenu de la table templates
+func getTemplateData(conn *pgx.Conn) []dbTemplates {
+	var temps []dbTemplates
+
+	rows, err := conn.Query(context.Background(), "SELECT * from config.templates ORDER BY tid")
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var dbt dbTemplates
+		err := rows.Scan(&dbt.TID, &dbt.Tname, &dbt.Towner, &dbt.TstoragePool)
+		if err != nil {
+			fmt.Println("Error:", err)
+		} else {
+			temps = append(temps, dbt)
+		}
+	}
+	return temps
 }

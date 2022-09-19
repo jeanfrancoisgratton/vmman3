@@ -48,6 +48,14 @@ type dbClusters struct {
 	Cname string `json:"name" yaml:"name"`
 }
 
+// table: config.templates
+type dbTemplates struct {
+	TID          uint8  `json:"id" yaml:"id"`
+	Tname        string `json:"name" yaml:"name"`
+	Towner       string `json:"owner" yaml:"owner"`
+	TstoragePool string `json:"storagepool" yaml:"storagepool"`
+}
+
 // structure d'info sur les tables
 type tableInfo struct {
 	tablename     string
