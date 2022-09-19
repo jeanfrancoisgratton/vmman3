@@ -1,1 +1,1 @@
-[{"spid":1,"spname":"isos","sppath":"/vmpool/isos","spowner":"localhost"},{"spid":2,"spname":"oslo","sppath":"/vmpool/oslo","spowner":"oslo"},{"spid":3,"spname":"bergen","sppath":"/vmpool/bergen","spowner":"bergen"},{"spid":4,"spname":"vmpool","sppath":"/vmpool","spowner":"localhost"}]
+[{"id":1,"name":"isos","path":"/vmpool/isos","owner":"localhost"},{"id":2,"name":"oslo","path":"/vmpool/oslo","owner":"oslo"},{"id":3,"name":"bergen","path":"/vmpool/bergen","owner":"bergen"},{"id":4,"name":"vmpool","path":"/vmpool","owner":"localhost"}]

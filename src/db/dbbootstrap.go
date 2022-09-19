@@ -18,7 +18,7 @@ import (
 
 // CreateDatabase() : action du db bootstrap
 func CreateDatabase() {
-	var creds dbCredsStruct
+	var creds DbCredsStruct
 	//connStr := "postgresql://<username>:<password>@<database_ip>:<port>/<dbname>?sslmode=disable
 
 	// checkIfConfigExists() needs extra cleanup (subdivisions)
@@ -43,8 +43,8 @@ func CreateDatabase() {
 }
 
 // getCreds() : collecte les credentials nécessaires pour se connecter à la BD PGSQL, et créer la BD vmman
-func getCreds() dbCredsStruct {
-	var dbCreds dbCredsStruct
+func getCreds() DbCredsStruct {
+	var dbCreds DbCredsStruct
 	var err error
 
 	fmt.Print("Please enter the database hostname: ")
@@ -83,7 +83,8 @@ func getCreds() dbCredsStruct {
 // createUser() : crée le user vmman
 // TODO: error checking
 func createUser(conn *pgx.Conn, username string, passwd string) bool {
-	_, err := conn.Exec(context.Background(), "DROP DATABASE IF EXISTS vmman;")
+	ctx := context.Background()
+	_, err := conn.Exec(ctx, "DROP DATABASE IF EXISTS vmman;")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
@@ -93,12 +94,12 @@ func createUser(conn *pgx.Conn, username string, passwd string) bool {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
-	conn.Exec(context.Background(), "CREATE ROLE "+username+" CREATEDB INHERIT LOGIN PASSWORD '"+passwd+"';")
-	conn.Exec(context.Background(), "GRANT CONNECT ON DATABASE vmman TO "+username+";")
-	conn.Exec(context.Background(), "GRANT ALL PRIVILEGES ON DATABASE vmman TO "+username+";")
-	conn.Exec(context.Background(), "ALTER USER "+username+" CREATEDB;")
-	conn.Exec(context.Background(), "ALTER USER "+username+" WITH SUPERUSER;")
-	conn.Exec(context.Background(), "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "+username+";")
+	conn.Exec(ctx, "CREATE ROLE "+username+" CREATEDB INHERIT LOGIN PASSWORD '"+passwd+"';")
+	conn.Exec(ctx, "GRANT CONNECT ON DATABASE vmman TO "+username+";")
+	conn.Exec(ctx, "GRANT ALL PRIVILEGES ON DATABASE vmman TO "+username+";")
+	conn.Exec(ctx, "ALTER USER "+username+" CREATEDB;")
+	conn.Exec(ctx, "ALTER USER "+username+" WITH SUPERUSER;")
+	conn.Exec(ctx, "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "+username+";")
 
 	return true
 }

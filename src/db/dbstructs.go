@@ -5,46 +5,47 @@
 package db
 
 // La structure utilisée pour créer la bd originale
-type dbCredsStruct struct {
-	Hostname   string `json:"hostname",yaml:"hostname"`
-	Port       int    `json:"port",yaml:"port"`
-	RootUsr    string `json:"rootusr",yaml:"rootusr"`
-	RootPasswd string `json:"rootpasswd",yaml:"rootpasswd"`
-	DbUsr      string `json:"dbusr",yaml:"dbusr"`
-	DbPasswd   string `json:"dbpasswd",yaml:"dbpasswd"`
+type DbCredsStruct struct {
+	Hostname   string `json:"hostname" yaml:"hostname"`
+	Port       int    `json:"port" yaml:"port"`
+	RootUsr    string `json:"rootusr" yaml:"rootusr"`
+	RootPasswd string `json:"rootpasswd" yaml:"rootpasswd"`
+	DbUsr      string `json:"dbusr" yaml:"dbusr"`
+	DbPasswd   string `json:"dbpasswd" yaml:"dbpasswd"`
 }
 
 // table: config.hypervisors
-type dbHypervisors struct {
-	HID      uint8  `json:"hid" yaml:"hid"`
-	Hname    string `json:"hname" yaml:"hname"`
-	Haddress string `json:"haddress" yaml:"address"`
+type DbHypervisors struct {
+	HID             uint8  `json:"id" yaml:"id"`
+	Hname           string `json:"name" yaml:"name"`
+	Haddress        string `json:"address" yaml:"address"`
+	Hconnectinguser string `json:"connectinguser" yaml:"connectinguser"`
 }
 
 // table: config.storagepools
 type dbStoragePools struct {
-	SpID    uint8  `json:"spid" yaml:"spid"`
-	SpName  string `json:"spname" yaml:"spname"`
-	SpPath  string `json:"sppath" yaml:"sppath"`
-	SpOwner string `json:"spowner,omitempty" yaml:"spowner,omitempty"`
+	SpID    uint8  `json:"id" yaml:"id"`
+	SpName  string `json:"name" yaml:"name"`
+	SpPath  string `json:"path" yaml:"path"`
+	SpOwner string `json:"owner" yaml:"owner"`
 }
 
 // table: config.vmstates
 type dbVmStates struct {
-	VmID              uint8  `json:"vmid" yaml:"vmid"`
-	VmName            string `json:"vmname" yaml:"vmname"`
-	VmIP              string `json:"vmip,omitempty" yaml:"vmip,omitempty"`
+	VmID              uint8  `json:"id" yaml:"id"`
+	VmName            string `json:"name" yaml:"name"`
+	VmIP              string `json:"ip" yaml:"ip"`
 	VmOnline          bool   `json:"online" yaml:"online"`
 	VmLastStateChange string `json:"laststatechange" yaml:"laststatechange"`
-	VmOperatingSystem string `json:"vmos",yaml:"vmos"`
-	VmLastHypervisor  string `json:"lasthypervisor",yaml:"lasthypervisor"`
-	VmStoragePool     string `json:"storagepool",yaml:"storagepool"`
+	VmOperatingSystem string `json:"os" yaml:"vmos"`
+	VmLastHypervisor  string `json:"lasthypervisor" yaml:"lasthypervisor"`
+	VmStoragePool     string `json:"storagepool" yaml:"storagepool"`
 }
 
 // table: config.clusters
 type dbClusters struct {
-	CID   uint8  `json:"cid",yaml:"cid"`
-	Cname string `json:"cname",yaml:"cname"`
+	CID   uint8  `json:"id" yaml:"id"`
+	Cname string `json:"name" yaml:"name"`
 }
 
 // structure d'info sur les tables

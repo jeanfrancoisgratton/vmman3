@@ -17,7 +17,7 @@ import (
 
 // Export() : point d'entrée de l'exportation
 func Export(filename string) {
-	creds := json2creds()
+	creds := Json2creds()
 
 	createDumpDir(filename)
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
@@ -28,7 +28,7 @@ func Export(filename string) {
 	}
 	defer conn.Close(context.Background())
 
-	hypervisors := getHypervisorData(conn)
+	hypervisors := GetHypervisorData(conn)
 	storagePools := getSpData(conn)
 	vmStates := getVmStateData(conn)
 	clusters := getClusterData(conn)
@@ -67,18 +67,18 @@ func serialize(v interface{}, filename string) error {
 }
 
 // getHypervisorData(): importe le contenu de la table hypervisors
-func getHypervisorData(conn *pgx.Conn) []dbHypervisors {
-	var hyps []dbHypervisors
+func GetHypervisorData(conn *pgx.Conn) []DbHypervisors {
+	var hyps []DbHypervisors
 
-	rows, err := conn.Query(context.Background(), "SELECT hID, hName, hAddress from config.hypervisors")
+	rows, err := conn.Query(context.Background(), "SELECT * from config.hypervisors ORDER BY hid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		var dbh dbHypervisors
-		err := rows.Scan(&dbh.HID, &dbh.Hname, &dbh.Haddress)
+		var dbh DbHypervisors
+		err := rows.Scan(&dbh.HID, &dbh.Hname, &dbh.Haddress, &dbh.Hconnectinguser)
 		if err != nil {
 			fmt.Println("Error:", err)
 		} else {
@@ -92,7 +92,7 @@ func getHypervisorData(conn *pgx.Conn) []dbHypervisors {
 func getSpData(conn *pgx.Conn) []dbStoragePools {
 	var sps []dbStoragePools
 
-	rows, err := conn.Query(context.Background(), "SELECT spid, spname, sppath, spowner from config.storagepools")
+	rows, err := conn.Query(context.Background(), "SELECT * from config.storagepools ORDER BY spid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
@@ -115,7 +115,7 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 	var vmss []dbVmStates
 
 	//rows, err := conn.Query(context.Background(), "SELECT vmid, vmname, vmip, vmonline, vmlaststatechange, vmoperatingsystem, vmlasthypervisor from config.vmstates")
-	rows, err := conn.Query(context.Background(), "SELECT * from config.vmstates;")
+	rows, err := conn.Query(context.Background(), "SELECT * from config.vmstates ORDER BY vmid;")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
@@ -137,7 +137,7 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 func getClusterData(conn *pgx.Conn) []dbClusters {
 	var clusters []dbClusters
 
-	rows, err := conn.Query(context.Background(), "SELECT cid, cname from config.clusters")
+	rows, err := conn.Query(context.Background(), "SELECT * from config.clusters ORDER BY cid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}

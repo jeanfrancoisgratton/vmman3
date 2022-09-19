@@ -16,7 +16,7 @@ import (
 
 // Import() : injecte un JSON/YAML dans la BD. LA TABLE SE DOIT D'ÊTRE VIDE. Hard-requirement
 func Import(directory string) {
-	creds := json2creds()
+	creds := Json2creds()
 	hypervisors := getHypervisorTable(directory)
 	storagePools := getStoragePoolTable(directory)
 	vmStates := getVMStatesTable(directory)
@@ -37,61 +37,49 @@ func Import(directory string) {
 // structs2DB() : Injecte les structures dans la BD
 // Ce n'est pas la méthode la plus efficace : on fait un INSERT par ligne, mais la quantité
 // De données par table ne justifie pas l'emploi de transactions
-func structs2DB(conn *pgx.Conn, hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
+func structs2DB(conn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) {
 	ctx := context.Background()
 	// hyperviseurs
-	fmt.Print("Hyperviseurs.... ")
 	for _, h := range hyps {
-		sqlStr := fmt.Sprintf("INSERT INTO config.hypervisors (hid, hname, haddress) VALUES "+
-			"(%d,'%s','%s');", h.HID, h.Hname, h.Haddress)
+		sqlStr := fmt.Sprintf("INSERT INTO config.hypervisors (hid, hname, haddress, hconnectinguser) VALUES "+
+			"(%d,'%s','%s','%s');", h.HID, h.Hname, h.Haddress, h.Hconnectinguser)
 		_, err := conn.Exec(ctx, sqlStr)
 		if err != nil {
-			fmt.Println("\nErreur: ", err)
-			os.Exit(-2)
+			panic(err)
 		}
 	}
-	fmt.Println("Completé.")
 	// storagePools
-	fmt.Print("Storage pools.... ")
 	for _, s := range sps {
 		sqlStr := fmt.Sprintf("INSERT INTO config.storagepools (spid, spname, sppath, spowner) VALUES "+
 			"(%d,'%s','%s','%s');", s.SpID, s.SpName, s.SpPath, s.SpOwner)
 		_, err := conn.Exec(ctx, sqlStr)
 		if err != nil {
-			fmt.Println("\nErreur: ", err)
-			os.Exit(-2)
+			panic(err)
 		}
 	}
-	fmt.Println("Completé.")
 	// vmstates
-	fmt.Print("vm states.... ")
 	for _, v := range vms {
 		sqlStr := fmt.Sprintf("INSERT INTO config.vmstates "+
 			"(vmid, vmname, vmip, vmonline,vmlaststatechange,vmoperatingsystem,vmlasthypervisor,vmstoragepool) VALUES "+
 			"(%d,'%s','%s',%t,'%s','%s','%s','%s');", v.VmID, v.VmName, v.VmIP, v.VmOnline, v.VmLastStateChange, v.VmOperatingSystem, v.VmLastHypervisor, v.VmStoragePool)
 		_, err := conn.Exec(ctx, sqlStr)
 		if err != nil {
-			fmt.Println("\nErreur: ", err)
-			os.Exit(-2)
+			panic(err)
 		}
 	}
-	fmt.Println("Completé.")
 	// clusters
-	fmt.Print("Clusters.... ")
 	for _, c := range vmc {
 		sqlStr := fmt.Sprintf("INSERT INTO config.clusters (cid, cname) VALUES (%d,'%s');", c.CID, c.Cname)
 		_, err := conn.Exec(ctx, sqlStr)
 		if err != nil {
-			fmt.Println("\nErreur: ", err)
-			os.Exit(-2)
+			panic(err)
 		}
 	}
-	fmt.Println("Completé.")
 }
 
 // getXXXTable() : une fonction par table, pour aller chercher le JSON des tables et l'intégre à la bonne struct
-func getHypervisorTable(directory string) []dbHypervisors {
-	var hyps []dbHypervisors
+func getHypervisorTable(directory string) []DbHypervisors {
+	var hyps []DbHypervisors
 	fname := "hypervisors.json"
 	if !helpers.CheckNOENT(directory, fname) {
 		os.Exit(1)

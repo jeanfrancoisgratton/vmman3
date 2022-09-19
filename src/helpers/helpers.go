@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// helpers/inventory-vm_man-helpers.go
+// helpers/inventory-vm_man-lsHelpers.go
 // 2022-08-16 17:50:17
 
 package helpers
@@ -10,7 +10,10 @@ import (
 )
 
 // var BsingleHypervisor bool
-var BsingleHypervisor bool
+var BsingleHypervisor = false
+var BAllHypervisors = true
+var ConnectURI string
+var EnvironmentFile string
 
 // SurroundText()
 // Fonction stupide pour afficher du texte "proprement" (avec un header-footer)

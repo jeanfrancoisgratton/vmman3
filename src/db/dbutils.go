@@ -12,7 +12,7 @@ import (
 )
 
 // creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
-func creds2json(jsonFile string, creds dbCredsStruct) {
+func creds2json(jsonFile string, creds DbCredsStruct) {
 	jStream, err := json.Marshal(creds)
 	if err != nil {
 		fmt.Println("Error", err)
@@ -20,8 +20,8 @@ func creds2json(jsonFile string, creds dbCredsStruct) {
 	os.WriteFile(jsonFile, jStream, 0600)
 }
 
-func json2creds() dbCredsStruct {
-	var payload dbCredsStruct
+func Json2creds() DbCredsStruct {
+	var payload DbCredsStruct
 	rcFile := helpers.GetRCdir() + "databaseCreds.json"
 	jFile, _ := os.ReadFile(rcFile)
 	err := json.Unmarshal(jFile, &payload)
@@ -44,7 +44,7 @@ func createDumpDir(filename string) {
 	os.Chdir(filename)
 }
 
-func interface2struct(hyps []dbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) ([]interface{}, []interface{}, []interface{}, []interface{}) {
+func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) ([]interface{}, []interface{}, []interface{}, []interface{}) {
 	dbH := make([]interface{}, len(hyps))
 	for i, v := range hyps {
 		dbH[i] = v

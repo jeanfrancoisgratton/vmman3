@@ -19,6 +19,7 @@ Source0:    %{name}-%{_version}.tar.gz
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel,wget,gcc
 Requires: libvirt-devel,libvirt,virt-clone,sudo
+Obsoletes: vmman1
 
 %description
 GoLang-based libvirt client

@@ -11,10 +11,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 
-// var version = "1.000-0 (2022.08.16)"
-var version = "0.100 (2022.08.24)"
-
-//var connectURI string
+var version = "0.200 (2022.09.17)"
 
 var rootCmd = &cobra.Command{
 	Use:     "vmman3",
@@ -42,27 +39,30 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application
 	cobra.OnInitialize(initConfig)
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.vmman3.yaml)")
 	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "qemu:///system", "Hypervisor URI.")
-	rootCmd.PersistentFlags().BoolVarP(&helpers.BsingleHypervisor, "singleHypervisor", "1", false, "Make vmman multi hypervisor-aware")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	//snapCmd.AddCommand(lssnapCmd)
-	//snapCmd.AddCommand(createsnapCmd)
-	//snapCmd.AddCommand(rmsnapCmd)
+	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "~/.config/vmman3/databaseCreds.json", "Environment file.")
+	rootCmd.PersistentFlags().BoolVarP(&helpers.BsingleHypervisor, "singleHypervisor", "1", false, "Connects to local hypervisor")
+	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", true, "Make vmman multi hypervisor-aware")
 }
 
+// -a will always override -1 and -c $HYPERVISOR_NAME
+// -1 will always override -c $HYPERVISOR_NAME : if -1 is set, it will act as if -c is set to qemu:///system
 func initConfig() {
 	helpers.ConnectURI, _ = rootCmd.Flags().GetString("connection")
+	helpers.EnvironmentFile, _ = rootCmd.Flags().GetString("environment")
+	helpers.BAllHypervisors, _ = rootCmd.Flags().GetBool("allHypervisors")
 	helpers.BsingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
 
+	if helpers.BAllHypervisors {
+		helpers.BsingleHypervisor = false
+		helpers.ConnectURI = ""
+	}
+
+	if helpers.BsingleHypervisor {
+		helpers.ConnectURI = "qemu:///system"
+	}
 	if helpers.ConnectURI != "qemu:///system" {
 		connectURI := fmt.Sprintf("qemu+ssh://root@%s/system", helpers.ConnectURI)
 		helpers.ConnectURI = connectURI

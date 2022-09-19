@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// cmd/inventory-cmd-ls.go
+// cmd/inventory-cmd-old-ls.go
 // 2022-08-16 17:47:06
 
 package cmd
@@ -22,7 +22,7 @@ State is: status (running, stopped), the number of snapshots with
 the name of the current one, if any, and so on.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//fmt.Printf("\x1bc")
-		inventory.VM_List()
+		inventory.VM_Inventory()
 	},
 }
 

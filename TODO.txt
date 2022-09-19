@@ -1,0 +1,11 @@
+- QEMU connection string defaults to root@some-host.
+    This needs to change with both a -u param, and a default value in some JSON file.
+
+- Allows for some locking mechanism:
+    Say that you have a vm create running against a specific template, on a given hypervisor.
+    If you wanted to create a VM with the same template on another hypervisor, we'll need a mechanism to notify the
+    Process that it's OK (or not) to proceed.
+
+- Everything under helpers/ should be under its proper package.
+    That's a relic from the Helper class in Python3's version, vmman1
+

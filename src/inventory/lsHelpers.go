@@ -1,19 +1,37 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// helpers/connectionHelpers.go
-// 2022-08-22 17:17:36
+// src/inventory/lsHelpers.go
+// 2022-09-17 21:26:46
 
-package helpers
+package inventory
 
 import (
+	"context"
 	"fmt"
+	"github.com/jackc/pgx/v4"
 	"libvirt.org/go/libvirt"
+	"log"
+	"os"
+	"vmman3/db"
+	"vmman3/helpers"
 )
 
-var ConnectURI string
+func listHypervisors() []db.DbHypervisors {
+	ctx := context.Background()
+	creds := db.Json2creds()
+	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
+	conn, err := pgx.Connect(ctx, connString)
+	if err != nil {
+		log.Fatalln(err)
+		os.Exit(1)
+	}
+	defer conn.Close(ctx)
+
+	return db.GetHypervisorData(conn)
+}
 
 // getConn() : ouvre la connexion à l'hyperviseur
 func GetConn() libvirt.Connect {
-	conn, err := libvirt.NewConnect(ConnectURI)
+	conn, err := libvirt.NewConnect(helpers.ConnectURI)
 
 	if err != nil {
 		fmt.Println("Error in inventory.getConn() : ", err)
@@ -23,7 +41,7 @@ func GetConn() libvirt.Connect {
 }
 
 // getStateHelper() : transforme la variable DomainState (un int, en fait) en string
-func GetStateHelper(state libvirt.DomainState) string {
+func getStateHelper(state libvirt.DomainState) string {
 	ds := ""
 	switch state {
 	case libvirt.DOMAIN_NOSTATE:

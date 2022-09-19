@@ -67,7 +67,7 @@ func createTables(conn *pgx.Conn) {
 	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.hypervisors "+
 		"(hid smallint NOT NULL DEFAULT nextval('config.\"hypervisors_hid_seq\"'::regclass),"+
 		"hname character varying(24) NOT NULL, haddress character varying(128) NOT NULL DEFAULT '127.0.0.1'::character varying,"+
-		"CONSTRAINT hypervisors_pkey PRIMARY KEY (hid));")
+		"hconnectinguser character varying(16) NOT NULL DEFAULT 'root',CONSTRAINT hypervisors_pkey PRIMARY KEY (hid));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)

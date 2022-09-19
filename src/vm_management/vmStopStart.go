@@ -8,10 +8,11 @@ import (
 	"fmt"
 	"libvirt.org/go/libvirt"
 	"vmman3/helpers"
+	"vmman3/inventory"
 )
 
 func Stop(args []string) {
-	conn := helpers.GetConn()
+	conn := inventory.GetConn()
 	var bIsActive bool
 
 	for _, vmname := range args {
@@ -35,7 +36,7 @@ func Stop(args []string) {
 
 func StopAll() {
 	var vmlist []string
-	domains := helpers.GetVMlist()
+	domains := inventory.GetVMlist()
 
 	for _, domain := range domains {
 		var _, err = domain.GetID()
