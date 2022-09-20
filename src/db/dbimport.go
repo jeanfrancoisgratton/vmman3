@@ -89,8 +89,6 @@ func structs2DB(conn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms 
 	}
 }
 
-// ALTER SEQUENCE config.xxx RESTART WITH yyy
-
 // updateSequences() : Le nextvalue n'est pas mis à jour après un db import
 func updateSequences(conn *pgx.Conn) {
 	var vmid, hid, spid, cid, tid uint8
