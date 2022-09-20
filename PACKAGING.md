@@ -21,7 +21,7 @@ Basic steps:
 - Specfiles with `BuildRequires` need those packages to be installed ahead of tito build; run `./rpm-install-build-deps.sh`
 - `tito tag`, to tag an upcoming release (`tito tag --keep-version` if you do not wish to update the release number)
 - `git push --follow-tags origin`
-- `tito build --rpm` to actually build the package. You will need to manually upload it to Nexus
+- `tito build --rpm [--verbose] [--no-cleanup]` to actually build the package. You will need to manually upload it to Nexus
 
 # APK (Alpine) PACKAGE:
 

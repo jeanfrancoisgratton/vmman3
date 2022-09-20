@@ -1,6 +1,6 @@
-
 https://www.socketloop.com/tutorials/golang-how-to-check-if-input-from-os-args-is-integer
 
+```
 // convert input (type string) to integer
  first, err := strconv.ParseInt(os.Args[1], 10, 0)
 
@@ -15,3 +15,4 @@ https://www.socketloop.com/tutorials/golang-how-to-check-if-input-from-os-args-i
              fmt.Println("Second input parameter must be integer")
              os.Exit(1)
  }
+```
