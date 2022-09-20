@@ -14,3 +14,6 @@
 - Learn GoLang Generics:
     This might simplify (A LOT) the code, especially in the db/ package.
     That package is just ugly.
+
+- ALTER SEQUENCES : START value resets at one after db import.
+    This needs to be reset (drop sequence, recreate with higher value).
