@@ -6,6 +6,11 @@
     If you wanted to create a VM with the same template on another hypervisor, we'll need a mechanism to notify the
     Process that it's OK (or not) to proceed.
 
-- Everything under helpers/ should be under its proper package.
-    That's a relic from the Helper class in Python3's version, vmman1
+    Either this, or having multiple copies of the same templated VM.
 
+- Everything under helpers/ should be under its proper package.
+    That's a relic from the Helper class in Python3's version, vmman1.
+
+- Learn GoLang Generics:
+    This might simplify (A LOT) the code, especially in the db/ package.
+    That package is just ugly.

@@ -15,6 +15,7 @@ func Changelog() {
 	fmt.Print(`
 VERSION     DATE            COMMENT
 -------     ----            -------
+0.250		2022.09.20		db package extra work; reworked specfile (RPM)
 0.200		2022.09.17		db package completed. Build dry run
 0.150		2022.09.11		most db- packages are completed, except import
 0.100       2022.08.24      db-bootstrap, hypervisor-aware
