@@ -57,5 +57,11 @@ install -Dpm 0755 %{_sourcedir}/%{name} %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Tue Sep 20 2022 builder <builder@famillegratton.net> 0.250-0
+- Doc update, build scripts version bump (jean-francois@famillegratton.net)
+- Doc updates, specfile cleanup (jean-francois@famillegratton.net)
+- New table: templates (jean-francois@famillegratton.net)
+- Synch across devices (jean-francois@famillegratton.net)
+
 * Sat Sep 17 2022 builder <builder@famillegratton.net> 0.200-0
 - Package build dry-run
