@@ -82,9 +82,9 @@ func GetHypervisorData(conn *pgx.Conn) []DbHypervisors {
 
 	for rows.Next() {
 		var dbh DbHypervisors
-		err := rows.Scan(&dbh.HID, &dbh.Hname, &dbh.Haddress, &dbh.Hconnectinguser)
-		if err != nil {
-			fmt.Println("Error:", err)
+		retcode := rows.Scan(&dbh.HID, &dbh.Hname, &dbh.Haddress, &dbh.Hconnectinguser)
+		if retcode != nil {
+			fmt.Println("Error:", retcode)
 		} else {
 			hyps = append(hyps, dbh)
 		}
@@ -104,9 +104,9 @@ func getSpData(conn *pgx.Conn) []dbStoragePools {
 
 	for rows.Next() {
 		var sp dbStoragePools
-		err := rows.Scan(&sp.SpID, &sp.SpName, &sp.SpPath, &sp.SpOwner)
-		if err != nil {
-			fmt.Println("Error:", err)
+		retcode := rows.Scan(&sp.SpID, &sp.SpName, &sp.SpPath, &sp.SpOwner)
+		if retcode != nil {
+			fmt.Println("Error:", retcode)
 		} else {
 			sps = append(sps, sp)
 		}
@@ -119,17 +119,17 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 	var vmss []dbVmStates
 
 	//rows, err := conn.Query(context.Background(), "SELECT vmid, vmname, vmip, vmonline, vmlaststatechange, vmoperatingsystem, vmlasthypervisor from config.vmstates")
-	rows, err := conn.Query(context.Background(), "SELECT * from config.vmstates ORDER BY vmid;")
-	if err != nil {
-		fmt.Println("Error: ", err)
+	rows, retcode := conn.Query(context.Background(), "SELECT * from config.vmstates ORDER BY vmid;")
+	if retcode != nil {
+		fmt.Println("Error: ", retcode)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
 		var vms dbVmStates
-		err := rows.Scan(&vms.VmID, &vms.VmName, &vms.VmIP, &vms.VmOnline, &vms.VmLastStateChange, &vms.VmOperatingSystem, &vms.VmLastHypervisor, &vms.VmStoragePool)
-		if err != nil {
-			fmt.Println("Error:", err)
+		retcode := rows.Scan(&vms.VmID, &vms.VmName, &vms.VmIP, &vms.VmOnline, &vms.VmLastStateChange, &vms.VmOperatingSystem, &vms.VmLastHypervisor, &vms.VmStoragePool)
+		if retcode != nil {
+			fmt.Println("Error:", retcode)
 		} else {
 			vmss = append(vmss, vms)
 		}
@@ -141,9 +141,9 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 func getClusterData(conn *pgx.Conn) []dbClusters {
 	var clusters []dbClusters
 
-	rows, err := conn.Query(context.Background(), "SELECT * from config.clusters ORDER BY cid")
-	if err != nil {
-		fmt.Println("Error: ", err)
+	rows, retcode := conn.Query(context.Background(), "SELECT * from config.clusters ORDER BY cid")
+	if retcode != nil {
+		fmt.Println("Error: ", retcode)
 	}
 	defer rows.Close()
 
@@ -171,9 +171,9 @@ func getTemplateData(conn *pgx.Conn) []dbTemplates {
 
 	for rows.Next() {
 		var dbt dbTemplates
-		err := rows.Scan(&dbt.TID, &dbt.Tname, &dbt.Towner, &dbt.TstoragePool)
-		if err != nil {
-			fmt.Println("Error:", err)
+		retcode := rows.Scan(&dbt.TID, &dbt.Tname, &dbt.Towner, &dbt.TstoragePool)
+		if retcode != nil {
+			fmt.Println("Error:", retcode)
 		} else {
 			temps = append(temps, dbt)
 		}

@@ -34,6 +34,7 @@ func Import(directory string) {
 	defer conn.Close(ctx)
 
 	structs2DB(conn, hypervisors, storagePools, vmStates, vmClusters, templates)
+	updateSequences(*conn)
 }
 
 // structs2DB() : Injecte les structures dans la BD
@@ -85,6 +86,59 @@ func structs2DB(conn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms 
 		if err != nil {
 			panic(err)
 		}
+	}
+}
+
+// ALTER SEQUENCE config.xxx RESTART WITH yyy
+
+// updateSequences() : Le nextvalue n'est pas mis à jour après un db import
+func updateSequences(conn pgx.Conn) {
+	var vmid, hid, spid, cid, tid uint8
+	ctx := context.Background()
+	err := conn.QueryRow(ctx, "SELECT MAX(vmid) FROM config.vmstates;", 42).Scan(&vmid)
+	if err != nil {
+		panic(err)
+	}
+	err = conn.QueryRow(ctx, "SELECT MAX(hid) FROM config.hypervisors;", 42).Scan(&hid)
+	if err != nil {
+		panic(err)
+	}
+	err = conn.QueryRow(ctx, "SELECT MAX(spid) FROM config.storagepools;", 42).Scan(&spid)
+	if err != nil {
+		panic(err)
+	}
+	err = conn.QueryRow(ctx, "SELECT MAX(cid) FROM config.clusters;", 42).Scan(&cid)
+	if err != nil {
+		panic(err)
+	}
+	err = conn.QueryRow(ctx, "SELECT MAX(tid) FROM config.templates;", 42).Scan(&tid)
+	if err != nil {
+		panic(err)
+	}
+	sqlStr := fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.vmstate_vmid_seq RESTART WITH %d;", vmid+1)
+	_, err = conn.Exec(ctx, sqlStr)
+	if err != nil {
+		panic(err)
+	}
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.hypervisors_hid_seq RESTART WITH %d;", hid+1)
+	_, err = conn.Exec(ctx, sqlStr)
+	if err != nil {
+		panic(err)
+	}
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.storagepools_spid_seq RESTART WITH %d;", spid+1)
+	_, err = conn.Exec(ctx, sqlStr)
+	if err != nil {
+		panic(err)
+	}
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.clusters_cid_seq RESTART WITH %d;", cid+1)
+	_, err = conn.Exec(ctx, sqlStr)
+	if err != nil {
+		panic(err)
+	}
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.templates_tid_seq RESTART WITH %d;", tid+1)
+	_, err = conn.Exec(ctx, sqlStr)
+	if err != nil {
+		panic(err)
 	}
 }
 
