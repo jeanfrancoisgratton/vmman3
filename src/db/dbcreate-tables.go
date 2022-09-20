@@ -49,6 +49,8 @@ func createSeqs(conn *pgx.Conn) {
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;")
 	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"clusters_cid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
+	conn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"templates_tid_seq\" "+
+		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 }
 
 // createTables() : crée les tables dans la BD
@@ -94,8 +96,8 @@ func createTables(conn *pgx.Conn) {
 
 	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.templates "+
 		"(tid smallint NOT NULL DEFAULT nextval('config.\"templates_tid_seq\"'::regclass), "+
-		"tname character varying(24) NOT NULL, towner character varying(24) NOT NULL"+
-		"tstoragepool character varying(24), CONSTRAINT clusters_pkey PRIMARY KEY (tid));")
+		"tname character varying(24) NOT NULL, towner character varying(24) NOT NULL, "+
+		"tstoragepool character varying(24), CONSTRAINT templates_pkey PRIMARY KEY (tid));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)

@@ -34,7 +34,7 @@ func Import(directory string) {
 	defer conn.Close(ctx)
 
 	structs2DB(conn, hypervisors, storagePools, vmStates, vmClusters, templates)
-	updateSequences(*conn)
+	updateSequences(conn)
 }
 
 // structs2DB() : Injecte les structures dans la BD
@@ -92,26 +92,26 @@ func structs2DB(conn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms 
 // ALTER SEQUENCE config.xxx RESTART WITH yyy
 
 // updateSequences() : Le nextvalue n'est pas mis à jour après un db import
-func updateSequences(conn pgx.Conn) {
+func updateSequences(conn *pgx.Conn) {
 	var vmid, hid, spid, cid, tid uint8
 	ctx := context.Background()
-	err := conn.QueryRow(ctx, "SELECT MAX(vmid) FROM config.vmstates;", 42).Scan(&vmid)
+	err := conn.QueryRow(ctx, "SELECT MAX(vmid) FROM config.vmstates;").Scan(&vmid)
 	if err != nil {
 		panic(err)
 	}
-	err = conn.QueryRow(ctx, "SELECT MAX(hid) FROM config.hypervisors;", 42).Scan(&hid)
+	err = conn.QueryRow(ctx, "SELECT MAX(hid) FROM config.hypervisors;").Scan(&hid)
 	if err != nil {
 		panic(err)
 	}
-	err = conn.QueryRow(ctx, "SELECT MAX(spid) FROM config.storagepools;", 42).Scan(&spid)
+	err = conn.QueryRow(ctx, "SELECT MAX(spid) FROM config.storagepools;").Scan(&spid)
 	if err != nil {
 		panic(err)
 	}
-	err = conn.QueryRow(ctx, "SELECT MAX(cid) FROM config.clusters;", 42).Scan(&cid)
+	err = conn.QueryRow(ctx, "SELECT MAX(cid) FROM config.clusters;").Scan(&cid)
 	if err != nil {
 		panic(err)
 	}
-	err = conn.QueryRow(ctx, "SELECT MAX(tid) FROM config.templates;", 42).Scan(&tid)
+	err = conn.QueryRow(ctx, "SELECT MAX(tid) FROM config.templates;").Scan(&tid)
 	if err != nil {
 		panic(err)
 	}
