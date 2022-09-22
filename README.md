@@ -1,5 +1,5 @@
 # vmman3
-A Go-based libvirtd client, using the Cobra CLI manager.
+A Go-based libvirtd client, using Cobra to manage CLI params.
 
 From this tool you can:
 - create/delete VMs

@@ -10,6 +10,8 @@ import (
 	"vmman3/helpers"
 )
 
+// 3 conditions :
+// BAllHypervisors ? yes -> listhypervisors
 func VM_Inventory() {
 	var hyps []db.DbHypervisors
 	if helpers.BAllHypervisors {

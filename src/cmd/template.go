@@ -14,9 +14,10 @@ var templateCmd = &cobra.Command{
 	Use:   "template",
 	Short: "Template-related commands",
 	Long: `Here you will template commands such as:
-- Editing template specs
-- Removing templates
-- Adding new templates.`,
+
+	- Editing template specs
+	- Removing templates
+	- Adding new templates.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("template called")
 	},
