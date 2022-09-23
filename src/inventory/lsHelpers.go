@@ -53,7 +53,7 @@ func GetVMlist() []libvirt.Domain {
 	doms, err := conn.ListAllDomains(libvirt.CONNECT_LIST_DOMAINS_ACTIVE | libvirt.CONNECT_LIST_DOMAINS_INACTIVE)
 
 	if err != nil {
-		fmt.Println("Error in inventory.getVMlist() : ", err)
+		fmt.Println("Error in inventory.GetVMlist() : ", err)
 	}
 
 	defer conn.Close()

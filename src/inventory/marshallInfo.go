@@ -18,7 +18,7 @@ func collectInfo() []vmInfo {
 	var i vmInfo
 	var dState libvirt.DomainState
 	doms := GetVMlist()
-	var conn = GetConn()
+	conn := GetConn()
 
 	for _, dom := range doms {
 		var specs, err = dom.GetInfo()
