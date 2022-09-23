@@ -14,7 +14,7 @@ import (
 func collectInfo() []vmInfo {
 	var snapshotflags libvirt.DomainSnapshotListFlags
 	var numsnap int
-	vmspec := []vmInfo{}
+	var vmspec []vmInfo
 	var i vmInfo
 	var dState libvirt.DomainState
 	doms := GetVMlist()

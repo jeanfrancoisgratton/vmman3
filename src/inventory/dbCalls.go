@@ -26,3 +26,22 @@ func listHypervisors() []db.DbHypervisors {
 
 	return db.GetHypervisorData(conn)
 }
+
+func getURI(hostAddress string, username string) string {
+	ctx := context.Background()
+	creds := db.Json2creds()
+	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
+	conn, err := pgx.Connect(ctx, connString)
+	if err != nil {
+		log.Fatalln(err)
+		os.Exit(1)
+	}
+	defer conn.Close(ctx)
+
+	err = conn.QueryRow(ctx, "SELECT haddress,hconnectinguser FROM config.hypervisors;").Scan(&hostAddress, &username)
+	if err != nil {
+		panic(err)
+	}
+
+	return fmt.Sprintf("qemu+ssh://%s@%s/system", username, hostAddress)
+}

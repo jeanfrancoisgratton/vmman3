@@ -5,7 +5,6 @@
 package inventory
 
 import (
-	"fmt"
 	"vmman3/db"
 	"vmman3/helpers"
 )
@@ -17,10 +16,18 @@ func VM_Inventory() {
 	if helpers.BAllHypervisors {
 		hyps = listHypervisors()
 	} else {
-		hyps = []db.DbHypervisors{{HID: 0, Hname: "localhost", Haddress: "127.0.0.1"}}
+		if helpers.BsingleHypervisor {
+			hyps = []db.DbHypervisors{{HID: 0, Hname: "localhost", Haddress: "127.0.0.1"}}
+		} else {
+			hyps = []db.DbHypervisors{{HID: 0, Hname: helpers.ConnectURI, Haddress: helpers.ConnectURI}}
+		}
 	}
 
+	// First step: get the connection URI for a given hypervisor, and then connect
 	for _, v := range hyps {
-		fmt.Println("allo", v.Hname)
+		helpers.ConnectURI = getURI(v.Haddress, v.Hconnectinguser)
+		// to be uncommented soon
+		//domains := GetVMlist()
 	}
+
 }

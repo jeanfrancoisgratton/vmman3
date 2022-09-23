@@ -48,7 +48,7 @@ func getStateHelper(state libvirt.DomainState) string {
 
 // getVMList() : Ammasse la liste des VMs sur cet hyperviseur
 func GetVMlist() []libvirt.Domain {
-	var conn = GetConn()
+	conn := GetConn()
 
 	doms, err := conn.ListAllDomains(libvirt.CONNECT_LIST_DOMAINS_ACTIVE | libvirt.CONNECT_LIST_DOMAINS_INACTIVE)
 

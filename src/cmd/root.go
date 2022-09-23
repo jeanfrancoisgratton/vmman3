@@ -3,7 +3,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"os"
 	"vmman3/helpers"
@@ -41,7 +40,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "qemu:///system", "Hypervisor URI.")
+	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "localhost", "Hypervisor URI.")
 	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "~/.config/vmman3/databaseCreds.json", "Environment file.")
 	rootCmd.PersistentFlags().BoolVarP(&helpers.BsingleHypervisor, "singleHypervisor", "1", false, "Connects to local hypervisor")
 	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", true, "Make vmman multi hypervisor-aware")
@@ -61,10 +60,6 @@ func initConfig() {
 	}
 
 	if helpers.BsingleHypervisor {
-		helpers.ConnectURI = "qemu:///system"
-	}
-	if helpers.ConnectURI != "qemu:///system" {
-		connectURI := fmt.Sprintf("qemu+ssh://root@%s/system", helpers.ConnectURI)
-		helpers.ConnectURI = connectURI
+		helpers.ConnectURI = "localhost"
 	}
 }
