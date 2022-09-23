@@ -50,10 +50,11 @@ type dbClusters struct {
 
 // table: config.templates
 type dbTemplates struct {
-	TID          uint8  `json:"id" yaml:"id"`
-	Tname        string `json:"name" yaml:"name"`
-	Towner       string `json:"owner" yaml:"owner"`
-	TstoragePool string `json:"storagepool" yaml:"storagepool"`
+	TID              uint8  `json:"id" yaml:"id"`
+	Tname            string `json:"name" yaml:"name"`
+	Towner           string `json:"owner" yaml:"owner"`
+	TstoragePool     string `json:"storagepool" yaml:"storagepool"`
+	ToperatingSystem string `json:"os" yaml:"os"`
 }
 
 // structure d'info sur les tables

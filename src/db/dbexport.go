@@ -171,7 +171,7 @@ func getTemplateData(conn *pgx.Conn) []dbTemplates {
 
 	for rows.Next() {
 		var dbt dbTemplates
-		retcode := rows.Scan(&dbt.TID, &dbt.Tname, &dbt.Towner, &dbt.TstoragePool)
+		retcode := rows.Scan(&dbt.TID, &dbt.Tname, &dbt.Towner, &dbt.TstoragePool, &dbt.ToperatingSystem)
 		if retcode != nil {
 			fmt.Println("Error:", retcode)
 		} else {

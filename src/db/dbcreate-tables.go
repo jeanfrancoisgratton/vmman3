@@ -97,7 +97,8 @@ func createTables(conn *pgx.Conn) {
 	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.templates "+
 		"(tid smallint NOT NULL DEFAULT nextval('config.\"templates_tid_seq\"'::regclass), "+
 		"tname character varying(24) NOT NULL, towner character varying(24) NOT NULL, "+
-		"tstoragepool character varying(24), CONSTRAINT templates_pkey PRIMARY KEY (tid));")
+		"tstoragepool character varying(24), toperatingsystem character varying(50) NOT NULL DEFAULT 'linux', "+
+		"CONSTRAINT templates_pkey PRIMARY KEY (tid));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
