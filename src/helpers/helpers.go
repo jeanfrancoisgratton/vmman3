@@ -16,7 +16,7 @@ import (
 var BsingleHypervisor = false
 var BAllHypervisors = true
 var EnvironmentFile string
-var ConnectURI string // "qemu+ssh://root@%s/system"
+var ConnectURI string // qemu:///system
 // SurroundText()
 // Fonction stupide pour afficher du texte "proprement" (avec un header-footer)
 func SurroundText(text string, clearScr bool) {

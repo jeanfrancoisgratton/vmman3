@@ -10,8 +10,8 @@ import (
 )
 
 // FIXME: needs cleanup and/or readability fixes
-// collectInfo() : Inventaire détaillé des VMs
-func collectInfo() []vmInfo {
+// collectInfo(hypervisorname string) : Inventaire détaillé des VMs
+func collectInfo(hypervisorname string) []vmInfo {
 	var snapshotflags libvirt.DomainSnapshotListFlags
 	var numsnap int
 	var vmspec []vmInfo
@@ -34,7 +34,6 @@ func collectInfo() []vmInfo {
 		if i.viState == "Running" {
 			// INTERFACE INFO
 			i.viInterfaceName, i.viIPaddress = getInterfaceSpecs(dom, i.viName)
-			// CURRENT HYPERVISOR
 		} else {
 			i.viInterfaceName = ""
 			i.viIPaddress = ""
@@ -47,9 +46,7 @@ func collectInfo() []vmInfo {
 		} else {
 			i.viCurrentSnapshot = "n/a"
 		}
-
-		//lastStatusChange := getStatusChangeTS(i.viName)
-		//get
+		lastStatusChange, operatingsystem, storagepool := getInfoFromDB(i.viName, hypervisorname)
 
 		vmspec = append(vmspec, vmInfo{viId: i.viId, viName: i.viName, viState: getStateHelper(dState), viMem: specs.Memory / 1024, viCpu: specs.NrVirtCpu,
 			viSnapshot: uint(numsnap), viCurrentSnapshot: i.viCurrentSnapshot, viInterfaceName: i.viInterfaceName, viIPaddress: i.viIPaddress})

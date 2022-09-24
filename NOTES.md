@@ -1,7 +1,5 @@
-https://www.socketloop.com/tutorials/golang-how-to-check-if-input-from-os-args-is-integer
-
-```
-// convert input (type string) to integer
+Convert input (type string) to integer
+``` 
  first, err := strconv.ParseInt(os.Args[1], 10, 0)
 
  if err != nil {
@@ -16,3 +14,29 @@ https://www.socketloop.com/tutorials/golang-how-to-check-if-input-from-os-args-i
              os.Exit(1)
  }
 ```
+
+Fetch local IP address :
+```
+package main  
+  
+import (  
+ "fmt"  
+ "net"  
+)  
+  
+func GetOutboundIP() net.IP {
+    conn, err := net.Dial("udp", "8.8.8.8:80")
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer conn.Close()
+
+    localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+    return localAddr.IP
+}
+```
+Find hostname of local machine:
+
+`hostname = os.Hostname`
+

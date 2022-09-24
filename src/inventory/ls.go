@@ -18,25 +18,37 @@ import (
 func VM_Inventory() {
 	var hyps []db.DbHypervisors
 	var allVMspecs []vmInfo
+
 	if helpers.BAllHypervisors {
 		hyps = listHypervisors()
 	} else {
 		if helpers.BsingleHypervisor {
-			hyps = []db.DbHypervisors{{HID: 0, Hname: "localhost", Haddress: "127.0.0.1"}}
+			host, _ := os.Hostname()
+			hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
 		} else {
 			hyps = []db.DbHypervisors{{HID: 0, Hname: helpers.ConnectURI, Haddress: helpers.ConnectURI}}
 		}
 	}
 
-	// First step: get the connection URI for a given hypervisor, and then connect
+	// First step: get the connection URI for a given hypervisor, and then iterate+connect on them
 	for _, v := range hyps {
-		helpers.ConnectURI = getURI(v.Haddress, v.Hconnectinguser)
-		// to be uncommented soon
-		vmspecs := collectInfo()
+		if v.Haddress == "127.0.0.1" && v.Hconnectinguser == "" {
+			helpers.ConnectURI = "qemu:///system"
+		} else {
+			helpers.ConnectURI = getURI(v.Haddress, v.Hconnectinguser)
+		}
+
+		// Second step: collect the information
+		vmspecs := collectInfo(v.Hname)
 		allVMspecs = append(allVMspecs, vmspecs...)
 	}
-	helpers.SurroundText("All domains on hypervisor "+helpers.ConnectURI, false)
 
+	// Third step: display information
+	if helpers.BAllHypervisors {
+		helpers.SurroundText("Registered domains on all hypervisors", false)
+	} else {
+		helpers.SurroundText("All domains on hypervisor "+helpers.ConnectURI, false)
+	}
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
 	t.AppendHeader((table.Row{"ID", "VM name", "State", "vMemory", "vCPUs", "Snapshots", "Curr snapshot", "iface name", "IP address", "Last status change", "Hypervisor"}))
@@ -56,6 +68,7 @@ func VM_Inventory() {
 
 	}
 	t.SortBy([]table.SortBy{
+		{Name: "Hypervisor", Mode: table.Asc},
 		{Name: "ID", Mode: table.Asc},
 		{Name: "VM name", Mode: table.Asc},
 	})
