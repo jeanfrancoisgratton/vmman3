@@ -38,7 +38,7 @@ type dbVmStates struct {
 	VmOnline          bool   `json:"online" yaml:"online"`
 	VmLastStateChange string `json:"laststatechange" yaml:"laststatechange"`
 	VmOperatingSystem string `json:"os" yaml:"vmos"`
-	VmLastHypervisor  string `json:"lasthypervisor" yaml:"lasthypervisor"`
+	VmHypervisor      string `json:"hypervisor" yaml:"hypervisor"`
 	VmStoragePool     string `json:"storagepool" yaml:"storagepool"`
 }
 

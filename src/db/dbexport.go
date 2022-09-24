@@ -118,7 +118,6 @@ func getSpData(conn *pgx.Conn) []dbStoragePools {
 func getVmStateData(conn *pgx.Conn) []dbVmStates {
 	var vmss []dbVmStates
 
-	//rows, err := conn.Query(context.Background(), "SELECT vmid, vmname, vmip, vmonline, vmlaststatechange, vmoperatingsystem, vmlasthypervisor from config.vmstates")
 	rows, retcode := conn.Query(context.Background(), "SELECT * from config.vmstates ORDER BY vmid;")
 	if retcode != nil {
 		fmt.Println("Error: ", retcode)
@@ -127,7 +126,7 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 
 	for rows.Next() {
 		var vms dbVmStates
-		retcode := rows.Scan(&vms.VmID, &vms.VmName, &vms.VmIP, &vms.VmOnline, &vms.VmLastStateChange, &vms.VmOperatingSystem, &vms.VmLastHypervisor, &vms.VmStoragePool)
+		retcode := rows.Scan(&vms.VmID, &vms.VmName, &vms.VmIP, &vms.VmOnline, &vms.VmLastStateChange, &vms.VmOperatingSystem, &vms.VmHypervisor, &vms.VmStoragePool)
 		if retcode != nil {
 			fmt.Println("Error:", retcode)
 		} else {

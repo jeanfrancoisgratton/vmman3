@@ -63,8 +63,8 @@ func structs2DB(conn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms 
 	// vmstates
 	for _, v := range vms {
 		sqlStr := fmt.Sprintf("INSERT INTO config.vmstates "+
-			"(vmid, vmname, vmip, vmonline,vmlaststatechange,vmoperatingsystem,vmlasthypervisor,vmstoragepool) VALUES "+
-			"(%d,'%s','%s',%t,'%s','%s','%s','%s');", v.VmID, v.VmName, v.VmIP, v.VmOnline, v.VmLastStateChange, v.VmOperatingSystem, v.VmLastHypervisor, v.VmStoragePool)
+			"(vmid, vmname, vmip, vmonline,vmlaststatechange,vmoperatingsystem,vmhypervisor,vmstoragepool) VALUES "+
+			"(%d,'%s','%s',%t,'%s','%s','%s','%s');", v.VmID, v.VmName, v.VmIP, v.VmOnline, v.VmLastStateChange, v.VmOperatingSystem, v.VmHypervisor, v.VmStoragePool)
 		_, err := conn.Exec(ctx, sqlStr)
 		if err != nil {
 			panic(err)

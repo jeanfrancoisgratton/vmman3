@@ -15,6 +15,7 @@ import (
 // FIXME : transactions, anyone ? :p
 func createTablesSchemas(hostname string, port int) {
 	connString := fmt.Sprintf("postgresql://vmman:vmman@%s:%d/vmman", hostname, port)
+	ctx := context.Background()
 
 	conn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
@@ -24,8 +25,8 @@ func createTablesSchemas(hostname string, port int) {
 	defer conn.Close(context.Background())
 
 	fmt.Print("Drop/Create... ")
-	conn.Exec(context.Background(), "DROP SCHEMA IF EXISTS config ;")
-	conn.Exec(context.Background(), "CREATE SCHEMA IF NOT EXISTS config AUTHORIZATION vmman;")
+	conn.Exec(ctx, "DROP SCHEMA IF EXISTS config ;")
+	conn.Exec(ctx, "CREATE SCHEMA IF NOT EXISTS config AUTHORIZATION vmman;")
 	fmt.Print("Completed\n")
 	fmt.Print("Sequences... ")
 	createSeqs(conn)
@@ -77,9 +78,9 @@ func createTables(conn *pgx.Conn) {
 	_, err = conn.Exec(ctx, "CREATE TABLE IF NOT EXISTS config.vmstates "+
 		"(vmid integer NOT NULL DEFAULT nextval('config.\"vmstate_vmid_seq\"'::regclass), "+
 		"vmname character varying(24) NOT NULL, vmip character varying(15), vmonline boolean NOT NULL DEFAULT false, "+
-		"vmlaststatechange character varying(24) NOT NULL DEFAULT 'unseen', "+
+		"vmlaststatechange character varying(24) NOT NULL DEFAULT 'unknown', "+
 		"vmoperatingsystem character varying(50) NOT NULL DEFAULT 'linux', "+
-		"vmlasthypervisor character varying(24) NOT NULL DEFAULT 'unseen', "+
+		"vmhypervisor character varying(24) NOT NULL, "+
 		"vmstoragepool character varying(24) NOT NULL DEFAULT 'vmpool', "+
 		"CONSTRAINT vmState_pkey PRIMARY KEY (vmid));")
 	if err != nil {
