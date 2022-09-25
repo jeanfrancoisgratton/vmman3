@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-git restore control preinst
-
+git restore control preinst postinst

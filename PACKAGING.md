@@ -17,11 +17,12 @@ cd into `__debian` and then run all scripts in their numerical order<br>
 
 Basic steps:
 
-- from the projetc directory, run `tito init` . This is unneeded if there already is a `.tito` directory.
-- Specfiles with `BuildRequires` need those packages to be installed ahead of tito build; run `./rpm-install-build-deps.sh`
-- `tito tag`, to tag an upcoming release (`tito tag --keep-version` if you do not wish to update the release number)
-- `git push --follow-tags origin`
-- `tito build --rpm [--verbose] [--no-cleanup]` to actually build the package. You will need to manually upload it to Nexus
+**TEST:** replace step 2 with `dnf builddep -y vmman3.spec` at next build
+1. from the projetc directory, run `tito init` . This is unneeded if there already is a `.tito` directory.
+2. Specfiles with `BuildRequires` need those packages to be installed ahead of tito build; run `./rpm-install-build-deps.sh`
+3. `tito tag`, to tag an upcoming release (`tito tag --keep-version` if you do not wish to update the release number)
+4. `git push --follow-tags origin`
+5. `tito build --rpm [--verbose] [--no-cleanup]` to actually build the package. You will need to manually upload it to Nexus
 
 # APK (Alpine) PACKAGE:
 
