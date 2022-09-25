@@ -5,7 +5,9 @@
 package inventory
 
 import (
+	"fmt"
 	"libvirt.org/go/libvirt"
+	"vmman3/helpers"
 	"vmman3/snapshot_management"
 )
 
@@ -18,7 +20,21 @@ func collectInfo(hypervisorname string) []vmInfo {
 	var i vmInfo
 	var dState libvirt.DomainState
 	doms := GetVMlist()
-	conn := GetConn()
+
+	if doms == nil {
+		return nil
+	}
+
+	conn, err := libvirt.NewConnect(helpers.ConnectURI)
+	if err != nil {
+		lverr, ok := err.(libvirt.Error)
+		if ok && lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" {
+			fmt.Printf("Hypervisor %s is pffline\n", helpers.ConnectURI)
+			return nil
+		} else {
+			panic(err)
+		}
+	}
 
 	for _, dom := range doms {
 		specs, err := dom.GetInfo()
@@ -44,7 +60,7 @@ func collectInfo(hypervisorname string) []vmInfo {
 		d, _ := conn.LookupDomainByName(i.viName)
 		numsnap, _ = d.SnapshotNum(snapshotflags)
 		if numsnap > 0 {
-			i.viCurrentSnapshot = snapshot_management.GetCurrentSnapshotName(conn, i.viName)
+			i.viCurrentSnapshot = snapshot_management.GetCurrentSnapshotName(*conn, i.viName)
 		} else {
 			i.viCurrentSnapshot = "n/a"
 		}

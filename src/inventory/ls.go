@@ -70,9 +70,9 @@ func VmInventory() {
 
 	}
 	t.SortBy([]table.SortBy{
-		{Name: "Hypervisor", Mode: table.Asc},
 		{Name: "ID", Mode: table.Asc},
 		{Name: "VM name", Mode: table.Asc},
+		{Name: "Hypervisor", Mode: table.Asc},
 	})
 	t.SetStyle(table.StyleBold)
 	//t.Style().Options.DrawBorder = false

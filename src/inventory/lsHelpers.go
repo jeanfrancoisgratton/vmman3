@@ -10,17 +10,6 @@ import (
 	"vmman3/helpers"
 )
 
-// getConn() : ouvre la connexion à l'hyperviseur
-func GetConn() libvirt.Connect {
-	conn, err := libvirt.NewConnect(helpers.ConnectURI)
-
-	if err != nil {
-		fmt.Println("Error in inventory.getConn() : ", err)
-	}
-
-	return *conn
-}
-
 // getStateHelper() : transforme la variable DomainState (un int, en fait) en string
 func getStateHelper(state libvirt.DomainState) string {
 	ds := ""
@@ -48,7 +37,16 @@ func getStateHelper(state libvirt.DomainState) string {
 
 // getVMList() : Ammasse la liste des VMs sur cet hyperviseur
 func GetVMlist() []libvirt.Domain {
-	conn := GetConn()
+	conn, err := libvirt.NewConnect(helpers.ConnectURI)
+	if err != nil {
+		lverr, ok := err.(libvirt.Error)
+		if ok && lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" {
+			fmt.Printf("Hypervisor %s is offline\n", helpers.ConnectURI)
+			return nil
+		} else {
+			panic(err)
+		}
+	}
 
 	doms, err := conn.ListAllDomains(libvirt.CONNECT_LIST_DOMAINS_ACTIVE | libvirt.CONNECT_LIST_DOMAINS_INACTIVE)
 
