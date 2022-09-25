@@ -1,0 +1,3 @@
+#!/bin/bash
+
+strip /opt/bin/vmman3
