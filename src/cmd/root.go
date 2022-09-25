@@ -10,7 +10,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 
-var version = "0.250 (2022.09.20)"
+var version = "0.300 (2022.09.25)"
 
 var rootCmd = &cobra.Command{
 	Use:     "vmman3",
@@ -54,12 +54,17 @@ func initConfig() {
 	helpers.BAllHypervisors, _ = rootCmd.Flags().GetBool("allHypervisors")
 	helpers.BsingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
 
+	// TODO: check priority order. Might need to be reversed, because BAllHypervisors is always true and overides everything
 	if helpers.BAllHypervisors {
 		helpers.BsingleHypervisor = false
 		helpers.ConnectURI = ""
-	}
-
-	if helpers.BsingleHypervisor {
-		helpers.ConnectURI = "localhost"
+	} else {
+		if helpers.BsingleHypervisor {
+			helpers.BAllHypervisors = false
+			helpers.ConnectURI = "localhost"
+		} else {
+			helpers.BAllHypervisors = false
+			helpers.BsingleHypervisor = false
+		}
 	}
 }
