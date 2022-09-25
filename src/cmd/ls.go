@@ -22,7 +22,7 @@ State is: status (running, stopped), the number of snapshots with
 the name of the current one, if any, and so on.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//fmt.Printf("\x1bc")
-		inventory.VM_Inventory()
+		inventory.VmInventory()
 	},
 }
 

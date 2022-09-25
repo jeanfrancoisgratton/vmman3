@@ -27,26 +27,28 @@ func listHypervisors() []db.DbHypervisors {
 	return db.GetHypervisorData(conn)
 }
 
-func getURI(hostAddress string, username string) string {
-	ctx := context.Background()
-	creds := db.Json2creds()
-	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
-	conn, err := pgx.Connect(ctx, connString)
-	if err != nil {
-		log.Fatalln(err)
-		os.Exit(1)
-	}
-	defer conn.Close(ctx)
-
-	err = conn.QueryRow(ctx, "SELECT haddress,hconnectinguser FROM config.hypervisors;").Scan(&hostAddress, &username)
-	if err != nil {
-		panic(err)
-	}
-
-	return fmt.Sprintf("qemu+ssh://%s@%s/system", username, hostAddress)
-}
+//func getURI(hostAddress string, username string) string {
+//	var user, host string
+//	ctx := context.Background()
+//	creds := db.Json2creds()
+//	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
+//	conn, err := pgx.Connect(ctx, connString)
+//	if err != nil {
+//		log.Fatalln(err)
+//		os.Exit(1)
+//	}
+//	defer conn.Close(ctx)
+//
+//	err = conn.QueryRow(ctx, "SELECT haddress,hconnectinguser FROM config.hypervisors;").Scan(&host, &user)
+//	if err != nil {
+//		panic(err)
+//	}
+//	fmt.Printf("qemu+ssh://%s@%s/system\n", user, host)
+//	return fmt.Sprintf("qemu+ssh://%s@%s/system", user, host)
+//}
 
 func getInfoFromDB(hostname string, hypervisor string) (string, string, string) {
+	var statechange, operatingsystem, storagepool string
 	ctx := context.Background()
 	creds := db.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
@@ -56,9 +58,12 @@ func getInfoFromDB(hostname string, hypervisor string) (string, string, string) 
 		os.Exit(1)
 	}
 	defer conn.Close(ctx)
-
-	err = conn.QueryRow(ctx, "SELECT vmlaststatechange,vmoperatingsystem,vmstoragepool FROM config.vmstates WHERE ;").Scan(&hostAddress, &username)
+	querystring := fmt.Sprintf("SELECT vmlaststatechange,vmoperatingsystem,vmstoragepool FROM config.vmstates WHERE vmname = '%s' AND vmhypervisor = '%s';", hostname, hypervisor)
+	err = conn.QueryRow(ctx, querystring).
+		Scan(&statechange, &operatingsystem, &storagepool)
 	if err != nil {
 		panic(err)
 	}
+
+	return statechange, operatingsystem, storagepool
 }

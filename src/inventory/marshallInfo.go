@@ -21,11 +21,13 @@ func collectInfo(hypervisorname string) []vmInfo {
 	conn := GetConn()
 
 	for _, dom := range doms {
-		var specs, err = dom.GetInfo()
+		specs, err := dom.GetInfo()
 		i.viId, err = dom.GetID()
 		if err != nil {
 			i.viId = 0
 		}
+		// NOTE: the following struct member is near-useless. Might be removed in future versions
+		i.viHypervisor = hypervisorname
 		// VM NAME
 		i.viName, _ = dom.GetName()
 		// VM STATE
@@ -46,10 +48,12 @@ func collectInfo(hypervisorname string) []vmInfo {
 		} else {
 			i.viCurrentSnapshot = "n/a"
 		}
-		lastStatusChange, operatingsystem, storagepool := getInfoFromDB(i.viName, hypervisorname)
+
+		i.viLastStatusChange, i.viOperatingSystem, i.viStoragePool = getInfoFromDB(i.viName, hypervisorname)
 
 		vmspec = append(vmspec, vmInfo{viId: i.viId, viName: i.viName, viState: getStateHelper(dState), viMem: specs.Memory / 1024, viCpu: specs.NrVirtCpu,
-			viSnapshot: uint(numsnap), viCurrentSnapshot: i.viCurrentSnapshot, viInterfaceName: i.viInterfaceName, viIPaddress: i.viIPaddress})
+			viSnapshot: uint(numsnap), viCurrentSnapshot: i.viCurrentSnapshot, viInterfaceName: i.viInterfaceName, viIPaddress: i.viIPaddress, viLastStatusChange: i.viLastStatusChange,
+			viOperatingSystem: i.viOperatingSystem, viStoragePool: i.viStoragePool, viHypervisor: i.viHypervisor})
 	}
 
 	return vmspec

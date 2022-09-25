@@ -13,9 +13,9 @@ import (
 	"vmman3/helpers"
 )
 
-// 3 conditions :
+// VmInventory 3 conditions :
 // BAllHypervisors ? yes -> listhypervisors
-func VM_Inventory() {
+func VmInventory() {
 	var hyps []db.DbHypervisors
 	var allVMspecs []vmInfo
 
@@ -35,15 +35,17 @@ func VM_Inventory() {
 		if v.Haddress == "127.0.0.1" && v.Hconnectinguser == "" {
 			helpers.ConnectURI = "qemu:///system"
 		} else {
-			helpers.ConnectURI = getURI(v.Haddress, v.Hconnectinguser)
+			helpers.ConnectURI = fmt.Sprintf("qemu+ssh://%s@%s/system", v.Hconnectinguser, v.Haddress)
 		}
 
-		// Second step: collect the information
+		// Second step: connect to hypervisor
+
+		// Third step: collect the information
 		vmspecs := collectInfo(v.Hname)
 		allVMspecs = append(allVMspecs, vmspecs...)
 	}
 
-	// Third step: display information
+	// Fourth step: display information
 	if helpers.BAllHypervisors {
 		helpers.SurroundText("Registered domains on all hypervisors", false)
 	} else {
@@ -51,7 +53,7 @@ func VM_Inventory() {
 	}
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
-	t.AppendHeader((table.Row{"ID", "VM name", "State", "vMemory", "vCPUs", "Snapshots", "Curr snapshot", "iface name", "IP address", "Last status change", "Hypervisor"}))
+	t.AppendHeader(table.Row{"ID", "VM name", "State", "vMemory", "vCPUs", "Snapshots", "Curr snapshot", "iface name", "IP address", "Last status change", "Hypervisor"})
 
 	for _, vmspec := range allVMspecs {
 		sID := ""
@@ -64,7 +66,7 @@ func VM_Inventory() {
 		if vmspec.viId > 99 && vmspec.viId < 999 {
 			sID = fmt.Sprintf("0%d", vmspec.viId)
 		}
-		t.AppendRow([]interface{}{sID, vmspec.viName, vmspec.viState, vmspec.viMem, vmspec.viCpu, vmspec.viSnapshot, vmspec.viCurrentSnapshot, vmspec.viInterfaceName, vmspec.viIPaddress, "", ""})
+		t.AppendRow([]interface{}{sID, vmspec.viName, vmspec.viState, vmspec.viMem, vmspec.viCpu, vmspec.viSnapshot, vmspec.viCurrentSnapshot, vmspec.viInterfaceName, vmspec.viIPaddress, vmspec.viLastStatusChange, vmspec.viHypervisor, ""})
 
 	}
 	t.SortBy([]table.SortBy{
@@ -76,7 +78,7 @@ func VM_Inventory() {
 	//t.Style().Options.DrawBorder = false
 	//t.Style().Options.SeparateColumns = false
 	t.Style().Format.Header = text.FormatDefault
-	t.SetRowPainter(table.RowPainter(func(row table.Row) text.Colors {
+	t.SetRowPainter(func(row table.Row) text.Colors {
 		switch row[2] {
 		case "Running":
 			return text.Colors{text.BgBlack, text.FgHiGreen}
@@ -88,6 +90,6 @@ func VM_Inventory() {
 			return text.Colors{text.BgHiBlack, text.FgHiYellow}
 		}
 		return nil
-	}))
+	})
 	t.Render()
 }
