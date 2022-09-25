@@ -58,6 +58,31 @@ strip %{buildroot}%{_bindir}/%{name}
 
 
 %changelog
+* Sun Sep 25 2022 builder <builder@famillegratton.net> 0.300-0
+- Version bump (even if it will never be packaged) (jean-
+  francois@famillegratton.net)
+- inventory near-completion; issue with -c -1 -a flags (jean-
+  francois@famillegratton.net)
+- some data changes, added postinst tasks to all packages (jean-
+  francois@famillegratton.net)
+- ALTERed config.vmstates (jean-francois@famillegratton.net)
+- sync across devices (jean-francois@famillegratton.net)
+- Completed vm ls refactoring (untested yet) (jean-francois@famillegratton.net)
+- doc update, script cosmectic change (jean-francois@famillegratton.net)
+- vmman ls refactoring in progress....sync across devices (jean-
+  francois@famillegratton.net)
+- Added column in the templates table (jean-francois@famillegratton.net)
+- sync across devices (jean-francois@famillegratton.net)
+- More todos.... (jean-francois@famillegratton.net)
+- Doc update (jean-francois@famillegratton.net)
+- New subcommand: template (jean-francois@famillegratton.net)
+- Completed SEQUENCE update (jean-francois@famillegratton.net)
+- Now SEQUENCE nextvals are updated after db import (jean-
+  francois@famillegratton.net)
+- new sample, dock update, specfile fix (jean-francois@famillegratton.net)
+- Added an extra script (jean-francois@famillegratton.net)
+- Forgot to bump version for deb package (jean-francois@famillegratton.net)
+
 * Tue Sep 20 2022 builder <builder@famillegratton.net> 0.250-0
 - Doc update, build scripts version bump (jean-francois@famillegratton.net)
 - Doc updates, specfile cleanup (jean-francois@famillegratton.net)
