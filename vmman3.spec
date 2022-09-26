@@ -58,6 +58,11 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Sun Sep 25 2022 builder <builder@famillegratton.net> 0.300-1
+- specfile fix (jean-francois@famillegratton.net)
+- GetConn() is not working, removed (jean-francois@famillegratton.net)
+- Packaging updates (jean-francois@famillegratton.net)
+
 * Sun Sep 25 2022 builder <builder@famillegratton.net> 0.300-0
 - Version bump (even if it will never be packaged) (jean-
   francois@famillegratton.net)
