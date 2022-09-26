@@ -46,7 +46,7 @@ exit 0
 install -Dpm 0755 %{_sourcedir}/%{name} %{buildroot}%{_bindir}/%{name}
 
 %post
-strip %{buildroot}%{_bindir}/%{name}
+strip %{_prefix}/bin/%{name}
 
 %preun
 
