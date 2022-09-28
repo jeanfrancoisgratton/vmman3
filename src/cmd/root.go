@@ -40,10 +40,10 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "localhost", "Hypervisor URI.")
+	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "", "Hypervisor URI.")
 	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "~/.config/vmman3/databaseCreds.json", "Environment file.")
-	rootCmd.PersistentFlags().BoolVarP(&helpers.BsingleHypervisor, "singleHypervisor", "1", false, "Connects to local hypervisor")
-	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", true, "Make vmman multi hypervisor-aware")
+	rootCmd.PersistentFlags().BoolVarP(&helpers.BSingleHypervisor, "singleHypervisor", "1", false, "Connects to local hypervisor")
+	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", false, "Make vmman multi hypervisor-aware")
 }
 
 // -a will always override -1 and -c $HYPERVISOR_NAME
@@ -52,19 +52,20 @@ func initConfig() {
 	helpers.ConnectURI, _ = rootCmd.Flags().GetString("connection")
 	helpers.EnvironmentFile, _ = rootCmd.Flags().GetString("environment")
 	helpers.BAllHypervisors, _ = rootCmd.Flags().GetBool("allHypervisors")
-	helpers.BsingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
+	helpers.BSingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
 
 	// TODO: check priority order. Might need to be reversed, because BAllHypervisors is always true and overides everything
+
 	if helpers.BAllHypervisors {
-		helpers.BsingleHypervisor = false
+		helpers.BSingleHypervisor = false
 		helpers.ConnectURI = ""
 	} else {
-		if helpers.BsingleHypervisor {
+		if helpers.BSingleHypervisor {
 			helpers.BAllHypervisors = false
 			helpers.ConnectURI = "localhost"
 		} else {
 			helpers.BAllHypervisors = false
-			helpers.BsingleHypervisor = false
+			helpers.BSingleHypervisor = false
 		}
 	}
 }

@@ -13,10 +13,11 @@ import (
 )
 
 // var BsingleHypervisor bool
-var BsingleHypervisor = false
-var BAllHypervisors = true
+var BSingleHypervisor = false
+var BAllHypervisors = false
 var EnvironmentFile string
 var ConnectURI string // qemu:///system
+
 // SurroundText()
 // Fonction stupide pour afficher du texte "proprement" (avec un header-footer)
 func SurroundText(text string, clearScr bool) {

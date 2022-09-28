@@ -14,7 +14,7 @@ import (
 )
 
 // VmInventory 3 conditions :
-// BAllHypervisors ? yes -> listhypervisors
+// BallHypervisors ? yes -> listhypervisors
 func VmInventory() {
 	var hyps []db.DbHypervisors
 	var allVMspecs []vmInfo
@@ -22,7 +22,7 @@ func VmInventory() {
 	if helpers.BAllHypervisors {
 		hyps = listHypervisors()
 	} else {
-		if helpers.BsingleHypervisor {
+		if helpers.BSingleHypervisor {
 			host, _ := os.Hostname()
 			hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
 		} else {
