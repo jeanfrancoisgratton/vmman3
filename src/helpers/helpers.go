@@ -18,28 +18,6 @@ var BAllHypervisors = false
 var EnvironmentFile string
 var ConnectURI string // qemu:///system
 
-// SurroundText()
-// Fonction stupide pour afficher du texte "proprement" (avec un header-footer)
-func SurroundText(text string, clearScr bool) {
-	if clearScr == true {
-		fmt.Println("\x1bc")
-	}
-
-	txLen := len(text)
-	i := 0
-	eq := ""
-
-	for i < txLen {
-		eq += "="
-		i += 1
-	}
-
-	fmt.Println(eq)
-	fmt.Println(text)
-	fmt.Println(eq)
-	fmt.Println()
-}
-
 // GetRCdir() : retourne le répertoire de configurations de l'usager
 func GetRCdir() string {
 	rcDir, _ := os.UserHomeDir()

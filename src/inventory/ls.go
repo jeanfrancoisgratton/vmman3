@@ -47,9 +47,9 @@ func VmInventory() {
 
 	// Fourth step: display information
 	if helpers.BAllHypervisors {
-		helpers.SurroundText("Registered domains on all hypervisors", false)
+		fmt.Println("Registered domains on all hypervisors")
 	} else {
-		helpers.SurroundText("All domains on hypervisor "+helpers.ConnectURI, false)
+		fmt.Println("All domains on hypervisor ", helpers.ConnectURI)
 	}
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
