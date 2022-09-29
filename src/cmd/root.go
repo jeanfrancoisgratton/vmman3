@@ -54,7 +54,8 @@ func initConfig() {
 	helpers.BAllHypervisors, _ = rootCmd.Flags().GetBool("allHypervisors")
 	helpers.BSingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
 
-	// TODO: check priority order. Might need to be reversed, because BAllHypervisors is always true and overides everything
+	// FIXME FIXME FIXME:
+	// no flag screws ssh @ qemu URI
 
 	if helpers.BAllHypervisors {
 		helpers.BSingleHypervisor = false
