@@ -11,6 +11,10 @@ import (
 	"vmman3/inventory"
 )
 
+// TODO: MAKE HYPERVISOR-AWARE
+// 1. Stop the VM
+// 2. UpdateDB (laststatuschange)
+// 3. updatedb (online = false)
 func Stop(args []string) {
 	var bIsActive bool
 	conn, err := libvirt.NewConnect(helpers.ConnectURI)
