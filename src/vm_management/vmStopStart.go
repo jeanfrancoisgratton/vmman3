@@ -7,6 +7,8 @@ package vm_management
 import (
 	"fmt"
 	"libvirt.org/go/libvirt"
+	"os"
+	"vmman3/db"
 	"vmman3/helpers"
 	"vmman3/inventory"
 )
@@ -18,7 +20,6 @@ import (
 func Stop(args []string) {
 	var bIsActive bool
 	conn, err := libvirt.NewConnect(helpers.ConnectURI)
-
 	if err != nil {
 		lverr, ok := err.(libvirt.Error)
 		if ok && lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" {
@@ -50,14 +51,36 @@ func Stop(args []string) {
 
 func StopAll() {
 	var vmlist []string
-	domains := inventory.GetVMlist()
+	var hyps []db.DbHypervisors
 
-	for _, domain := range domains {
-		var _, err = domain.GetID()
-		if err == nil {
-			vmname, _ := domain.GetName()
-			vmlist = append(vmlist, vmname)
+	if helpers.BAllHypervisors {
+		hyps = inventory.ListHypervisors()
+	} else {
+		if helpers.BSingleHypervisor {
+			host, _ := os.Hostname()
+			hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
+		} else {
+			hyps = []db.DbHypervisors{{HID: 0, Hname: helpers.ConnectURI, Haddress: helpers.ConnectURI}}
 		}
 	}
-	Stop(vmlist)
+
+	// First step: get the connection URI for a given hypervisor, and then iterate+connect on them
+	for _, v := range hyps {
+		if v.Haddress == "127.0.0.1" && v.Hconnectinguser == "" {
+			helpers.ConnectURI = "qemu:///system"
+		} else {
+			helpers.ConnectURI = fmt.Sprintf("qemu+ssh://%s@%s/system", v.Hconnectinguser, v.Haddress)
+		}
+		// Second step: Fetch VM list on that hypervisor
+		domains := inventory.GetVMlist()
+
+		for _, domain := range domains {
+			var _, err = domain.GetID()
+			if err == nil {
+				vmname, _ := domain.GetName()
+				vmlist = append(vmlist, vmname)
+			}
+		}
+		Stop(vmlist)
+	}
 }

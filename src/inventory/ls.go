@@ -20,7 +20,7 @@ func VmInventory() {
 	var allVMspecs []vmInfo
 
 	if helpers.BAllHypervisors {
-		hyps = listHypervisors()
+		hyps = ListHypervisors()
 	} else {
 		if helpers.BSingleHypervisor {
 			host, _ := os.Hostname()
