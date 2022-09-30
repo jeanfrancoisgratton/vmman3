@@ -56,6 +56,10 @@ func initConfig() {
 
 	// FIXME FIXME FIXME:
 	// no flag screws ssh @ qemu URI
+	if helpers.ConnectURI != "" {
+		helpers.BAllHypervisors = false
+		helpers.BSingleHypervisor = false
+	}
 
 	if helpers.BAllHypervisors {
 		helpers.BSingleHypervisor = false
@@ -63,10 +67,7 @@ func initConfig() {
 	} else {
 		if helpers.BSingleHypervisor {
 			helpers.BAllHypervisors = false
-			helpers.ConnectURI = "localhost"
-		} else {
-			helpers.BAllHypervisors = false
-			helpers.BSingleHypervisor = false
+			helpers.ConnectURI = ""
 		}
 	}
 }
