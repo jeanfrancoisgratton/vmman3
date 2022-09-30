@@ -13,18 +13,18 @@ import (
 	"vmman3/db"
 )
 
-func listHypervisors() []db.DbHypervisors {
+func ListHypervisors() []db.DbHypervisors {
 	ctx := context.Background()
 	creds := db.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
-	conn, err := pgx.Connect(ctx, connString)
+	dbconn, err := pgx.Connect(ctx, connString)
 	if err != nil {
 		log.Fatalln(err)
 		os.Exit(1)
 	}
-	defer conn.Close(ctx)
+	defer dbconn.Close(ctx)
 
-	return db.GetHypervisorData(conn)
+	return db.GetHypervisorData(dbconn)
 }
 
 func getInfoFromDB(hostname string, hypervisor string) (string, string, string) {
@@ -32,14 +32,14 @@ func getInfoFromDB(hostname string, hypervisor string) (string, string, string) 
 	ctx := context.Background()
 	creds := db.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
-	conn, err := pgx.Connect(ctx, connString)
+	dbconn, err := pgx.Connect(ctx, connString)
 	if err != nil {
 		log.Fatalln(err)
 		os.Exit(1)
 	}
-	defer conn.Close(ctx)
+	defer dbconn.Close(ctx)
 	querystring := fmt.Sprintf("SELECT vmlaststatechange,vmoperatingsystem,vmstoragepool FROM config.vmstates WHERE vmname = '%s' AND vmhypervisor = '%s';", hostname, hypervisor)
-	err = conn.QueryRow(ctx, querystring).
+	err = dbconn.QueryRow(ctx, querystring).
 		Scan(&statechange, &operatingsystem, &storagepool)
 	if err != nil {
 		panic(err)

@@ -30,14 +30,14 @@ func CreateDatabase() {
 
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
 
-	conn, err := pgx.Connect(context.Background(), connString)
+	dbconn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
 	}
-	defer conn.Close(context.Background())
+	defer dbconn.Close(context.Background())
 
-	if createUser(conn, creds.DbUsr, creds.DbPasswd) {
+	if createUser(dbconn, creds.DbUsr, creds.DbPasswd) {
 		createTablesSchemas(creds.Hostname, creds.Port)
 	}
 }
@@ -82,24 +82,24 @@ func getCreds() DbCredsStruct {
 
 // createUser() : crée le user vmman
 // TODO: error checking
-func createUser(conn *pgx.Conn, username string, passwd string) bool {
+func createUser(dbconn *pgx.Conn, username string, passwd string) bool {
 	ctx := context.Background()
-	_, err := conn.Exec(ctx, "DROP DATABASE IF EXISTS vmman;")
+	_, err := dbconn.Exec(ctx, "DROP DATABASE IF EXISTS vmman;")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
-	_, err = conn.Exec(context.Background(), "CREATE DATABASE vmman;")
+	_, err = dbconn.Exec(context.Background(), "CREATE DATABASE vmman;")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
-	conn.Exec(ctx, "CREATE ROLE "+username+" CREATEDB INHERIT LOGIN PASSWORD '"+passwd+"';")
-	conn.Exec(ctx, "GRANT CONNECT ON DATABASE vmman TO "+username+";")
-	conn.Exec(ctx, "GRANT ALL PRIVILEGES ON DATABASE vmman TO "+username+";")
-	conn.Exec(ctx, "ALTER USER "+username+" CREATEDB;")
-	conn.Exec(ctx, "ALTER USER "+username+" WITH SUPERUSER;")
-	conn.Exec(ctx, "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "+username+";")
+	dbconn.Exec(ctx, "CREATE ROLE "+username+" CREATEDB INHERIT LOGIN PASSWORD '"+passwd+"';")
+	dbconn.Exec(ctx, "GRANT CONNECT ON DATABASE vmman TO "+username+";")
+	dbconn.Exec(ctx, "GRANT ALL PRIVILEGES ON DATABASE vmman TO "+username+";")
+	dbconn.Exec(ctx, "ALTER USER "+username+" CREATEDB;")
+	dbconn.Exec(ctx, "ALTER USER "+username+" WITH SUPERUSER;")
+	dbconn.Exec(ctx, "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "+username+";")
 
 	return true
 }

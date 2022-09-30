@@ -71,10 +71,10 @@ func serialize(v interface{}, filename string) error {
 }
 
 // getHypervisorData(): importe le contenu de la table hypervisors
-func GetHypervisorData(conn *pgx.Conn) []DbHypervisors {
+func GetHypervisorData(dbconn *pgx.Conn) []DbHypervisors {
 	var hyps []DbHypervisors
 
-	rows, err := conn.Query(context.Background(), "SELECT * from config.hypervisors ORDER BY hid")
+	rows, err := dbconn.Query(context.Background(), "SELECT * from config.hypervisors ORDER BY hid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
@@ -93,10 +93,10 @@ func GetHypervisorData(conn *pgx.Conn) []DbHypervisors {
 }
 
 // getSPdata() : prend le contenu de la table storagePools
-func getSpData(conn *pgx.Conn) []dbStoragePools {
+func getSpData(dbconn *pgx.Conn) []dbStoragePools {
 	var sps []dbStoragePools
 
-	rows, err := conn.Query(context.Background(), "SELECT * from config.storagepools ORDER BY spid")
+	rows, err := dbconn.Query(context.Background(), "SELECT * from config.storagepools ORDER BY spid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
@@ -115,10 +115,10 @@ func getSpData(conn *pgx.Conn) []dbStoragePools {
 }
 
 // getVmStateData() : prend le contenu de la table vmstate
-func getVmStateData(conn *pgx.Conn) []dbVmStates {
+func getVmStateData(dbconn *pgx.Conn) []dbVmStates {
 	var vmss []dbVmStates
 
-	rows, retcode := conn.Query(context.Background(), "SELECT * from config.vmstates ORDER BY vmid;")
+	rows, retcode := dbconn.Query(context.Background(), "SELECT * from config.vmstates ORDER BY vmid;")
 	if retcode != nil {
 		fmt.Println("Error: ", retcode)
 	}
@@ -137,10 +137,10 @@ func getVmStateData(conn *pgx.Conn) []dbVmStates {
 }
 
 // getClusterData() : prend le contenu de la table servers
-func getClusterData(conn *pgx.Conn) []dbClusters {
+func getClusterData(dbconn *pgx.Conn) []dbClusters {
 	var clusters []dbClusters
 
-	rows, retcode := conn.Query(context.Background(), "SELECT * from config.clusters ORDER BY cid")
+	rows, retcode := dbconn.Query(context.Background(), "SELECT * from config.clusters ORDER BY cid")
 	if retcode != nil {
 		fmt.Println("Error: ", retcode)
 	}
@@ -159,10 +159,10 @@ func getClusterData(conn *pgx.Conn) []dbClusters {
 }
 
 // getTemplateData(): importe le contenu de la table templates
-func getTemplateData(conn *pgx.Conn) []dbTemplates {
+func getTemplateData(dbconn *pgx.Conn) []dbTemplates {
 	var temps []dbTemplates
 
-	rows, err := conn.Query(context.Background(), "SELECT * from config.templates ORDER BY tid")
+	rows, err := dbconn.Query(context.Background(), "SELECT * from config.templates ORDER BY tid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
