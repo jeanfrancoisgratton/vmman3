@@ -1,1 +1,1 @@
-[{"id":1,"name":"oslo","address":"10.2.1.1","connectinguser":"root"},{"id":2,"name":"bergen","address":"10.3.1.1","connectinguser":"root"}]
+[{"id":1,"name":"oslo","address":"oslo","connectinguser":"root"},{"id":2,"name":"bergen","address":"bergen","connectinguser":"root"}]

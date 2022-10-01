@@ -43,7 +43,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "", "Hypervisor URI.")
 	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "~/.config/vmman3/databaseCreds.json", "Environment file.")
 	rootCmd.PersistentFlags().BoolVarP(&helpers.BSingleHypervisor, "singleHypervisor", "1", false, "Connects to local hypervisor")
-	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", false, "Make vmman multi hypervisor-aware")
+	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", true, "Make vmman multi hypervisor-aware")
 }
 
 // -a will always override -1 and -c $HYPERVISOR_NAME

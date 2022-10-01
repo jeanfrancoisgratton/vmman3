@@ -19,15 +19,12 @@ func VmInventory() {
 	var hyps []db.DbHypervisors
 	var allVMspecs []vmInfo
 
-	if helpers.BAllHypervisors {
+	// we need the hypervisors' list, except when BSingleHypervisor is false
+	if !helpers.BSingleHypervisor {
 		hyps = ListHypervisors()
 	} else {
-		if helpers.BSingleHypervisor {
-			host, _ := os.Hostname()
-			hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
-		} else {
-			hyps = []db.DbHypervisors{{HID: 0, Hname: helpers.ConnectURI, Haddress: helpers.ConnectURI}}
-		}
+		host, _ := os.Hostname()
+		hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
 	}
 
 	// First step: get the connection URI for a given hypervisor, and then iterate+connect on them
@@ -35,6 +32,8 @@ func VmInventory() {
 		if v.Haddress == "127.0.0.1" && v.Hconnectinguser == "" {
 			helpers.ConnectURI = "qemu:///system"
 		} else {
+			if helpers.ConnectURI == v.Hname {
+			}
 			helpers.ConnectURI = fmt.Sprintf("qemu+ssh://%s@%s/system", v.Hconnectinguser, v.Haddress)
 		}
 
