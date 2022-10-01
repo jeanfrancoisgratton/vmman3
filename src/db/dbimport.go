@@ -44,7 +44,7 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 	ctx := context.Background()
 	// hyperviseurs
 	for _, h := range hyps {
-		sqlStr := fmt.Sprintf("INSERT INTO config.hypervisors (hid, hname, haddress, hconnectinguser) VALUES "+
+		sqlStr := fmt.Sprintf("INSERT INTO hypervisors (hid, hname, haddress, hconnectinguser) VALUES "+
 			"(%d,'%s','%s','%s');", h.HID, h.Hname, h.Haddress, h.Hconnectinguser)
 		_, err := dbconn.Exec(ctx, sqlStr)
 		if err != nil {
@@ -53,7 +53,7 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 	}
 	// storagePools
 	for _, s := range sps {
-		sqlStr := fmt.Sprintf("INSERT INTO config.storagepools (spid, spname, sppath, spowner) VALUES "+
+		sqlStr := fmt.Sprintf("INSERT INTO storagepools (spid, spname, sppath, spowner) VALUES "+
 			"(%d,'%s','%s','%s');", s.SpID, s.SpName, s.SpPath, s.SpOwner)
 		_, err := dbconn.Exec(ctx, sqlStr)
 		if err != nil {
@@ -62,7 +62,7 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 	}
 	// vmstates
 	for _, v := range vms {
-		sqlStr := fmt.Sprintf("INSERT INTO config.vmstates "+
+		sqlStr := fmt.Sprintf("INSERT INTO vmstates "+
 			"(vmid, vmname, vmip, vmonline,vmlaststatechange,vmoperatingsystem,vmhypervisor,vmstoragepool) VALUES "+
 			"(%d,'%s','%s',%t,'%s','%s','%s','%s');", v.VmID, v.VmName, v.VmIP, v.VmOnline, v.VmLastStateChange, v.VmOperatingSystem, v.VmHypervisor, v.VmStoragePool)
 		_, err := dbconn.Exec(ctx, sqlStr)
@@ -72,7 +72,7 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 	}
 	// clusters
 	for _, c := range vmc {
-		sqlStr := fmt.Sprintf("INSERT INTO config.clusters (cid, cname) VALUES (%d,'%s');", c.CID, c.Cname)
+		sqlStr := fmt.Sprintf("INSERT INTO clusters (cid, cname) VALUES (%d,'%s');", c.CID, c.Cname)
 		_, err := dbconn.Exec(ctx, sqlStr)
 		if err != nil {
 			panic(err)
@@ -80,7 +80,7 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 	}
 	// templates
 	for _, t := range tpt {
-		sqlStr := fmt.Sprintf("INSERT INTO config.templates (tid, tname, towner, tstoragepool) "+
+		sqlStr := fmt.Sprintf("INSERT INTO templates (tid, tname, towner, tstoragepool) "+
 			"VALUES (%d,'%s','%s','%s');", t.TID, t.Tname, t.Towner, t.TstoragePool)
 		_, err := dbconn.Exec(ctx, sqlStr)
 		if err != nil {
@@ -93,47 +93,47 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 func updateSequences(dbconn *pgx.Conn) {
 	var vmid, hid, spid, cid, tid uint8
 	ctx := context.Background()
-	err := dbconn.QueryRow(ctx, "SELECT MAX(vmid) FROM config.vmstates;").Scan(&vmid)
+	err := dbconn.QueryRow(ctx, "SELECT MAX(vmid) FROM vmstates;").Scan(&vmid)
 	if err != nil {
 		panic(err)
 	}
-	err = dbconn.QueryRow(ctx, "SELECT MAX(hid) FROM config.hypervisors;").Scan(&hid)
+	err = dbconn.QueryRow(ctx, "SELECT MAX(hid) FROM hypervisors;").Scan(&hid)
 	if err != nil {
 		panic(err)
 	}
-	err = dbconn.QueryRow(ctx, "SELECT MAX(spid) FROM config.storagepools;").Scan(&spid)
+	err = dbconn.QueryRow(ctx, "SELECT MAX(spid) FROM storagepools;").Scan(&spid)
 	if err != nil {
 		panic(err)
 	}
-	err = dbconn.QueryRow(ctx, "SELECT MAX(cid) FROM config.clusters;").Scan(&cid)
+	err = dbconn.QueryRow(ctx, "SELECT MAX(cid) FROM clusters;").Scan(&cid)
 	if err != nil {
 		panic(err)
 	}
-	err = dbconn.QueryRow(ctx, "SELECT MAX(tid) FROM config.templates;").Scan(&tid)
+	err = dbconn.QueryRow(ctx, "SELECT MAX(tid) FROM templates;").Scan(&tid)
 	if err != nil {
 		panic(err)
 	}
-	sqlStr := fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.vmstate_vmid_seq RESTART WITH %d;", vmid+1)
+	sqlStr := fmt.Sprintf("ALTER SEQUENCE IF EXISTS vmstate_vmid_seq RESTART WITH %d;", vmid+1)
 	_, err = dbconn.Exec(ctx, sqlStr)
 	if err != nil {
 		panic(err)
 	}
-	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.hypervisors_hid_seq RESTART WITH %d;", hid+1)
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS hypervisors_hid_seq RESTART WITH %d;", hid+1)
 	_, err = dbconn.Exec(ctx, sqlStr)
 	if err != nil {
 		panic(err)
 	}
-	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.storagepools_spid_seq RESTART WITH %d;", spid+1)
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS storagepools_spid_seq RESTART WITH %d;", spid+1)
 	_, err = dbconn.Exec(ctx, sqlStr)
 	if err != nil {
 		panic(err)
 	}
-	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.clusters_cid_seq RESTART WITH %d;", cid+1)
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS clusters_cid_seq RESTART WITH %d;", cid+1)
 	_, err = dbconn.Exec(ctx, sqlStr)
 	if err != nil {
 		panic(err)
 	}
-	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS config.templates_tid_seq RESTART WITH %d;", tid+1)
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS templates_tid_seq RESTART WITH %d;", tid+1)
 	_, err = dbconn.Exec(ctx, sqlStr)
 	if err != nil {
 		panic(err)

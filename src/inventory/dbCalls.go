@@ -38,7 +38,7 @@ func getInfoFromDB(hostname string, hypervisor string) (string, string, string) 
 		os.Exit(1)
 	}
 	defer dbconn.Close(ctx)
-	querystring := fmt.Sprintf("SELECT vmlaststatechange,vmoperatingsystem,vmstoragepool FROM config.vmstates WHERE vmname = '%s' AND vmhypervisor = '%s';", hostname, hypervisor)
+	querystring := fmt.Sprintf("SELECT vmlaststatechange,vmoperatingsystem,vmstoragepool FROM vmstates WHERE vmname = '%s' AND vmhypervisor = '%s';", hostname, hypervisor)
 	err = dbconn.QueryRow(ctx, querystring).
 		Scan(&statechange, &operatingsystem, &storagepool)
 	if err != nil {

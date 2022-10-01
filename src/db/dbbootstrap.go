@@ -99,12 +99,7 @@ func createUser(dbconn *pgx.Conn, username string, passwd string) bool {
 	dbconn.Exec(ctx, "GRANT ALL PRIVILEGES ON DATABASE vmman TO "+username+";")
 	dbconn.Exec(ctx, "ALTER USER "+username+" CREATEDB;")
 	dbconn.Exec(ctx, "ALTER USER "+username+" WITH SUPERUSER;")
-	dbconn.Exec(ctx, "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.config GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "+username+";")
+	dbconn.Exec(ctx, "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "+username+";")
 
 	return true
-}
-
-// wipeDB() : Drop la base de données au complet
-func wipeDB(conn *pgx.Conn) {
-
 }

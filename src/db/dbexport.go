@@ -21,18 +21,18 @@ func Export(filename string) {
 
 	createDumpDir(filename)
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
-	conn, err := pgx.Connect(context.Background(), connString)
+	dbconn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
 		log.Fatalln(err)
 		os.Exit(1)
 	}
-	defer conn.Close(context.Background())
+	defer dbconn.Close(context.Background())
 
-	hypervisors := GetHypervisorData(conn)
-	storagePools := getSpData(conn)
-	vmStates := getVmStateData(conn)
-	clusters := getClusterData(conn)
-	templates := getTemplateData(conn)
+	hypervisors := GetHypervisorData(dbconn)
+	storagePools := getSpData(dbconn)
+	vmStates := getVmStateData(dbconn)
+	clusters := getClusterData(dbconn)
+	templates := getTemplateData(dbconn)
 
 	if err := serialize(hypervisors, "hypervisors.json"); err != nil {
 		log.Fatalln(err)
@@ -74,7 +74,7 @@ func serialize(v interface{}, filename string) error {
 func GetHypervisorData(dbconn *pgx.Conn) []DbHypervisors {
 	var hyps []DbHypervisors
 
-	rows, err := dbconn.Query(context.Background(), "SELECT * from config.hypervisors ORDER BY hid")
+	rows, err := dbconn.Query(context.Background(), "SELECT * from hypervisors ORDER BY hid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
@@ -96,7 +96,7 @@ func GetHypervisorData(dbconn *pgx.Conn) []DbHypervisors {
 func getSpData(dbconn *pgx.Conn) []dbStoragePools {
 	var sps []dbStoragePools
 
-	rows, err := dbconn.Query(context.Background(), "SELECT * from config.storagepools ORDER BY spid")
+	rows, err := dbconn.Query(context.Background(), "SELECT * from storagepools ORDER BY spid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
@@ -118,7 +118,7 @@ func getSpData(dbconn *pgx.Conn) []dbStoragePools {
 func getVmStateData(dbconn *pgx.Conn) []dbVmStates {
 	var vmss []dbVmStates
 
-	rows, retcode := dbconn.Query(context.Background(), "SELECT * from config.vmstates ORDER BY vmid;")
+	rows, retcode := dbconn.Query(context.Background(), "SELECT * from vmstates ORDER BY vmid;")
 	if retcode != nil {
 		fmt.Println("Error: ", retcode)
 	}
@@ -140,7 +140,7 @@ func getVmStateData(dbconn *pgx.Conn) []dbVmStates {
 func getClusterData(dbconn *pgx.Conn) []dbClusters {
 	var clusters []dbClusters
 
-	rows, retcode := dbconn.Query(context.Background(), "SELECT * from config.clusters ORDER BY cid")
+	rows, retcode := dbconn.Query(context.Background(), "SELECT * from clusters ORDER BY cid")
 	if retcode != nil {
 		fmt.Println("Error: ", retcode)
 	}
@@ -162,7 +162,7 @@ func getClusterData(dbconn *pgx.Conn) []dbClusters {
 func getTemplateData(dbconn *pgx.Conn) []dbTemplates {
 	var temps []dbTemplates
 
-	rows, err := dbconn.Query(context.Background(), "SELECT * from config.templates ORDER BY tid")
+	rows, err := dbconn.Query(context.Background(), "SELECT * from templates ORDER BY tid")
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
