@@ -41,7 +41,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "", "Hypervisor URI.")
-	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "~/.config/vmman3/databaseCreds.json", "Environment file.")
+	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "environment.json", "Environment file.")
 	rootCmd.PersistentFlags().BoolVarP(&helpers.BSingleHypervisor, "singleHypervisor", "1", false, "Connects to local hypervisor")
 	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", true, "Make vmman multi hypervisor-aware")
 }
