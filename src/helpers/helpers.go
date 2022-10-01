@@ -13,7 +13,7 @@ import (
 )
 
 // var BsingleHypervisor bool
-var BsingleHypervisor = false
+var BSingleHypervisor = false
 var BAllHypervisors = true
 var EnvironmentFile string
 var ConnectURI string // qemu:///system
