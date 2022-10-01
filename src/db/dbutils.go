@@ -13,7 +13,7 @@ import (
 
 // creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
 func creds2json(jsonFile string, creds DbCredsStruct) {
-	jStream, err := json.Marshal(creds)
+	jStream, err := json.MarshalIndent(creds, "", "  ")
 	if err != nil {
 		fmt.Println("Error", err)
 	}
