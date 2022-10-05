@@ -13,8 +13,8 @@ import (
 	"vmman3/helpers"
 )
 
-// VmInventory 3 conditions :
-// BallHypervisors ? yes -> listhypervisors
+// LOTS of stuff to unpack in here.. FIXME
+
 func VmInventory() {
 	var hyps []db.DbHypervisors
 	var allVMspecs []vmInfo
@@ -23,18 +23,30 @@ func VmInventory() {
 	if !helpers.BSingleHypervisor {
 		hyps = ListHypervisors()
 	} else {
+		// BSingleHypervisor is true
 		host, _ := os.Hostname()
 		hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
 	}
 
+	// FIXME: looks unefficient....
+	// if both -1 and -a are false, we need to fetch the full uri string from the db
+	// we basically loop through all hypervisors in DB to fetch the one corresponding to the -c flag
+	for _, name := range hyps {
+		if name.Hname == helpers.ConnectURI {
+			helpers.ConnectURI = fmt.Sprintf("qemu+ssh;//%s@%s/system/", name.Hconnectinguser, name.Haddress)
+			break
+		}
+	}
+
 	// First step: get the connection URI for a given hypervisor, and then iterate+connect on them
 	for _, v := range hyps {
-		if v.Haddress == "127.0.0.1" && v.Hconnectinguser == "" {
+		if helpers.BSingleHypervisor {
 			helpers.ConnectURI = "qemu:///system"
 		} else {
-			if helpers.ConnectURI == v.Hname {
+			if helpers.ConnectURI == v.Hname && !helpers.BAllHypervisors {
+				helpers.ConnectURI = fmt.Sprintf("qemu+ssh;//%s@%s/system/", v.Hconnectinguser, v.Haddress)
 			}
-			helpers.ConnectURI = fmt.Sprintf("qemu+ssh://%s@%s/system", v.Hconnectinguser, v.Haddress)
+			helpers.ConnectURI = fmt.Sprintf("qemu+ssh://%s@%s/system/", v.Hconnectinguser, v.Haddress)
 		}
 
 		// Second step: connect to hypervisor

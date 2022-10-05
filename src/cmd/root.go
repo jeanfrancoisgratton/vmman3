@@ -40,10 +40,10 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "", "Hypervisor URI.")
+	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "qemu:///system/", "Hypervisor URI.")
 	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "environment.json", "Environment file.")
 	rootCmd.PersistentFlags().BoolVarP(&helpers.BSingleHypervisor, "singleHypervisor", "1", false, "Connects to local hypervisor")
-	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", true, "Make vmman multi hypervisor-aware")
+	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", false, "Make vmman multi hypervisor-aware")
 }
 
 // -a will always override -1 and -c $HYPERVISOR_NAME
@@ -56,7 +56,7 @@ func initConfig() {
 
 	// FIXME FIXME FIXME:
 	// no flag screws ssh @ qemu URI
-	if helpers.ConnectURI != "" {
+	if helpers.ConnectURI != "qemu:///system/" {
 		helpers.BAllHypervisors = false
 		helpers.BSingleHypervisor = false
 	}
