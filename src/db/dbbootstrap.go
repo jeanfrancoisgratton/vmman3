@@ -19,13 +19,13 @@ import (
 // CreateDatabase() : action du db bootstrap
 func CreateDatabase() {
 	var creds DbCredsStruct
-	//connStr := "postgresql://<username>:<password>@<database_ip>:<port>/<dbname>?sslmode=disable
 
-	// checkIfConfigExists() needs extra cleanup (subdivisions)
 	rcFile := helpers.CheckIfConfigExists()
 	if rcFile != "" {
 		creds = getCreds()
 		creds2json(rcFile, creds)
+	} else {
+		creds = Json2creds()
 	}
 
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)

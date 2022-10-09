@@ -28,7 +28,6 @@ func CheckNOENT(directory string, file string) bool {
 }
 
 // checkIfConfigExists() : Vérifie si le répertoire existe; s'il existe, vérifie si le fichier de config existe
-// s'il existe, on l'efface, il sera écrasé plus tard
 func CheckIfConfigExists() string {
 	vmman3rcdir := GetRCdir()
 
@@ -49,8 +48,7 @@ func CheckIfConfigExists() string {
 		} else {
 			panic(err)
 		}
-	} else {
-		os.Remove(vmman3rcdir)
 	}
+
 	return vmman3rcdir
 }
