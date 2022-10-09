@@ -20,6 +20,7 @@ import (
 func CreateDatabase() {
 	var creds DbCredsStruct
 
+	// FIXME: logic is not working here.
 	rcFile := helpers.CheckIfConfigExists()
 	if rcFile != "" {
 		creds = getCreds()

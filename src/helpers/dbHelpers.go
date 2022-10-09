@@ -44,7 +44,7 @@ func CheckIfConfigExists() string {
 	_, err = os.Stat(vmman3rcdir)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return vmman3rcdir
+			return ""
 		} else {
 			panic(err)
 		}
