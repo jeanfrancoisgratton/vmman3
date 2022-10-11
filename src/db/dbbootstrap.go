@@ -2,9 +2,8 @@
 // db/db-bootstrap.go
 // 2022-08-22 20:02:37
 
-// FIXME FIXME FIXME
+// TODO 
 // FILE NEEDS CLEANUP AND GETTING RID OF PASSWORD IN JSON DOCUMENT
-// FIXME FIXME FIXME
 
 package db
 
@@ -20,7 +19,7 @@ import (
 func CreateDatabase() {
 	var creds DbCredsStruct
 
-	// FIXME: logic is not working here.
+	// TODO: logic is not working here.
 	rcFile := helpers.CheckIfConfigExists()
 	if rcFile != "" {
 		creds = getCreds()

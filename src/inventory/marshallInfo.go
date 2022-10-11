@@ -11,7 +11,7 @@ import (
 	"vmman3/snapshot_management"
 )
 
-// FIXME: needs cleanup and/or readability fixes
+// TODO: needs cleanup and/or readability fixes
 // collectInfo(hypervisorname string) : Inventaire détaillé des VMs
 func collectInfo(hypervisorname string) []vmInfo {
 	var snapshotflags libvirt.DomainSnapshotListFlags

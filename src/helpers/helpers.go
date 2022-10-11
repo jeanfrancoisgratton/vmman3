@@ -41,9 +41,9 @@ func SurroundText(text string, clearScr bool) {
 
 // GetRCdir() : retourne le répertoire de configurations de l'usager
 func GetRCdir() string {
-	rcDir, _ := os.UserConfigDir()
+	rcDir, _ := os.UserHomeDir()
 
-	return rcDir + "/vmman3/"
+	return rcDir + ".config/vmman3/"
 }
 
 // BuildPath() : une fonction pour construire le full pathname d'un fichier
