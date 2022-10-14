@@ -31,19 +31,7 @@ func Json2creds() DbCredsStruct {
 	return payload
 }
 
-func createDumpDir(filename string) {
-	_, err := os.Stat(filename)
-
-	if err != nil {
-		if os.IsNotExist(err) {
-			os.MkdirAll(filename, 0755)
-		} else {
-			panic(err)
-		}
-	}
-	os.Chdir(filename)
-}
-
+// This might get converted to generics, at some point
 func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) ([]interface{}, []interface{}, []interface{}, []interface{}) {
 	dbH := make([]interface{}, len(hyps))
 	for i, v := range hyps {

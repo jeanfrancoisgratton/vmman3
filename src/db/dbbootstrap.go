@@ -19,18 +19,15 @@ import (
 func CreateDatabase() {
 	var creds DbCredsStruct
 
-	// TODO: logic is not working here.
 	rcFile, ok := helpers.CheckIfConfigExists()
 	if ok {
 		creds = Json2creds()
-
 	} else {
 		creds = getCreds()
 		creds2json(rcFile, creds)
 	}
 
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
-
 	conn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
