@@ -2,7 +2,7 @@
 // db/db-bootstrap.go
 // 2022-08-22 20:02:37
 
-// TODO 
+// TODO
 // FILE NEEDS CLEANUP AND GETTING RID OF PASSWORD IN JSON DOCUMENT
 
 package db
@@ -20,12 +20,13 @@ func CreateDatabase() {
 	var creds DbCredsStruct
 
 	// TODO: logic is not working here.
-	rcFile := helpers.CheckIfConfigExists()
-	if rcFile != "" {
+	rcFile, ok := helpers.CheckIfConfigExists()
+	if ok {
+		creds = Json2creds()
+
+	} else {
 		creds = getCreds()
 		creds2json(rcFile, creds)
-	} else {
-		creds = Json2creds()
 	}
 
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)

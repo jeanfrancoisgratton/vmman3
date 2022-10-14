@@ -17,6 +17,7 @@ var BSingleHypervisor = false
 var BAllHypervisors = true
 var EnvironmentFile string
 var ConnectURI string // qemu:///system
+
 // SurroundText()
 // Fonction stupide pour afficher du texte "proprement" (avec un header-footer)
 func SurroundText(text string, clearScr bool) {
@@ -43,7 +44,7 @@ func SurroundText(text string, clearScr bool) {
 func GetRCdir() string {
 	rcDir, _ := os.UserHomeDir()
 
-	return rcDir + ".config/vmman3/"
+	return rcDir + "/.config/vmman3/"
 }
 
 // BuildPath() : une fonction pour construire le full pathname d'un fichier
