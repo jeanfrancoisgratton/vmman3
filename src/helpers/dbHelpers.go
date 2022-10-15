@@ -5,52 +5,63 @@
 package helpers
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/jackc/pgx/v4"
+	"log"
 	"os"
 )
 
-// CheckNOENT() : Vérifie si le fichier existe, les perms sont OK, ou autre
-func CheckNOENT(directory string, file string) bool {
-	fullpath := BuildPath(directory, file)
-	bExists := true
-
-	_, err := os.Stat(fullpath)
-	if err != nil {
-		if os.IsNotExist(err) {
-			fmt.Printf("File %s either does not exist or has permission issues. Aborting.\n", fullpath)
-			bExists = false
-		} else {
-			fmt.Printf("Unhandled error with file %s :\n%s.\nAborting.\n", fullpath, err)
-			bExists = false
-		}
-	}
-	return bExists
+// La structure utilisée pour créer la bd originale
+type DbCredsStruct struct {
+	Hostname   string `json:"hostname" yaml:"hostname"`
+	Port       int    `json:"port" yaml:"port"`
+	RootUsr    string `json:"rootusr" yaml:"rootusr"`
+	RootPasswd string `json:"rootpasswd" yaml:"rootpasswd"`
+	DbUsr      string `json:"dbusr" yaml:"dbusr"`
+	DbPasswd   string `json:"dbpasswd" yaml:"dbpasswd"`
 }
 
-// checkIfConfigExists() : Vérifie si le répertoire existe; s'il existe, vérifie si le fichier de config existe
-func CheckIfConfigExists() (string, bool) {
-	//vmman3rcdir := GetRCdir()
-	vmman3rcdir, _ := os.UserHomeDir()
-	vmman3rcdir += "/.config/vmman3/"
+// need getCreds....
+func BuildConnectURI(host string) string {
+	var username string
+	ctx := context.Background()
+	creds := Json2creds()
 
-	_, err := os.Stat(vmman3rcdir)
+	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
+
+	dbconn, err := pgx.Connect(ctx, connString)
 	if err != nil {
-		if os.IsNotExist(err) {
-			os.Mkdir(vmman3rcdir, 0700)
-		} else {
-			panic(err)
-		}
+		log.Fatalln(err)
+		os.Exit(1)
 	}
-	vmman3rcdir += EnvironmentFile
+	defer dbconn.Close(ctx)
 
-	_, err = os.Stat(vmman3rcdir)
+	err = dbconn.QueryRow(ctx, "SELECT hconnectinguser FROM hypervisors WHERE hname='"+host+"';").Scan(&username)
 	if err != nil {
-		if os.IsNotExist(err) {
-			return vmman3rcdir, false
-		} else {
-			panic(err)
-		}
+		panic(err)
 	}
+	return username
+}
 
-	return vmman3rcdir, true
+// creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
+func Creds2json(jsonFile string, creds DbCredsStruct) {
+	jStream, err := json.MarshalIndent(creds, "", "  ")
+	if err != nil {
+		fmt.Println("Error", err)
+	}
+	os.WriteFile(jsonFile, jStream, 0600)
+}
+
+func Json2creds() DbCredsStruct {
+	var payload DbCredsStruct
+	rcDir, _ := os.UserHomeDir()
+	rcFile := rcDir + "/.config/vmman3/" + EnvironmentFile
+	jFile, _ := os.ReadFile(rcFile)
+	err := json.Unmarshal(jFile, &payload)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	return payload
 }
