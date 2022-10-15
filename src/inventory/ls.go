@@ -19,16 +19,16 @@ func VmInventory() {
 	var hyps []db.DbHypervisors
 	var allVMspecs []vmInfo
 
-	if helpers.BAllHypervisors {
-		hyps = listHypervisors()
-	} else {
-		if helpers.BSingleHypervisor {
-			host, _ := os.Hostname()
-			hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
-		} else {
-			hyps = []db.DbHypervisors{{HID: 0, Hname: helpers.ConnectURI, Haddress: helpers.ConnectURI}}
-		}
-	}
+	//if helpers.BAllHypervisors {
+	//	hyps = listHypervisors()
+	//} else {
+	//	if helpers.BSingleHypervisor {
+	//		host, _ := os.Hostname()
+	//		hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
+	//	} else {
+	//		hyps = []db.DbHypervisors{{HID: 0, Hname: helpers.ConnectURI, Haddress: helpers.ConnectURI}}
+	//	}
+	//}
 
 	// First step: get the connection URI for a given hypervisor, and then iterate+connect on them
 	for _, v := range hyps {

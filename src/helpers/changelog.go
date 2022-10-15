@@ -15,7 +15,6 @@ func Changelog() {
 	fmt.Print(`
 VERSION		DATE			COMMENT
 -------		----			-------
-0.300		2022.10.03		ls is completed, stop[All] near-completed
 0.300		2022.09.25		db package frozen for now; inventory near-completion
 0.250		2022.09.20		db package extra work; reworked specfile (RPM)
 0.200		2022.09.17		db package completed. Build dry run

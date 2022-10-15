@@ -16,7 +16,7 @@ import (
 
 // Import() : injecte un JSON/YAML dans la BD. LA TABLE SE DOIT D'ÊTRE VIDE. Hard-requirement
 func Import(directory string) {
-	creds := Json2creds()
+	creds := helpers.Json2creds()
 	hypervisors := getHypervisorTable(directory)
 	storagePools := getStoragePoolTable(directory)
 	vmStates := getVMStatesTable(directory)

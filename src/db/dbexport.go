@@ -13,11 +13,12 @@ import (
 	"github.com/jackc/pgx/v4"
 	"log"
 	"os"
+	"vmman3/helpers"
 )
 
 // Export() : point d'entrée de l'exportation
 func Export(filename string) {
-	creds := Json2creds()
+	creds := helpers.Json2creds()
 
 	// Create the dump dir
 	_, err := os.Stat(filename)

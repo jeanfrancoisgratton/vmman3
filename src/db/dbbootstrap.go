@@ -17,14 +17,14 @@ import (
 
 // CreateDatabase() : action du db bootstrap
 func CreateDatabase() {
-	var creds DbCredsStruct
+	var creds helpers.DbCredsStruct
 
 	rcFile, ok := helpers.CheckIfConfigExists()
 	if ok {
-		creds = Json2creds()
+		creds = helpers.Json2creds()
 	} else {
 		creds = getCreds()
-		creds2json(rcFile, creds)
+		helpers.Creds2json(rcFile, creds)
 	}
 
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
@@ -41,8 +41,8 @@ func CreateDatabase() {
 }
 
 // getCreds() : collecte les credentials nécessaires pour se connecter à la BD PGSQL, et créer la BD vmman
-func getCreds() DbCredsStruct {
-	var dbCreds DbCredsStruct
+func getCreds() helpers.DbCredsStruct {
+	var dbCreds helpers.DbCredsStruct
 	var err error
 
 	fmt.Print("Please enter the database hostname: ")

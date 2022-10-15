@@ -4,16 +4,6 @@
 
 package db
 
-// La structure utilisée pour créer la bd originale
-type DbCredsStruct struct {
-	Hostname   string `json:"hostname" yaml:"hostname"`
-	Port       int    `json:"port" yaml:"port"`
-	RootUsr    string `json:"rootusr" yaml:"rootusr"`
-	RootPasswd string `json:"rootpasswd" yaml:"rootpasswd"`
-	DbUsr      string `json:"dbusr" yaml:"dbusr"`
-	DbPasswd   string `json:"dbpasswd" yaml:"dbpasswd"`
-}
-
 // table: config.hypervisors
 type DbHypervisors struct {
 	HID             uint8  `json:"id" yaml:"id"`
