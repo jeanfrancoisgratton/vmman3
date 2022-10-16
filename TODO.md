@@ -2,17 +2,15 @@ __legend__<br>
 `x` means enough done for a release, more to come in subsequent releases<br>
 `xx` means that this item is feature-completed<br>
 `-` means that this is slated for a subsequent release<br>
+`..` means that this was finally rejected
 ` ` means it hasn't been started.
 <br><br><br>
 __ROADMAP__
-<<<<<<< HEAD
-=======
 
 [ x ] - QEMU connection string defaults to root@some-host.
 This needs to change with both a -u param, and/or a default value in some JSON file, and/or a DB value.
->>>>>>> 0.300
 
-[ x ] - QEMU connection string defaults to root@some-host.
+[ xx ] - QEMU connection string defaults to root@some-host.
 This needs to change with both a -u param, and/or a default value in some JSON file, and/or a DB value.
 
 [   ] - Allows for some locking mechanism:
@@ -20,7 +18,7 @@ Say that you have a vm create running against a specific template, on a given hy
 If you wanted to create a VM with the same template on another hypervisor, we'll need a mechanism to notify the
 Process that it's OK (or not) to proceed.
 
-[ x ] - Everything under helpers/ should be under its proper package.
+[ .. ] - Everything under helpers/ should be under its proper package.
 That's a relic from the Helper class in Python3's version, vmman1.
 
 [   ] - Learn GoLang Generics:
@@ -34,20 +32,12 @@ This needs to be reset (drop sequence, recreate with higher value).
 
 [ - ] - Template subcommands.
 
-<<<<<<< HEAD
 [   ] - Completion of the snapshot package.
-=======
-[ ] - Completion of the snapshot package.
->>>>>>> 0.300
 
 [ x ] - Completion of the vm_management package: Stop[All]/Start[All]/Reset[All].
 
 [ - ] - New package: pool_storage.
 
-<<<<<<< HEAD
-[   ] - New package: resources (? could be folded into `vm_management` ?).
+[ - ] - New package: resources (? could be folded into `vm_management` ?).
 
 [   ] - New package : cluster (? might not need this one anymore, unsure)
-=======
-[ ] - New package: resources (? could be folded into `vm_management` ?).
->>>>>>> 0.300
