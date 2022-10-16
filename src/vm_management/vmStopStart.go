@@ -7,19 +7,14 @@ package vm_management
 import (
 	"fmt"
 	"libvirt.org/go/libvirt"
-	"os"
-	"vmman3/db"
 	"vmman3/helpers"
 	"vmman3/inventory"
 )
 
-// TODO: MAKE HYPERVISOR-AWARE
-// 1. Stop the VM
-// 2. UpdateDB (laststatuschange)
-// 3. updatedb (online = false)
 func Stop(args []string) {
 	var bIsActive bool
 	conn, err := libvirt.NewConnect(helpers.ConnectURI)
+
 	if err != nil {
 		lverr, ok := err.(libvirt.Error)
 		if ok && lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" {
@@ -44,6 +39,9 @@ func Stop(args []string) {
 				fmt.Println(err)
 			} else {
 				fmt.Printf("done\n")
+				// This is where we update the vmstates table
+				_, _, host := helpers.SplitConnectURI(helpers.ConnectURI)
+				helpers.VMstateChange(host, vmname)
 			}
 		}
 	}
@@ -51,36 +49,14 @@ func Stop(args []string) {
 
 func StopAll() {
 	var vmlist []string
-	var hyps []db.DbHypervisors
+	domains := inventory.GetVMlist()
 
-	if helpers.BAllHypervisors {
-		hyps = inventory.ListHypervisors()
-	} else {
-		if helpers.BSingleHypervisor {
-			host, _ := os.Hostname()
-			hyps = []db.DbHypervisors{{HID: 0, Hname: host, Haddress: "127.0.0.1", Hconnectinguser: ""}}
-		} else {
-			hyps = []db.DbHypervisors{{HID: 0, Hname: helpers.ConnectURI, Haddress: helpers.ConnectURI}}
+	for _, domain := range domains {
+		var _, err = domain.GetID()
+		if err == nil { // this means GetID() returned an ID, thus the VM is not shutdown (could be paused)
+			vmname, _ := domain.GetName()
+			vmlist = append(vmlist, vmname)
 		}
 	}
-
-	// First step: get the connection URI for a given hypervisor, and then iterate+connect on them
-	for _, v := range hyps {
-		if v.Haddress == "127.0.0.1" && v.Hconnectinguser == "" {
-			helpers.ConnectURI = "qemu:///system"
-		} else {
-			helpers.ConnectURI = fmt.Sprintf("qemu+ssh://%s@%s/system", v.Hconnectinguser, v.Haddress)
-		}
-		// Second step: Fetch VM list on that hypervisor
-		domains := inventory.GetVMlist()
-
-		for _, domain := range domains {
-			var _, err = domain.GetID()
-			if err == nil {
-				vmname, _ := domain.GetName()
-				vmlist = append(vmlist, vmname)
-			}
-		}
-		Stop(vmlist)
-	}
+	Stop(vmlist)
 }
