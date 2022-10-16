@@ -8,15 +8,16 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/jackc/pgx/v4"
 	"log"
 	"os"
 	"vmman3/helpers"
+
+	"github.com/jackc/pgx/v4"
 )
 
 // Import() : injecte un JSON/YAML dans la BD. LA TABLE SE DOIT D'ÊTRE VIDE. Hard-requirement
 func Import(directory string) {
-	creds := Json2creds()
+	creds := helpers.Json2creds()
 	hypervisors := getHypervisorTable(directory)
 	storagePools := getStoragePoolTable(directory)
 	vmStates := getVMStatesTable(directory)

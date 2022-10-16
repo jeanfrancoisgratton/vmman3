@@ -11,11 +11,12 @@ import (
 	"log"
 	"os"
 	"vmman3/db"
+	"vmman3/helpers"
 )
 
 func ListHypervisors() []db.DbHypervisors {
 	ctx := context.Background()
-	creds := db.Json2creds()
+	creds := helpers.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
 	dbconn, err := pgx.Connect(ctx, connString)
 	if err != nil {
@@ -30,7 +31,7 @@ func ListHypervisors() []db.DbHypervisors {
 func getInfoFromDB(hostname string, hypervisor string) (string, string, string) {
 	var statechange, operatingsystem, storagepool string
 	ctx := context.Background()
-	creds := db.Json2creds()
+	creds := helpers.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
 	dbconn, err := pgx.Connect(ctx, connString)
 	if err != nil {

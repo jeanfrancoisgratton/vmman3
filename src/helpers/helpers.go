@@ -6,23 +6,38 @@ package helpers
 
 import (
 	"fmt"
-	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"golang.org/x/crypto/ssh/terminal"
 )
 
-// var BsingleHypervisor bool
-var BSingleHypervisor = false
-var BAllHypervisors = false
+// var BSingleHypervisor = false
+var BAllHypervisors = true
 var EnvironmentFile string
-var ConnectURI string // qemu:///system
+var ConnectURI string
 
-// GetRCdir() : retourne le répertoire de configurations de l'usager
-func GetRCdir() string {
-	rcDir, _ := os.UserHomeDir()
+// SurroundText()
+// Fonction stupide pour afficher du texte "proprement" (avec un header-footer)
+func SurroundText(text string, clearScr bool) {
+	if clearScr == true {
+		fmt.Println("\x1bc")
+	}
 
-	return rcDir + "/.config/vmman3/"
+	txLen := len(text)
+	i := 0
+	eq := ""
+
+	for i < txLen {
+		eq += "="
+		i += 1
+	}
+
+	fmt.Println(eq)
+	fmt.Println(text)
+	fmt.Println(eq)
+	fmt.Println()
 }
 
 // BuildPath() : une fonction pour construire le full pathname d'un fichier
@@ -67,4 +82,50 @@ func GetPassword(prompt string) string {
 
 	// Return the password as a string.
 	return string(p)
+}
+
+// CheckNOENT() : Vérifie si le fichier existe, les perms sont OK, ou autre
+func CheckNOENT(directory string, file string) bool {
+	fullpath := BuildPath(directory, file)
+	bExists := true
+
+	_, err := os.Stat(fullpath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			fmt.Printf("File %s either does not exist or has permission issues. Aborting.\n", fullpath)
+			bExists = false
+		} else {
+			fmt.Printf("Unhandled error with file %s :\n%s.\nAborting.\n", fullpath, err)
+			bExists = false
+		}
+	}
+	return bExists
+}
+
+// checkIfConfigExists() : Vérifie si le répertoire existe; s'il existe, vérifie si le fichier de config existe
+func CheckIfConfigExists() (string, bool) {
+	//vmman3rcdir := GetRCdir()
+	vmman3rcdir, _ := os.UserHomeDir()
+	vmman3rcdir += "/.config/vmman3/"
+
+	_, err := os.Stat(vmman3rcdir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			os.Mkdir(vmman3rcdir, 0700)
+		} else {
+			panic(err)
+		}
+	}
+	vmman3rcdir += EnvironmentFile
+
+	_, err = os.Stat(vmman3rcdir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return vmman3rcdir, false
+		} else {
+			panic(err)
+		}
+	}
+
+	return vmman3rcdir, true
 }

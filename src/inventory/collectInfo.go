@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// src/inventory/marshallInfo.go
+// src/inventory/collectInfo.go
 // 2022-09-17 14:01:35
 
 package inventory
@@ -7,11 +7,12 @@ package inventory
 import (
 	"fmt"
 	"libvirt.org/go/libvirt"
+	"os"
 	"vmman3/helpers"
 	"vmman3/snapshot_management"
 )
 
-// FIXME: needs cleanup and/or readability fixes
+// TODO: needs cleanup and/or readability fixes
 // collectInfo(hypervisorname string) : Inventaire détaillé des VMs
 func collectInfo(hypervisorname string) []vmInfo {
 	var snapshotflags libvirt.DomainSnapshotListFlags
@@ -29,7 +30,7 @@ func collectInfo(hypervisorname string) []vmInfo {
 	if err != nil {
 		lverr, ok := err.(libvirt.Error)
 		if ok && lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" {
-			fmt.Printf("Hypervisor %s is pffline\n", helpers.ConnectURI)
+			fmt.Printf("Hypervisor %s is offline\n", helpers.ConnectURI)
 			return nil
 		} else {
 			panic(err)
@@ -43,7 +44,12 @@ func collectInfo(hypervisorname string) []vmInfo {
 			i.viId = 0
 		}
 		// NOTE: the following struct member is near-useless. Might be removed in future versions
-		i.viHypervisor = hypervisorname
+		if hypervisorname == "qemu:///system" {
+			i.viHypervisor, _ = os.Hostname()
+		} else {
+			i.viHypervisor = hypervisorname
+		}
+
 		// VM NAME
 		i.viName, _ = dom.GetName()
 		// VM STATE
@@ -65,13 +71,12 @@ func collectInfo(hypervisorname string) []vmInfo {
 			i.viCurrentSnapshot = "n/a"
 		}
 
-		i.viLastStatusChange, i.viOperatingSystem, i.viStoragePool = getInfoFromDB(i.viName, hypervisorname)
+		i.viLastStatusChange, i.viOperatingSystem, i.viStoragePool = getInfoFromDB(i.viName, i.viHypervisor)
 
 		vmspec = append(vmspec, vmInfo{viId: i.viId, viName: i.viName, viState: getStateHelper(dState), viMem: specs.Memory / 1024, viCpu: specs.NrVirtCpu,
 			viSnapshot: uint(numsnap), viCurrentSnapshot: i.viCurrentSnapshot, viInterfaceName: i.viInterfaceName, viIPaddress: i.viIPaddress, viLastStatusChange: i.viLastStatusChange,
 			viOperatingSystem: i.viOperatingSystem, viStoragePool: i.viStoragePool, viHypervisor: i.viHypervisor})
 	}
-
 	return vmspec
 }
 

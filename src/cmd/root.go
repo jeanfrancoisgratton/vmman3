@@ -3,14 +3,16 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"os"
+	"strings"
 	"vmman3/helpers"
+
+	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
 
-var version = "0.320 (2022.10.03)"
+var version = "0.300 (2022.10.03)"
 
 var rootCmd = &cobra.Command{
 	Use:     "vmman3",
@@ -40,34 +42,29 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "qemu:///system/", "Hypervisor URI.")
+	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "qemu:///system", "Target hypervisor")
 	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "environment.json", "Environment file.")
-	rootCmd.PersistentFlags().BoolVarP(&helpers.BSingleHypervisor, "singleHypervisor", "1", false, "Connects to local hypervisor")
 	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", false, "Make vmman multi hypervisor-aware")
 }
 
-// -a will always override -1 and -c $HYPERVISOR_NAME
-// -1 will always override -c $HYPERVISOR_NAME : if -1 is set, it will act as if -c is set to qemu:///system
+// -a will always override -c $HYPERVISOR_NAME
 func initConfig() {
 	helpers.ConnectURI, _ = rootCmd.Flags().GetString("connection")
 	helpers.EnvironmentFile, _ = rootCmd.Flags().GetString("environment")
 	helpers.BAllHypervisors, _ = rootCmd.Flags().GetBool("allHypervisors")
-	helpers.BSingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
+	//helpers.BSingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
 
-	// FIXME FIXME FIXME:
-	// no flag screws ssh @ qemu URI
-	if helpers.ConnectURI != "qemu:///system/" {
-		helpers.BAllHypervisors = false
-		helpers.BSingleHypervisor = false
+	// Checks if environment file name ends with ".json"
+	if !strings.HasSuffix(helpers.EnvironmentFile, ".json") {
+		helpers.EnvironmentFile += ".json"
 	}
 
+	// Some logic to avoid parameter clash
 	if helpers.BAllHypervisors {
-		helpers.BSingleHypervisor = false
 		helpers.ConnectURI = ""
 	} else {
-		if helpers.BSingleHypervisor {
-			helpers.BAllHypervisors = false
-			helpers.ConnectURI = ""
+		if helpers.ConnectURI != "qemu:///system" {
+			helpers.ConnectURI = "qemu+ssh://" + helpers.BuildConnectURI(helpers.ConnectURI) + "@" + helpers.ConnectURI + "/system"
 		}
 	}
 }

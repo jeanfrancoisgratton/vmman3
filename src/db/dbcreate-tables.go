@@ -12,7 +12,7 @@ import (
 )
 
 // createTablesSchemas() : crée la bd, schemas et tables
-// FIXME : transactions, anyone ? :p
+// TODO : transactions, anyone ? :p
 func createTablesSchemas(hostname string, port int) {
 	connString := fmt.Sprintf("postgresql://vmman:vmman@%s:%d/vmman", hostname, port)
 	ctx := context.Background()

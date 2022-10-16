@@ -1,4 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-go build -o /opt/bin/vmman .
+OUTPUT=/opt/bin
+
+if [ "$#" -gt 0 ]; then
+    OUTPUT=$1
+fi
+go build -o ${OUTPUT}/vmman .
 

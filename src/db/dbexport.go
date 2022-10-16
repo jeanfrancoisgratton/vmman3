@@ -13,13 +13,25 @@ import (
 	"github.com/jackc/pgx/v4"
 	"log"
 	"os"
+	"vmman3/helpers"
 )
 
 // Export() : point d'entrée de l'exportation
 func Export(filename string) {
-	creds := Json2creds()
+	creds := helpers.Json2creds()
 
-	createDumpDir(filename)
+	// Create the dump dir
+	_, err := os.Stat(filename)
+
+	if err != nil {
+		if os.IsNotExist(err) {
+			os.MkdirAll(filename, 0755)
+		} else {
+			panic(err)
+		}
+	}
+	os.Chdir(filename)
+
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
 	dbconn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {

@@ -5,52 +5,76 @@
 package helpers
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
+	"log"
 	"os"
+	"strings"
+
+	"github.com/jackc/pgx/v4"
 )
 
-// CheckNOENT() : Vérifie si le fichier existe, les perms sont OK, ou autre
-func CheckNOENT(directory string, file string) bool {
-	fullpath := BuildPath(directory, file)
-	bExists := true
-
-	_, err := os.Stat(fullpath)
-	if err != nil {
-		if os.IsNotExist(err) {
-			fmt.Printf("File %s either does not exist or has permission issues. Aborting.\n", fullpath)
-			bExists = false
-		} else {
-			fmt.Printf("Unhandled error with file %s :\n%s.\nAborting.\n", fullpath, err)
-			bExists = false
-		}
-	}
-	return bExists
+// La structure utilisée pour créer la bd originale
+type DbCredsStruct struct {
+	Hostname   string `json:"hostname" yaml:"hostname"`
+	Port       int    `json:"port" yaml:"port"`
+	RootUsr    string `json:"rootusr" yaml:"rootusr"`
+	RootPasswd string `json:"rootpasswd" yaml:"rootpasswd"`
+	DbUsr      string `json:"dbusr" yaml:"dbusr"`
+	DbPasswd   string `json:"dbpasswd" yaml:"dbpasswd"`
 }
 
-// checkIfConfigExists() : Vérifie si le répertoire existe; s'il existe, vérifie si le fichier de config existe
-// s'il existe, on l'efface, il sera écrasé plus tard
-func CheckIfConfigExists() string {
-	vmman3rcdir := GetRCdir()
+// BuildConnectURI() : Builds a PGSQL connection string from the ConnectURI string
+func BuildConnectURI(host string) string {
+	var username string
+	ctx := context.Background()
+	creds := Json2creds()
 
-	_, err := os.Stat(vmman3rcdir)
-	if err != nil {
-		if os.IsNotExist(err) {
-			os.Mkdir(vmman3rcdir, 0700)
-		} else {
-			panic(err)
-		}
-	}
-	vmman3rcdir += EnvironmentFile
+	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
 
-	_, err = os.Stat(vmman3rcdir)
+	dbconn, err := pgx.Connect(ctx, connString)
 	if err != nil {
-		if os.IsNotExist(err) {
-			return vmman3rcdir
-		} else {
-			panic(err)
-		}
-	} else {
-		os.Remove(vmman3rcdir)
+		log.Fatalln(err)
+		os.Exit(1)
 	}
-	return vmman3rcdir
+	defer dbconn.Close(ctx)
+
+	err = dbconn.QueryRow(ctx, "SELECT hconnectinguser FROM hypervisors WHERE hname='"+host+"';").Scan(&username)
+	if err != nil {
+		panic(err)
+	}
+	return username
+}
+
+// SplitConnectURI() : Extracts the username & host from the ConnectURI string
+func SplitConnectURI(uri string) (string, string, string) {
+	protoStr := strings.SplitAfter(uri, "://")
+	atNdx := strings.Index(protoStr[1], "@")
+	slashNdx := strings.Index(protoStr[1], "/")
+	user := protoStr[1][0:atNdx]
+	host := protoStr[1][atNdx+1 : slashNdx]
+
+	return protoStr[0], user, host
+}
+
+// creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
+func Creds2json(jsonFile string, creds DbCredsStruct) {
+	jStream, err := json.MarshalIndent(creds, "", "  ")
+	if err != nil {
+		fmt.Println("Error", err)
+	}
+	os.WriteFile(jsonFile, jStream, 0600)
+}
+
+func Json2creds() DbCredsStruct {
+	var payload DbCredsStruct
+	rcDir, _ := os.UserHomeDir()
+	rcFile := rcDir + "/.config/vmman3/" + EnvironmentFile
+	jFile, _ := os.ReadFile(rcFile)
+	err := json.Unmarshal(jFile, &payload)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	return payload
 }

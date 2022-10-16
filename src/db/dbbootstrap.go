@@ -2,30 +2,30 @@
 // db/db-bootstrap.go
 // 2022-08-22 20:02:37
 
-// FIXME FIXME FIXME
+// TODO
 // FILE NEEDS CLEANUP AND GETTING RID OF PASSWORD IN JSON DOCUMENT
-// FIXME FIXME FIXME
 
 package db
 
 import (
 	"context"
 	"fmt"
-	"github.com/jackc/pgx/v4"
 	"os"
 	"vmman3/helpers"
+
+	"github.com/jackc/pgx/v4"
 )
 
 // CreateDatabase() : action du db bootstrap
 func CreateDatabase() {
-	var creds DbCredsStruct
-	//connStr := "postgresql://<username>:<password>@<database_ip>:<port>/<dbname>?sslmode=disable
+	var creds helpers.DbCredsStruct
 
-	// checkIfConfigExists() needs extra cleanup (subdivisions)
-	rcFile := helpers.CheckIfConfigExists()
-	if rcFile != "" {
+	rcFile, ok := helpers.CheckIfConfigExists()
+	if ok {
+		creds = helpers.Json2creds()
+	} else {
 		creds = getCreds()
-		creds2json(rcFile, creds)
+		helpers.Creds2json(rcFile, creds)
 	}
 
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
@@ -43,8 +43,8 @@ func CreateDatabase() {
 }
 
 // getCreds() : collecte les credentials nécessaires pour se connecter à la BD PGSQL, et créer la BD vmman
-func getCreds() DbCredsStruct {
-	var dbCreds DbCredsStruct
+func getCreds() helpers.DbCredsStruct {
+	var dbCreds helpers.DbCredsStruct
 	var err error
 
 	fmt.Print("Please enter the database hostname: ")
