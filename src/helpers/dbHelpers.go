@@ -11,6 +11,7 @@ import (
 	"github.com/jackc/pgx/v4"
 	"log"
 	"os"
+	"strings"
 )
 
 // La structure utilisée pour créer la bd originale
@@ -23,7 +24,7 @@ type DbCredsStruct struct {
 	DbPasswd   string `json:"dbpasswd" yaml:"dbpasswd"`
 }
 
-// need getCreds....
+// BuildConnectURI() : Builds a PGSQL connection string from the ConnectURI string
 func BuildConnectURI(host string) string {
 	var username string
 	ctx := context.Background()
@@ -43,6 +44,17 @@ func BuildConnectURI(host string) string {
 		panic(err)
 	}
 	return username
+}
+
+// SplitConnectURI() : Extracts the username & host from the ConnectURI string
+func SplitConnectURI(uri string) (string, string, string) {
+	protoStr := strings.SplitAfter(uri, "://")
+	atNdx := strings.Index(protoStr[1], "@")
+	slashNdx := strings.Index(protoStr[1], "/")
+	user := protoStr[1][0:atNdx]
+	host := protoStr[1][atNdx+1 : slashNdx]
+
+	return protoStr[0], user, host
 }
 
 // creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
