@@ -58,6 +58,44 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Sun Oct 16 2022 builder <builder@famillegratton.net> 0.400-0
+- Finalized files for tag 0.400 (jean-francois@famillegratton.net)
+- ls completed (jean-francois@famillegratton.net)
+- completed vmman ls (jean-francois@famillegratton.net)
+- sync across devices (jean-francois@famillegratton.net)
+- completed URIbuilder (jean-francois@famillegratton.net)
+- another round of packages refactoring (jean-francois@famillegratton.net)
+- minor linting in the db package (jean-francois@famillegratton.net)
+- sync across devices (jean-francois@famillegratton.net)
+- cosmetic change (jean-francois@famillegratton.net)
+- Commenting format uniformizations (jean-francois@famillegratton.net)
+- Third attempt at fixing EnvironmentFile (jean-francois@famillegratton.net)
+- environmentfile improvements (jean-francois@famillegratton.net)
+- Moved tables from the "config" schema to the "public" one (jean-
+  francois@famillegratton.net)
+- Fixed unresolved var (jean-francois@famillegratton.net)
+- Enabled default environment file (jean-francois@famillegratton.net)
+- onliner to prettify the json file (jean-francois@famillegratton.net)
+- Roadmap update (jean-francois@famillegratton.net)
+- Packaging update for new release (jean-francois@famillegratton.net)
+- Rewriting stuff; reverting to old tags (jean-francois@famillegratton.net)
+- Packaging update for new release (jean-francois@famillegratton.net)
+- Roadmap update (jean-francois@famillegratton.net)
+- onliner to prettify the json file (jean-francois@famillegratton.net)
+- Enabled default environment file (jean-francois@famillegratton.net)
+- Moved tables from the "config" schema to the "public" one (jean-
+  francois@famillegratton.net)
+- fixes to vmman ls (jean-francois@famillegratton.net)
+- Completed vmstop (jean-francois@famillegratton.net)
+- renamed all pgsql-related "conn" vars to "dbconn" (jean-
+  francois@famillegratton.net)
+- Hopefully a logic fix to cli flags (jean-francois@famillegratton.net)
+- First stab at vm_management (jean-francois@famillegratton.net)
+- update FIXME (jean-francois@famillegratton.net)
+- Removed helpers.SurroundText() (jean-francois@famillegratton.net)
+- config dir change on OSX (jean-francois@famillegratton.net)
+- commit before switching (jean-francois@famillegratton.net)
+
 * Sun Sep 25 2022 builder <builder@famillegratton.net> 0.300-1
 - specfile fix (jean-francois@famillegratton.net)
 - GetConn() is not working, removed (jean-francois@famillegratton.net)
