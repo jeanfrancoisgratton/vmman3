@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// vm_management/vmStopStart.go
+// vm_management/vmStop.go
 // 2022-08-22 13:13:14
 
 package vm_management
@@ -12,7 +12,7 @@ import (
 	"vmman3/inventory"
 )
 
-func Stop(args []string) {
+func Start(args []string) {
 	var bIsActive bool
 	conn, err := libvirt.NewConnect(helpers.ConnectURI)
 
@@ -31,8 +31,8 @@ func Stop(args []string) {
 		domain, _ := conn.LookupDomainByName(vmname)
 
 		bIsActive, _ = domain.IsActive()
-		if !bIsActive {
-			fmt.Printf("Domain %s on %s is already shut down\n", vmname, helpers.ConnectURI)
+		if bIsActive {
+			fmt.Printf("Domain %s on %s is already shut up\n", vmname, helpers.ConnectURI)
 		} else {
 			err := domain.DestroyFlags(libvirt.DOMAIN_DESTROY_GRACEFUL)
 			fmt.Printf("Domain %s is being shut down ...", vmname)
@@ -53,7 +53,7 @@ func Stop(args []string) {
 	}
 }
 
-func StopAll() {
+func StartAll() {
 	var vmlist []string
 	domains := inventory.GetVMlist()
 
