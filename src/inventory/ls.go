@@ -45,13 +45,13 @@ func VmInventory() {
 
 	// Third step: display information
 	if helpers.BAllHypervisors {
-		fmt.Println("Registered domains on all hypervisors")
+		helpers.SurroundText("Registered domains on all hypervisors", false)
 	} else {
-		fmt.Println("All domains on hypervisor ", helpers.ConnectURI)
+		helpers.SurroundText(fmt.Sprintf("All domains on hypervisor %s", helpers.ConnectURI), false)
 	}
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
-	t.AppendHeader(table.Row{"ID", "VM name", "State", "vMem", "vCPUs", "Snaps", "Curr snap", "IP", "Last status chg", "Hypervisor", "OS", "Storage"})
+	t.AppendHeader(table.Row{"ID", "VM name", "State", "vMem", "vCPUs", "Snaps", "Curr snap", "IP", "Last status change", "Hypervisor", "OS", "Storage"})
 
 	for _, vmspec := range allVMspecs {
 		sID := ""

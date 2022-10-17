@@ -31,7 +31,7 @@ func BuildConnectURI(host string) string {
 	ctx := context.Background()
 	creds := Json2creds()
 
-	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 
 	dbconn, err := pgx.Connect(ctx, connString)
 	if err != nil {

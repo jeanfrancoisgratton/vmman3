@@ -37,7 +37,7 @@ func CreateDatabase() {
 	defer dbconn.Close(context.Background())
 
 	if createUser(dbconn, creds.DbUsr, creds.DbPasswd) {
-		createTablesSchemas(creds.Hostname, creds.Port)
+		createTablesSchemas(creds)
 	}
 }
 

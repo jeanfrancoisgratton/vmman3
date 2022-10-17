@@ -9,12 +9,13 @@ import (
 	"fmt"
 	"github.com/jackc/pgx/v5"
 	"os"
+	"vmman3/helpers"
 )
 
 // createTablesSchemas() : crée la bd, schemas et tables
 // TODO : transactions, anyone ? :p
-func createTablesSchemas(hostname string, port int) {
-	connString := fmt.Sprintf("postgresql://vmman:vmman@%s:%d/vmman", hostname, port)
+func createTablesSchemas(creds helpers.DbCredsStruct) {
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 	ctx := context.Background()
 
 	dbconn, err := pgx.Connect(ctx, connString)
@@ -111,8 +112,8 @@ func createTables(dbconn *pgx.Conn) {
 // setTableOwnership() : change la propriété des tables pour vmman
 func setTableOwnership(dbconn *pgx.Conn) {
 	ctx := context.Background()
-	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS storagePools OWNER to vmman;")
+	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS storagepools OWNER to vmman;")
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS hypervisors OWNER to vmman;")
-	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS vmStates OWNER to vmman;")
+	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS vmstates OWNER to vmman;")
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS clusters OWNER to vmman;")
 }

@@ -7,6 +7,7 @@ package vm_management
 import (
 	"fmt"
 	"libvirt.org/go/libvirt"
+	"os"
 	"vmman3/helpers"
 	"vmman3/inventory"
 )
@@ -26,6 +27,7 @@ func Stop(args []string) {
 	}
 
 	for _, vmname := range args {
+		var host string
 		domain, _ := conn.LookupDomainByName(vmname)
 
 		bIsActive, _ = domain.IsActive()
@@ -40,7 +42,11 @@ func Stop(args []string) {
 			} else {
 				fmt.Printf("done\n")
 				// This is where we update the vmstates table
-				_, _, host := helpers.SplitConnectURI(helpers.ConnectURI)
+				if helpers.ConnectURI == "qemu:///system" {
+					host, _ = os.Hostname()
+				} else {
+					_, _, host = helpers.SplitConnectURI(helpers.ConnectURI)
+				}
 				helpers.VMstateChange(host, vmname)
 			}
 		}

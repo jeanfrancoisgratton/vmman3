@@ -87,7 +87,7 @@ func getInterfaceSpecs(dom libvirt.Domain, vmname string) (string, string) {
 
 	domainInterface, err = dom.ListAllInterfaceAddresses(libvirt.DOMAIN_INTERFACE_ADDRESSES_SRC_AGENT)
 	if err != nil {
-		fmt.Println("Oooops: ", err)
+		fmt.Printf("\nOooops: %s\n\n", err)
 	}
 	for _, di := range domainInterface {
 		if len(di.Name) > 2 && (di.Name[:3] == "enp" || di.Name[:3] == "eth") {
