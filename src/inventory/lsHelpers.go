@@ -58,3 +58,29 @@ func GetVMlist() []libvirt.Domain {
 	defer conn.Close()
 	return doms
 }
+
+// Some of it might not be needed anymore...
+// getInterfaceSpecs(): this is where we get the interface name and its IP
+func getInterfaceSpecs(dom libvirt.Domain, vmname string) (string, string) {
+	var domainInterface []libvirt.DomainInterface
+	var interfaceName, interfaceAddress string
+	var err error
+
+	domainInterface, err = dom.ListAllInterfaceAddresses(libvirt.DOMAIN_INTERFACE_ADDRESSES_SRC_AGENT)
+	if err != nil {
+		fmt.Printf("\nOooops: %s\n\n", err)
+	}
+	for _, di := range domainInterface {
+		if len(di.Name) > 2 && (di.Name[:3] == "enp" || di.Name[:3] == "eth") {
+			interfaceName = di.Name
+			domainIPaddresses := di.Addrs
+			for _, dipa := range domainIPaddresses {
+				if dipa.Type == libvirt.IP_ADDR_TYPE_IPV4 {
+					interfaceAddress = dipa.Addr
+				}
+			}
+
+		}
+	}
+	return interfaceName, interfaceAddress
+}
