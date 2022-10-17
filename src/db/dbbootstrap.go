@@ -10,10 +10,9 @@ package db
 import (
 	"context"
 	"fmt"
+	"github.com/jackc/pgx/v5"
 	"os"
 	"vmman3/helpers"
-
-	"github.com/jackc/pgx/v4"
 )
 
 // CreateDatabase() : action du db bootstrap

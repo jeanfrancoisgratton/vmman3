@@ -8,11 +8,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/jackc/pgx/v5"
 	"log"
 	"os"
 	"vmman3/helpers"
-
-	"github.com/jackc/pgx/v4"
 )
 
 // Import() : injecte un JSON/YAML dans la BD. LA TABLE SE DOIT D'ÊTRE VIDE. Hard-requirement
