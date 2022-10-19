@@ -2,7 +2,7 @@
 %define _build_id_links none
 %define _name   vmman3
 %define _prefix /opt
-%define _version 0.400
+%define _version 0.500
 %define _rel 0
 %define _arch x86_64
 
@@ -19,7 +19,7 @@ Source0:    %{name}-%{_version}.tar.gz
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel,wget,gcc
 Requires: libvirt-devel,libvirt,virt-clone,sudo
-Obsoletes: vmman1 > 1.140
+#Obsoletes: vmman1 > 1.140
 
 %description
 GoLang-based libvirt client
