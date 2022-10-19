@@ -58,6 +58,15 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Wed Oct 19 2022 builder <builder@famillegratton.net> 0.500-0
+- Completed stop-start-reset (jean-francois@famillegratton.net)
+- before 0.420 (jean-francois@famillegratton.net)
+- minor refactoring (jean-francois@famillegratton.net)
+- Really fixed VMstateChange(), re-wrote most PGSQL connection strings (jean-
+  francois@famillegratton.net)
+- Updated PGX module to 5.0.3, even if it's a dev branch (jean-
+  francois@famillegratton.net)
+
 * Sun Oct 16 2022 builder <builder@famillegratton.net> 0.400-0
 - Added file needed to build (jean-francois@famillegratton.net)
   (builder@famillegratton.net)
