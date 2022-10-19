@@ -1,8 +1,8 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// vm_management/vmStop.go
+// vmmanagement/vmStop.go
 // 2022-08-22 13:13:14
 
-package vm_management
+package vmmanagement
 
 import (
 	"fmt"
@@ -32,10 +32,10 @@ func Start(args []string) {
 
 		bIsActive, _ = domain.IsActive()
 		if bIsActive {
-			fmt.Printf("Domain %s on %s is already shut up\n", vmname, helpers.ConnectURI)
+			fmt.Printf("Domain %s on %s is already up\n", vmname, helpers.ConnectURI)
 		} else {
-			err := domain.DestroyFlags(libvirt.DOMAIN_DESTROY_GRACEFUL)
-			fmt.Printf("Domain %s is being shut down ...", vmname)
+			err := domain.Create()
+			fmt.Printf("Domain %s is starting ...", vmname)
 			if err != nil {
 				fmt.Printf("\nERROR :\n")
 				fmt.Println(err)
@@ -59,10 +59,10 @@ func StartAll() {
 
 	for _, domain := range domains {
 		var _, err = domain.GetID()
-		if err == nil { // this means GetID() returned an ID, thus the VM is not shutdown (could be paused)
+		if err != nil { // this means GetID() did not return an ID, thus candidate to be started
 			vmname, _ := domain.GetName()
 			vmlist = append(vmlist, vmname)
 		}
 	}
-	Stop(vmlist)
+	Start(vmlist)
 }

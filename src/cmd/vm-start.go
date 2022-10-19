@@ -5,7 +5,7 @@
 package cmd
 
 import (
-	"fmt"
+	"vmman3/vmmanagement"
 
 	"github.com/spf13/cobra"
 )
@@ -14,19 +14,17 @@ import (
 var vmstartCmd = &cobra.Command{
 	Use:     "start",
 	Aliases: []string{"up"},
-	Short:   "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short:   "Start one or multiple VMs",
+	Long: `This command is used to start one or multiple virtual machines (VMs):
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+If more than a single VM needs to be started, you just add them to the commandline, space-separated..`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("vmstart called")
+		vmmanagement.Start(args)
 	},
 }
 
 func init() {
+	rootCmd.AddCommand(vmstartCmd)
 	vmCmd.AddCommand(vmstartCmd)
 
 	// Here you will define your flags and configuration settings.

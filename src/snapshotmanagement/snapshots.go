@@ -1,8 +1,8 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// snapshot_management/snapshot.go
+// snapshotmanagement/snapshot.go
 // 2022-08-16 17:51:19
 
-package snapshot_management
+package snapshotmanagement
 
 import (
 	"libvirt.org/go/libvirt"

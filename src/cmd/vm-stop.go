@@ -6,7 +6,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"vmman3/vm_management"
+	"vmman3/vmmanagement"
 )
 
 // vmstopCmd represents the vmstop command
@@ -16,9 +16,9 @@ var vmstopCmd = &cobra.Command{
 	Short:   "Stop one or multiple VMs",
 	Long: `This command is used to stop one or multiple virtual machines (VMs):
 
-If more than a single VM need to stopped, you just add them to the commandline, space-separated..`,
+If more than a single VM needs to be stopped, you just add them to the commandline, space-separated..`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vm_management.Stop(args)
+		vmmanagement.Stop(args)
 	},
 }
 

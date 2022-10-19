@@ -9,7 +9,7 @@ import (
 	"libvirt.org/go/libvirt"
 	"os"
 	"vmman3/helpers"
-	"vmman3/snapshot_management"
+	"vmman3/snapshotmanagement"
 )
 
 // TODO: needs cleanup and/or readability fixes
@@ -66,7 +66,7 @@ func collectInfo(hypervisorname string) []vmInfo {
 		d, _ := conn.LookupDomainByName(i.viName)
 		numsnap, _ = d.SnapshotNum(snapshotflags)
 		if numsnap > 0 {
-			i.viCurrentSnapshot = snapshot_management.GetCurrentSnapshotName(*conn, i.viName)
+			i.viCurrentSnapshot = snapshotmanagement.GetCurrentSnapshotName(*conn, i.viName)
 		} else {
 			i.viCurrentSnapshot = "n/a"
 		}

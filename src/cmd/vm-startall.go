@@ -4,7 +4,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
+	"vmman3/vmmanagement"
 
 	"github.com/spf13/cobra"
 )
@@ -12,10 +12,10 @@ import (
 // startallCmd represents the startall command
 var startallCmd = &cobra.Command{
 	Use:   "startall",
-	Short: "Start all VMs",
+	Short: "Starts all VMs",
 	Long:  `Starts all the VMs under the given hypervisor.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("startall called")
+		vmmanagement.StartAll()
 	},
 }
 

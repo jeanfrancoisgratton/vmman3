@@ -4,7 +4,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"vmman3/vm_management"
+	"vmman3/vmmanagement"
 
 	"github.com/spf13/cobra"
 )
@@ -15,7 +15,7 @@ var stopallCmd = &cobra.Command{
 	Short: "Stop all VMs",
 	Long:  `Stops all the VMs under the given hypervisor.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vm_management.StopAll()
+		vmmanagement.StopAll()
 	},
 }
 

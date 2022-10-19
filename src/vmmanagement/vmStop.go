@@ -1,8 +1,8 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// vm_management/vmStop.go
+// vmmanagement/vmStop.go
 // 2022-08-22 13:13:14
 
-package vm_management
+package vmmanagement
 
 import (
 	"fmt"
