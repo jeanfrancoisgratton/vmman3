@@ -11,6 +11,6 @@ type vmInfo struct {
 	viCpu, viSnapshot                               uint
 	viCurrentSnapshot, viInterfaceName, viIPaddress string
 	viHypervisor, viOperatingSystem                 string
-	viLastStatusChange                              int64
+	viLastStatusChange                              string // unix time
 	viStoragePool                                   string
 }

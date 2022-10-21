@@ -28,9 +28,8 @@ func ListHypervisors() []db.DbHypervisors {
 	return db.GetHypervisorData(dbconn)
 }
 
-func getInfoFromDB(hostname string, hypervisor string) (int64, string, string) {
-	var operatingsystem, storagepool string
-	var statechange int64
+func getInfoFromDB(hostname string, hypervisor string) (string, string, string) {
+	var statechange, operatingsystem, storagepool string
 	ctx := context.Background()
 	creds := helpers.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:vmman@%s:%d/vmman", creds.DbUsr, creds.Hostname, creds.Port)

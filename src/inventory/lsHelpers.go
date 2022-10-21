@@ -7,6 +7,7 @@ package inventory
 import (
 	"fmt"
 	"libvirt.org/go/libvirt"
+	"strconv"
 	"time"
 	"vmman3/helpers"
 )
@@ -87,8 +88,9 @@ func getInterfaceSpecs(dom libvirt.Domain, vmname string) (string, string) {
 }
 
 // getUptime() : gets the active VM's uptime from the database
-func getUptime(lastState int64) string {
+func getUptime(lastState string) string {
 	//stateInDB := time.Unix(lastState, 0)
+	a, _ := strconv.ParseInt(lastState, 10, 64)
 	//deltaUnix := time.Now().Unix() - lastState
-	return time.Unix(time.Now().Unix()-lastState, 0).Format("2006.01.02 15:04:05")
+	return time.Unix(time.Now().Unix()-a, 0).Format("2006.01.02 15:04:05")
 }

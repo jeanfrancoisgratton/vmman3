@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"libvirt.org/go/libvirt"
 	"os"
-	"time"
 	"vmman3/helpers"
 	"vmman3/snapshotmanagement"
 )
@@ -18,7 +17,6 @@ import (
 func collectInfo(hypervisorname string) []vmInfo {
 	var snapshotflags libvirt.DomainSnapshotListFlags
 	var numsnap int
-	var lastSeen string
 	var vmspec []vmInfo
 	var i vmInfo
 	var dState libvirt.DomainState
@@ -76,13 +74,11 @@ func collectInfo(hypervisorname string) []vmInfo {
 		i.viLastStatusChange, i.viOperatingSystem, i.viStoragePool = getInfoFromDB(i.viName, i.viHypervisor)
 		if i.viId > 0 {
 			// time.Unix(time.Now().Unix() - lastState, 0).Format("2006.01.02 15:04:05")
-			lastSeen = getUptime(i.viLastStatusChange)
-		} else {
-			lastSeen = time.Unix(i.viLastStatusChange, 0)
-
+			i.viLastStatusChange = getUptime(i.viLastStatusChange)
 		}
+
 		vmspec = append(vmspec, vmInfo{viId: i.viId, viName: i.viName, viState: getStateHelper(dState), viMem: specs.Memory / 1024, viCpu: specs.NrVirtCpu,
-			viSnapshot: uint(numsnap), viCurrentSnapshot: i.viCurrentSnapshot, viInterfaceName: i.viInterfaceName, viIPaddress: i.viIPaddress, viLastStatusChange: lastSeen,
+			viSnapshot: uint(numsnap), viCurrentSnapshot: i.viCurrentSnapshot, viInterfaceName: i.viInterfaceName, viIPaddress: i.viIPaddress, viLastStatusChange: i.viLastStatusChange,
 			viOperatingSystem: i.viOperatingSystem, viStoragePool: i.viStoragePool, viHypervisor: i.viHypervisor})
 	}
 	return vmspec
