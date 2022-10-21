@@ -81,7 +81,7 @@ func createTables(dbconn *pgx.Conn) {
 	_, err = dbconn.Exec(ctx, "CREATE TABLE IF NOT EXISTS vmstates "+
 		"(vmid integer NOT NULL DEFAULT nextval('\"vmstate_vmid_seq\"'::regclass), "+
 		"vmname character varying(24) NOT NULL, vmip character varying(15), vmonline boolean NOT NULL DEFAULT false, "+
-		"vmlaststatechange character varying(24) NOT NULL DEFAULT 'unknown', "+
+		"vmlaststatechange bigint NOT NULL DEFAULT 0, "+
 		"vmoperatingsystem character varying(50) NOT NULL DEFAULT 'linux', "+
 		"vmhypervisor character varying(24) NOT NULL, "+
 		"vmstoragepool character varying(24) NOT NULL DEFAULT 'vmpool', "+

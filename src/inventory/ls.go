@@ -51,7 +51,7 @@ func VmInventory() {
 	}
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
-	t.AppendHeader(table.Row{"ID", "VM name", "State", "vMem", "vCPUs", "Snaps", "Curr snap", "IP", "Last status change", "Hypervisor", "OS", "Storage"})
+	t.AppendHeader(table.Row{"ID", "VM name", "State", "vMem", "vCPUs", "Snaps", "Curr snap", "IP", "Last seen / uptime", "Hypervisor", "OS", "Storage"})
 
 	for _, vmspec := range allVMspecs {
 		sID := ""
@@ -64,6 +64,7 @@ func VmInventory() {
 		if vmspec.viId > 99 && vmspec.viId < 999 {
 			sID = fmt.Sprintf("0%d", vmspec.viId)
 		}
+		// time.Unix(image.Created, 0).Format("2006.01.02 15:04:05")
 		t.AppendRow([]interface{}{sID, vmspec.viName, vmspec.viState, vmspec.viMem, vmspec.viCpu, vmspec.viSnapshot, vmspec.viCurrentSnapshot, vmspec.viIPaddress, vmspec.viLastStatusChange, vmspec.viHypervisor, vmspec.viOperatingSystem, vmspec.viStoragePool})
 
 	}

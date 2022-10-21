@@ -64,7 +64,7 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 	for _, v := range vms {
 		sqlStr := fmt.Sprintf("INSERT INTO vmstates "+
 			"(vmid, vmname, vmip, vmonline,vmlaststatechange,vmoperatingsystem,vmhypervisor,vmstoragepool) VALUES "+
-			"(%d,'%s','%s',%t,'%s','%s','%s','%s');", v.VmID, v.VmName, v.VmIP, v.VmOnline, v.VmLastStateChange, v.VmOperatingSystem, v.VmHypervisor, v.VmStoragePool)
+			"(%d,'%s','%s',%t,'%d','%s','%s','%s');", v.VmID, v.VmName, v.VmIP, v.VmOnline, v.VmLastStateChange, v.VmOperatingSystem, v.VmHypervisor, v.VmStoragePool)
 		_, err := dbconn.Exec(ctx, sqlStr)
 		if err != nil {
 			panic(err)

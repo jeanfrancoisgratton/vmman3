@@ -5,11 +5,12 @@
 package inventory
 
 type vmInfo struct {
-	viId                                                uint
-	viName, viState                                     string
-	viMem                                               uint64
-	viCpu, viSnapshot                                   uint
-	viCurrentSnapshot, viInterfaceName, viIPaddress     string
-	viLastStatusChange, viHypervisor, viOperatingSystem string
-	viStoragePool                                       string
+	viId                                            uint
+	viName, viState                                 string
+	viMem                                           uint64
+	viCpu, viSnapshot                               uint
+	viCurrentSnapshot, viInterfaceName, viIPaddress string
+	viHypervisor, viOperatingSystem                 string
+	viLastStatusChange                              int64
+	viStoragePool                                   string
 }

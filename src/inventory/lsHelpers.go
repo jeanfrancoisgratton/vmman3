@@ -7,10 +7,11 @@ package inventory
 import (
 	"fmt"
 	"libvirt.org/go/libvirt"
+	"time"
 	"vmman3/helpers"
 )
 
-// getStateHelper() : transforme la variable DomainState (un int, en fait) en string
+// getStateHelper() : gets DomainState value and transforms it in a string
 func getStateHelper(state libvirt.DomainState) string {
 	ds := ""
 	switch state {
@@ -83,4 +84,11 @@ func getInterfaceSpecs(dom libvirt.Domain, vmname string) (string, string) {
 		}
 	}
 	return interfaceName, interfaceAddress
+}
+
+// getUptime() : gets the active VM's uptime from the database
+func getUptime(lastState int64) string {
+	//stateInDB := time.Unix(lastState, 0)
+	//deltaUnix := time.Now().Unix() - lastState
+	return time.Unix(time.Now().Unix()-lastState, 0).Format("2006.01.02 15:04:05")
 }
