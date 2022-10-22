@@ -42,7 +42,7 @@ func Drop() {
 	ctx := context.Background()
 	var confirmation string
 
-	fmt.Println("WARNING !!! This operation is irreversible. Are you sure you want to continue [Y/n] ?")
+	fmt.Print("WARNING !!! Host: " + creds.Hostname + ": This operation is irreversible. Are you sure you want to continue [Y/n] ? ")
 	fmt.Scanln(&confirmation)
 
 	if !strings.HasPrefix(strings.ToLower(confirmation), "y") {

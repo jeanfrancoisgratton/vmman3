@@ -112,7 +112,7 @@ func createTables(dbconn *pgx.Conn) {
 
 	_, err = dbconn.Exec(ctx, "CREATE TABLE IF NOT EXISTS disks "+
 		"(did integer NOT NULL DEFAULT nextval('\"disks_did_seq\"'::regclass), "+
-		"dname character varying(50)[] NOT NULL, dpool character varying(50)[] NOT NULL, "+
+		"dname character varying(50) NOT NULL, dpool character varying(50) NOT NULL, "+
 		"dvm character varying(24) NOT NULL, dhypervisor character varying(24) NOT NULL, "+
 		"CONSTRAINT disks_pkey PRIMARY KEY (did));")
 	if err != nil {

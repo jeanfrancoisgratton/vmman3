@@ -16,7 +16,7 @@ import (
 	"vmman3/helpers"
 )
 
-// Export() : point d'entrée de l'exportation
+// Export() : Entry point
 func Export(filename string) {
 	creds := helpers.Json2creds()
 

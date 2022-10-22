@@ -124,7 +124,7 @@ func updateSequences(dbconn *pgx.Conn) {
 	if err != nil {
 		panic(err)
 	}
-	err = dbconn.QueryRow(ctx, "SELECT MAX(tid) FROM disks;").Scan(&did)
+	err = dbconn.QueryRow(ctx, "SELECT MAX(did) FROM disks;").Scan(&did)
 	if err != nil {
 		panic(err)
 	}

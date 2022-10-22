@@ -48,11 +48,11 @@ type dbTemplates struct {
 }
 
 type dbDisks struct {
-	DID         uint     `json:"id" yaml:"id"`
-	Dname       []string `json:"name" yaml:"name"`
-	Dpool       []string `json:"pool" yaml:"pool"`
-	Dvm         string   `json:"vm" yaml:"vm"`
-	Dhypervisor string   `json:"hypervisor" yaml:"hypervisor"`
+	DID         uint   `json:"id" yaml:"id"`
+	Dname       string `json:"name" yaml:"name"`
+	Dpool       string `json:"pool" yaml:"pool"`
+	Dvm         string `json:"vm" yaml:"vm"`
+	Dhypervisor string `json:"hypervisor" yaml:"hypervisor"`
 }
 
 //// structure d'info sur les tables
