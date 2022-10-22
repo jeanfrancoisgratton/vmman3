@@ -34,7 +34,7 @@ This needs to be reset (drop sequence, recreate with higher value).
 
 [    ] - Completion of the snapshot package.
 
-[ xx ] - Completion of the vm_management package: Stop[All]/Start[All]/Reset[All].
+[ x ] - Completion of the vm_management package: Stop[All]/Start[All]/Reset[All].
 
 [ - ] - New package: pool_storage.
 
@@ -42,4 +42,4 @@ This needs to be reset (drop sequence, recreate with higher value).
 
 [   ] - New package : cluster (? might not need this one anymore, unsure)
 
-[  ] - Minor: show uptime when VM is up, otherwise show Last status change
+[ - ] - Minor: show uptime when VM is up, otherwise show Last status change

@@ -15,6 +15,7 @@ func Changelog() {
 	fmt.Print(`
 VERSION		DATE			COMMENT
 -------		----			-------
+0.510		2022.10.22		vmman ls near-completion, completed DB commands for now
 0.500		2022.10.19		vmman up down reset completed
 0.400		2022.10.16		ls completed+fixed, all commands now fully hypervisor-aware
 0.300		2022.10.03		ls is completed, stop[All] near-completed

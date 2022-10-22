@@ -1,5 +1,5 @@
 Package: vmman3
-Version: 0.500-0
+Version: 0.510-0
 Architecture: amd64
 Maintainer: J.F.Gratton <nexus@famillegratton.net>
 Description: A golang-based libvirt client to manage VMs
