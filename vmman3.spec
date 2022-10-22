@@ -58,6 +58,15 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Sat Oct 22 2022 builder <builder@famillegratton.net> 0.510-0
+- Tag bump, db subcommands completed for this release, new table (jean-
+  francois@famillegratton.net)
+- Completed all tables (jean-francois@famillegratton.net)
+- package refactoring, new table, new db subcommand (jean-
+  francois@famillegratton.net)
+- Completed "uptime" in ls subcommand (jean-francois@famillegratton.net)
+- sync across devices (jean-francois@famillegratton.net)
+
 * Wed Oct 19 2022 builder <builder@famillegratton.net> 0.500-0
 - Completed stop-start-reset (jean-francois@famillegratton.net)
 - before 0.420 (jean-francois@famillegratton.net)
