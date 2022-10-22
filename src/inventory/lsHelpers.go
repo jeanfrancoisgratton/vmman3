@@ -92,5 +92,5 @@ func getUptime(lastState string) string {
 	//stateInDB := time.Unix(lastState, 0)
 	a, _ := strconv.ParseInt(lastState, 10, 64)
 	//deltaUnix := time.Now().Unix() - lastState
-	return time.Unix(time.Now().Unix()-a, 0).Format("2006.01.02 15:04:05")
+	return time.Unix(time.Now().Unix()-a, 0).Format("15:04:05")
 }

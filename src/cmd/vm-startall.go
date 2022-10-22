@@ -4,7 +4,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"vmman3/vmmanagement"
+	"vmman3/vm_management"
 
 	"github.com/spf13/cobra"
 )
@@ -15,7 +15,7 @@ var startallCmd = &cobra.Command{
 	Short: "Starts all VMs",
 	Long:  `Starts all the VMs under the given hypervisor.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vmmanagement.StartAll()
+		vm_management.StartAll()
 	},
 }
 

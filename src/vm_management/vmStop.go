@@ -2,7 +2,7 @@
 // vmmanagement/vmStop.go
 // 2022-08-22 13:13:14
 
-package vmmanagement
+package vm_management
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ import (
 	"vmman3/inventory"
 )
 
-func Start(args []string) {
+func Stop(args []string) {
 	var bIsActive bool
 	conn, err := libvirt.NewConnect(helpers.ConnectURI)
 
@@ -31,11 +31,11 @@ func Start(args []string) {
 		domain, _ := conn.LookupDomainByName(vmname)
 
 		bIsActive, _ = domain.IsActive()
-		if bIsActive {
-			fmt.Printf("Domain %s on %s is already up\n", vmname, helpers.ConnectURI)
+		if !bIsActive {
+			fmt.Printf("Domain %s on %s is already shut down\n", vmname, helpers.ConnectURI)
 		} else {
-			err := domain.Create()
-			fmt.Printf("Domain %s is starting ...", vmname)
+			err := domain.DestroyFlags(libvirt.DOMAIN_DESTROY_GRACEFUL)
+			fmt.Printf("Domain %s is being shut down ...", vmname)
 			if err != nil {
 				fmt.Printf("\nERROR :\n")
 				fmt.Println(err)
@@ -53,16 +53,16 @@ func Start(args []string) {
 	}
 }
 
-func StartAll() {
+func StopAll() {
 	var vmlist []string
 	domains := inventory.GetVMlist()
 
 	for _, domain := range domains {
 		var _, err = domain.GetID()
-		if err != nil { // this means GetID() did not return an ID, thus candidate to be started
+		if err == nil { // this means GetID() returned an ID, thus the VM is not shutdown (could be paused)
 			vmname, _ := domain.GetName()
 			vmlist = append(vmlist, vmname)
 		}
 	}
-	Start(vmlist)
+	Stop(vmlist)
 }

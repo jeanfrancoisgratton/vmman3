@@ -45,6 +45,7 @@ func Export(filename string) {
 	vmStates := getVmStateData(dbconn)
 	clusters := getClusterData(dbconn)
 	templates := getTemplateData(dbconn)
+	disks := getDisksData(dbconn)
 
 	if err := serialize(hypervisors, "hypervisors.json"); err != nil {
 		log.Fatalln(err)
@@ -59,6 +60,9 @@ func Export(filename string) {
 		log.Fatalln(err)
 	}
 	if err := serialize(templates, "templates.json"); err != nil {
+		log.Fatalln(err)
+	}
+	if err := serialize(disks, "disks.json"); err != nil {
 		log.Fatalln(err)
 	}
 }
@@ -190,4 +194,26 @@ func getTemplateData(dbconn *pgx.Conn) []dbTemplates {
 		}
 	}
 	return temps
+}
+
+// getDisksData(): imports the Disks table
+func getDisksData(dbconn *pgx.Conn) []dbDisks {
+	var disks []dbDisks
+
+	rows, err := dbconn.Query(context.Background(), "SELECT * from disks ORDER BY did")
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var dsk dbDisks
+		retcode := rows.Scan(&dsk.DID, &dsk.Dname, &dsk.Dpool, &dsk.Dvm, &dsk.Dhypervisor)
+		if retcode != nil {
+			fmt.Println("Error:", retcode)
+		} else {
+			disks = append(disks, dsk)
+		}
+	}
+	return disks
 }

@@ -4,7 +4,7 @@
 
 package db
 
-// table: config.hypervisors
+// table: hypervisors
 type DbHypervisors struct {
 	HID             uint8  `json:"id" yaml:"id"`
 	Hname           string `json:"name" yaml:"name"`
@@ -12,7 +12,7 @@ type DbHypervisors struct {
 	Hconnectinguser string `json:"connectinguser" yaml:"connectinguser"`
 }
 
-// table: config.storagepools
+// table: storagepools
 type dbStoragePools struct {
 	SpID    uint8  `json:"id" yaml:"id"`
 	SpName  string `json:"name" yaml:"name"`
@@ -20,25 +20,25 @@ type dbStoragePools struct {
 	SpOwner string `json:"owner" yaml:"owner"`
 }
 
-// table: config.vmstates
+// table: vmstates
 type dbVmStates struct {
 	VmID              uint8  `json:"id" yaml:"id"`
 	VmName            string `json:"name" yaml:"name"`
 	VmIP              string `json:"ip" yaml:"ip"`
 	VmOnline          bool   `json:"online" yaml:"online"`
-	VmLastStateChange int64  `json:"laststatechange" yaml:"laststatechange"`
+	VmLastStateChange string `json:"laststatechange" yaml:"laststatechange"`
 	VmOperatingSystem string `json:"os" yaml:"vmos"`
 	VmHypervisor      string `json:"hypervisor" yaml:"hypervisor"`
 	VmStoragePool     string `json:"storagepool" yaml:"storagepool"`
 }
 
-// table: config.clusters
+// table: clusters
 type dbClusters struct {
 	CID   uint8  `json:"id" yaml:"id"`
 	Cname string `json:"name" yaml:"name"`
 }
 
-// table: config.templates
+// table: templates
 type dbTemplates struct {
 	TID              uint8  `json:"id" yaml:"id"`
 	Tname            string `json:"name" yaml:"name"`
@@ -47,8 +47,16 @@ type dbTemplates struct {
 	ToperatingSystem string `json:"os" yaml:"os"`
 }
 
-// structure d'info sur les tables
-type tableInfo struct {
-	tablename     string
-	datastructure []interface{}
+type dbDisks struct {
+	DID         uint     `json:"id" yaml:"id"`
+	Dname       []string `json:"name" yaml:"name"`
+	Dpool       []string `json:"pool" yaml:"pool"`
+	Dvm         string   `json:"vm" yaml:"vm"`
+	Dhypervisor string   `json:"hypervisor" yaml:"hypervisor"`
 }
+
+//// structure d'info sur les tables
+//type tableInfo struct {
+//	tablename     string
+//	datastructure []interface{}
+//}

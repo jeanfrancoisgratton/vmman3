@@ -4,6 +4,16 @@
 
 package db
 
+import (
+	"context"
+	"fmt"
+	"github.com/jackc/pgx/v5"
+	"log"
+	"os"
+	"strings"
+	"vmman3/helpers"
+)
+
 // This might get converted to generics, at some point
 func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) ([]interface{}, []interface{}, []interface{}, []interface{}) {
 	dbH := make([]interface{}, len(hyps))
@@ -24,4 +34,31 @@ func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStat
 	}
 
 	return dbH, dbSP, dbVMs, dbC
+}
+
+func Drop() {
+	creds := helpers.Json2creds()
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
+	ctx := context.Background()
+	var confirmation string
+
+	fmt.Println("WARNING !!! This operation is irreversible. Are you sure you want to continue [Y/n] ?")
+	fmt.Scanln(&confirmation)
+
+	if !strings.HasPrefix(strings.ToLower(confirmation), "y") {
+		os.Exit(0)
+	}
+
+	dbconn, err := pgx.Connect(ctx, connString)
+	if err != nil {
+		log.Fatalln(err)
+		os.Exit(1)
+	}
+	defer dbconn.Close(ctx)
+
+	_, err = dbconn.Exec(ctx, "DROP DATABASE IF EXISTS vmman;")
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
 }

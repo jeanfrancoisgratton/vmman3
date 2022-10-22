@@ -22,6 +22,7 @@ func Import(directory string) {
 	vmStates := getVMStatesTable(directory)
 	vmClusters := getClustersTable(directory)
 	templates := getTemplatesTable(directory)
+	disks := getDisksTable(directory)
 
 	ctx := context.Background()
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
@@ -33,14 +34,14 @@ func Import(directory string) {
 	}
 	defer dbconn.Close(ctx)
 
-	structs2DB(dbconn, hypervisors, storagePools, vmStates, vmClusters, templates)
+	structs2DB(dbconn, hypervisors, storagePools, vmStates, vmClusters, templates, disks)
 	updateSequences(dbconn)
 }
 
 // structs2DB() : Injecte les structures dans la BD
 // Ce n'est pas la méthode la plus efficace : on fait un INSERT par ligne, mais la quantité
 // De données par table ne justifie pas l'emploi de transactions
-func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters, tpt []dbTemplates) {
+func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters, tpt []dbTemplates, dsk []dbDisks) {
 	ctx := context.Background()
 	// hyperviseurs
 	for _, h := range hyps {
@@ -64,7 +65,7 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 	for _, v := range vms {
 		sqlStr := fmt.Sprintf("INSERT INTO vmstates "+
 			"(vmid, vmname, vmip, vmonline,vmlaststatechange,vmoperatingsystem,vmhypervisor,vmstoragepool) VALUES "+
-			"(%d,'%s','%s',%t,'%d','%s','%s','%s');", v.VmID, v.VmName, v.VmIP, v.VmOnline, v.VmLastStateChange, v.VmOperatingSystem, v.VmHypervisor, v.VmStoragePool)
+			"(%d,'%s','%s',%t,'%s','%s','%s','%s');", v.VmID, v.VmName, v.VmIP, v.VmOnline, v.VmLastStateChange, v.VmOperatingSystem, v.VmHypervisor, v.VmStoragePool)
 		_, err := dbconn.Exec(ctx, sqlStr)
 		if err != nil {
 			panic(err)
@@ -87,11 +88,21 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 			panic(err)
 		}
 	}
+	// disks
+	for _, d := range dsk {
+		sqlStr := fmt.Sprintf("INSERT INTO disks (did, dname, dpool, dvm, dhypervisor) "+
+			"VALUES (%d, '%s', '%s', '%s', '%s');", d.DID, d.Dname, d.Dpool, d.Dvm, d.Dhypervisor)
+		_, err := dbconn.Exec(ctx, sqlStr)
+		if err != nil {
+			panic(err)
+		}
+	}
 }
 
 // updateSequences() : Le nextvalue n'est pas mis à jour après un db import
 func updateSequences(dbconn *pgx.Conn) {
 	var vmid, hid, spid, cid, tid uint8
+	var did uint
 	ctx := context.Background()
 	err := dbconn.QueryRow(ctx, "SELECT MAX(vmid) FROM vmstates;").Scan(&vmid)
 	if err != nil {
@@ -110,6 +121,10 @@ func updateSequences(dbconn *pgx.Conn) {
 		panic(err)
 	}
 	err = dbconn.QueryRow(ctx, "SELECT MAX(tid) FROM templates;").Scan(&tid)
+	if err != nil {
+		panic(err)
+	}
+	err = dbconn.QueryRow(ctx, "SELECT MAX(tid) FROM disks;").Scan(&did)
 	if err != nil {
 		panic(err)
 	}
@@ -134,6 +149,11 @@ func updateSequences(dbconn *pgx.Conn) {
 		panic(err)
 	}
 	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS templates_tid_seq RESTART WITH %d;", tid+1)
+	_, err = dbconn.Exec(ctx, sqlStr)
+	if err != nil {
+		panic(err)
+	}
+	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS disks_did_seq RESTART WITH %d;", did+1)
 	_, err = dbconn.Exec(ctx, sqlStr)
 	if err != nil {
 		panic(err)
@@ -224,4 +244,21 @@ func getTemplatesTable(directory string) []dbTemplates {
 		log.Fatalf("Unmarshal: %v", err)
 	}
 	return dbt
+}
+
+func getDisksTable(directory string) []dbDisks {
+	var dbd []dbDisks
+	fname := "disks.json"
+	if !helpers.CheckNOENT(directory, fname) {
+		os.Exit(1)
+	}
+	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+	if err != nil {
+		log.Printf("jsonFile.Get err   #%v ", err)
+	}
+	err = json.Unmarshal(jsonFile, &dbd)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+	return dbd
 }

@@ -55,6 +55,8 @@ func createSeqs(dbconn *pgx.Conn) {
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 	dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"templates_tid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
+	dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"disks_did_seq\" "+
+		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 }
 
 // createTables() : crée les tables dans la BD
@@ -81,7 +83,7 @@ func createTables(dbconn *pgx.Conn) {
 	_, err = dbconn.Exec(ctx, "CREATE TABLE IF NOT EXISTS vmstates "+
 		"(vmid integer NOT NULL DEFAULT nextval('\"vmstate_vmid_seq\"'::regclass), "+
 		"vmname character varying(24) NOT NULL, vmip character varying(15), vmonline boolean NOT NULL DEFAULT false, "+
-		"vmlaststatechange bigint NOT NULL DEFAULT 0, "+
+		"vmlaststatechange character varying(20) NOT NULL DEFAULT 'n/a', "+
 		"vmoperatingsystem character varying(50) NOT NULL DEFAULT 'linux', "+
 		"vmhypervisor character varying(24) NOT NULL, "+
 		"vmstoragepool character varying(24) NOT NULL DEFAULT 'vmpool', "+
@@ -107,6 +109,16 @@ func createTables(dbconn *pgx.Conn) {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
+
+	_, err = dbconn.Exec(ctx, "CREATE TABLE IF NOT EXISTS disks "+
+		"(did integer NOT NULL DEFAULT nextval('\"disks_did_seq\"'::regclass), "+
+		"dname character varying(50)[] NOT NULL, dpool character varying(50)[] NOT NULL, "+
+		"dvm character varying(24) NOT NULL, dhypervisor character varying(24) NOT NULL, "+
+		"CONSTRAINT disks_pkey PRIMARY KEY (did));")
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
 }
 
 // setTableOwnership() : change la propriété des tables pour vmman
@@ -116,4 +128,5 @@ func setTableOwnership(dbconn *pgx.Conn) {
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS hypervisors OWNER to vmman;")
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS vmstates OWNER to vmman;")
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS clusters OWNER to vmman;")
+	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS disks OWNER to vmman;")
 }

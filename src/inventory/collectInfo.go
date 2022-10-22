@@ -72,10 +72,12 @@ func collectInfo(hypervisorname string) []vmInfo {
 		}
 
 		i.viLastStatusChange, i.viOperatingSystem, i.viStoragePool = getInfoFromDB(i.viName, i.viHypervisor)
-		if i.viId > 0 {
-			// time.Unix(time.Now().Unix() - lastState, 0).Format("2006.01.02 15:04:05")
-			i.viLastStatusChange = getUptime(i.viLastStatusChange)
-		}
+
+		// uptime is not yet working, so commenting out that block
+		//if i.viId > 0 {
+		//	// time.Unix(time.Now().Unix() - lastState, 0).Format("2006.01.02 15:04:05")
+		//	i.viLastStatusChange = getUptime(i.viLastStatusChange)
+		//}
 
 		vmspec = append(vmspec, vmInfo{viId: i.viId, viName: i.viName, viState: getStateHelper(dState), viMem: specs.Memory / 1024, viCpu: specs.NrVirtCpu,
 			viSnapshot: uint(numsnap), viCurrentSnapshot: i.viCurrentSnapshot, viInterfaceName: i.viInterfaceName, viIPaddress: i.viIPaddress, viLastStatusChange: i.viLastStatusChange,
