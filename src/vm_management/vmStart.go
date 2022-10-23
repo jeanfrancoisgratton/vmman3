@@ -47,7 +47,7 @@ func Start(args []string) {
 				} else {
 					_, _, host = helpers.SplitConnectURI(helpers.ConnectURI)
 				}
-				helpers.VMstateChange(host, vmname)
+				helpers.VmStateChange(host, vmname)
 			}
 		}
 	}

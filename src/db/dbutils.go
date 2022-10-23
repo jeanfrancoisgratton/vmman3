@@ -36,6 +36,7 @@ func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStat
 	return dbH, dbSP, dbVMs, dbC
 }
 
+// Drop() : drop database
 func Drop() {
 	creds := helpers.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)

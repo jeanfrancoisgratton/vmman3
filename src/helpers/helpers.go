@@ -17,6 +17,7 @@ import (
 var BAllHypervisors = true
 var EnvironmentFile string
 var ConnectURI string
+var BkeepStorage = false
 
 // SurroundText()
 // Fonction stupide pour afficher du texte "proprement" (avec un header-footer)

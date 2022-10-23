@@ -23,6 +23,7 @@ If more than a single VM needs to be stopped, you just add them to the commandli
 }
 
 func init() {
+	rootCmd.AddCommand(vmstopCmd)
 	vmCmd.AddCommand(vmstopCmd)
 
 	// Here you will define your flags and configuration settings.
