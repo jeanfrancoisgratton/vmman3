@@ -41,13 +41,13 @@ func Remove(args []string) {
 			}
 		}
 		if !helpers.BkeepStorage {
-			storage := helpers.GetStorage4VM(vmname)
-			removeStorage(storage)
+			poolPaths, vmDisks := helpers.GetStorage4VM(vmname)
+			removeStorage(poolPaths, vmDisks)
 		}
 	}
 }
 
-func removeStorage(storage []helpers.VmStorageDetails) {
+func removeStorage(paths []string, disks []string) {
 	//for _, storespecs := range storage {
 	//	os.Remove()
 	//}

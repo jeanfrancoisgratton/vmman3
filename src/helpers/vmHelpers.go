@@ -11,14 +11,9 @@ import (
 	"libvirt.org/go/libvirt"
 	"log"
 	"os"
+	"strings"
 	"time"
 )
-
-type VmStorageDetails struct {
-	Poolname  string
-	Disknames []string
-	PoolPath  string
-}
 
 // VmStateChange() : updates the database with current VM state
 func VmStateChange(hypervisor string, vmname string) {
@@ -68,12 +63,12 @@ func Wait4Shutdown(vm *libvirt.Domain, vmname string) {
 }
 
 // GetStorage4VM() : Lists all disks from VM
-func GetStorage4VM(vmname string) []VmStorageDetails {
+func GetStorage4VM(vmname string) ([]string, []string) {
 	creds := Json2creds()
 	ctx := context.Background()
-	var sqlQuery string
-	var storage []VmStorageDetails
-	var configuredDisks []string
+	//var poolName string
+	//var configuredDisks []string
+	_, _, hypervisor := SplitConnectURI(ConnectURI)
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 
 	dbconn, err := pgx.Connect(ctx, connString)
@@ -82,51 +77,56 @@ func GetStorage4VM(vmname string) []VmStorageDetails {
 		os.Exit(1)
 	}
 	defer dbconn.Close(context.Background())
-	_, _, hypervisor := SplitConnectURI(ConnectURI)
 
-	// TODO: THIS NEEDS A FINER SQL QUERY
+	// FIXME: how do we know the order of the returned rows in 1 SQL query matches the order of the 2nd ?
 	// 1st: find the disks and storage pool for the given hypervisor+vm combination
-	sqlQuery = fmt.Sprintf("SELECT dname, dpool FROM disks WHERE dvm='%s' AND dhypervisor='%s';", vmname, hypervisor)
-	rows, err := dbconn.Query(ctx, sqlQuery)
-	if err != nil {
-		fmt.Println("Error: ", err)
-	}
-	defer rows.Close()
-	for rows.Next() {
-		//var sr VmStorageDetails
-		//retcode := rows.Scan(&sr.Diskname, &sr.Poolname)
-		//if retcode != nil {
-		//	fmt.Println("Error:", retcode)
-		//} else {
-		// append extension to volume name if it's not already there
-		//	if !strings.HasSuffix(sr.Diskname, ".qcow2") {
-		//		sr.Diskname += ".qcow2"
-	}
-	//		storage = append(storage, sr)
-	//	}
-	//}
+	configuredPools, configuredDisks := getDisks(dbconn, vmname, hypervisor)
 
-	return storage
+	// 2nd: find the storagepool paths
+	poolPaths := getStoragePoolPaths(dbconn, configuredPools, hypervisor)
+	return poolPaths, configuredDisks
 }
 
 // getDisks(): Fetches the disks for a given VM+hypervisor combination
-func getDisks(dbconn *pgx.Conn, vm string, hypervisor string) {
+func getDisks(dbconn *pgx.Conn, vm string, hypervisor string) ([]string, []string) {
+	var configuredPools []string
+	var configuredDisks []string
 
 	sqlQuery := fmt.Sprintf("SELECT dname, dpool FROM disks WHERE dvm='%s' AND dhypervisor='%s';", vm, hypervisor)
-
 	rows, err := dbconn.Query(context.Background(), sqlQuery)
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
 	defer rows.Close()
 	for rows.Next() {
-		//var sr VmStorageDetails
-		//retcode := rows.Scan(&sr.Diskname, &sr.Poolname)
-		//if retcode != nil {
-		//	fmt.Println("Error:", retcode)
-		//} else {
-		// append extension to volume name if it's not already there
-		//	if !strings.HasSuffix(sr.Diskname, ".qcow2") {
-		//		sr.Diskname += ".qcow2"
+		var dn, np string
+		retcode := rows.Scan(&dn, &np)
+		if retcode != nil {
+			fmt.Println("Error:", retcode)
+		} else {
+			// append extension to volume name if it's not already there
+			if !strings.HasSuffix(dn, ".qcow2") {
+				dn += ".qcow2"
+			}
+			configuredDisks = append(configuredDisks, dn)
+			configuredPools = append(configuredPools, np)
+		}
 	}
+	return configuredPools, configuredDisks
+}
+
+// getStoragePoolPaths(): Find the configured path for each defined storagepool used in the given hypervison
+func getStoragePoolPaths(dbconn *pgx.Conn, pools []string, hypervisor string) []string {
+	var paths []string
+	var pathname string
+
+	for _, sp := range pools {
+		sqlQuery := fmt.Sprintf("SELECT sppath FROM storagepools WHERE spname='%s' AND dhypervisor='%s';", sp, hypervisor)
+		err := dbconn.QueryRow(context.Background(), sqlQuery).Scan(&pathname)
+		if err != nil {
+			panic(err)
+		}
+		paths = append(paths, pathname)
+	}
+	return paths
 }
