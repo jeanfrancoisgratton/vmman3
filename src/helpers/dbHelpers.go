@@ -53,9 +53,9 @@ func SplitConnectURI(uri string) (string, string, string) {
 	atNdx := strings.Index(protoStr[1], "@")
 	slashNdx := strings.Index(protoStr[1], "/")
 	user := protoStr[1][0:atNdx]
-	host := protoStr[1][atNdx+1 : slashNdx]
+	hypervisor := protoStr[1][atNdx+1 : slashNdx]
 
-	return protoStr[0], user, host
+	return protoStr[0], user, hypervisor
 }
 
 // creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON

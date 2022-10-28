@@ -48,7 +48,7 @@ func Remove(args []string) {
 }
 
 func removeStorage(storage []helpers.VmStorageDetails) {
-	for _, storespecs := range storage {
-		os.Remove()
-	}
+	//for _, storespecs := range storage {
+	//	os.Remove()
+	//}
 }

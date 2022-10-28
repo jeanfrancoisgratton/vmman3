@@ -11,14 +11,13 @@ import (
 	"libvirt.org/go/libvirt"
 	"log"
 	"os"
-	"strings"
 	"time"
 )
 
 type VmStorageDetails struct {
-	Poolname string
-	Diskname string
-	PoolPath string
+	Poolname  string
+	Disknames []string
+	PoolPath  string
 }
 
 // VmStateChange() : updates the database with current VM state
@@ -74,6 +73,7 @@ func GetStorage4VM(vmname string) []VmStorageDetails {
 	ctx := context.Background()
 	var sqlQuery string
 	var storage []VmStorageDetails
+	var configuredDisks []string
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 
 	dbconn, err := pgx.Connect(ctx, connString)
@@ -82,32 +82,51 @@ func GetStorage4VM(vmname string) []VmStorageDetails {
 		os.Exit(1)
 	}
 	defer dbconn.Close(context.Background())
-	_, _, host := SplitConnectURI(ConnectURI)
+	_, _, hypervisor := SplitConnectURI(ConnectURI)
 
 	// TODO: THIS NEEDS A FINER SQL QUERY
-
-	// 1st: find the pathname for StoragePool
-	sqlQuery = fmt.Sprintf("SELECT spath FROM storagepools WHERE spiw='%s';",
-	sqlQuery := fmt.Sprintf("SELECT dname, dpool FROM disks WHERE dvm='%s' AND dhypervisor='%s';", vmname, host)
+	// 1st: find the disks and storage pool for the given hypervisor+vm combination
+	sqlQuery = fmt.Sprintf("SELECT dname, dpool FROM disks WHERE dvm='%s' AND dhypervisor='%s';", vmname, hypervisor)
 	rows, err := dbconn.Query(ctx, sqlQuery)
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
 	defer rows.Close()
-
 	for rows.Next() {
-		var sr VmStorageDetails
-		retcode := rows.Scan(&sr.Diskname, &sr.Poolname)
-		if retcode != nil {
-			fmt.Println("Error:", retcode)
-		} else {
-			// append extension to volume name if it's not already there
-			if !strings.HasSuffix(sr.Diskname, ".qcow2") {
-				sr.Diskname += ".qcow2"
-			}
-			storage = append(storage, sr)
-		}
+		//var sr VmStorageDetails
+		//retcode := rows.Scan(&sr.Diskname, &sr.Poolname)
+		//if retcode != nil {
+		//	fmt.Println("Error:", retcode)
+		//} else {
+		// append extension to volume name if it's not already there
+		//	if !strings.HasSuffix(sr.Diskname, ".qcow2") {
+		//		sr.Diskname += ".qcow2"
 	}
+	//		storage = append(storage, sr)
+	//	}
+	//}
 
 	return storage
+}
+
+// getDisks(): Fetches the disks for a given VM+hypervisor combination
+func getDisks(dbconn *pgx.Conn, vm string, hypervisor string) {
+
+	sqlQuery := fmt.Sprintf("SELECT dname, dpool FROM disks WHERE dvm='%s' AND dhypervisor='%s';", vm, hypervisor)
+
+	rows, err := dbconn.Query(context.Background(), sqlQuery)
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		//var sr VmStorageDetails
+		//retcode := rows.Scan(&sr.Diskname, &sr.Poolname)
+		//if retcode != nil {
+		//	fmt.Println("Error:", retcode)
+		//} else {
+		// append extension to volume name if it's not already there
+		//	if !strings.HasSuffix(sr.Diskname, ".qcow2") {
+		//		sr.Diskname += ".qcow2"
+	}
 }
