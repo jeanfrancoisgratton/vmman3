@@ -8,11 +8,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/jackc/pgx/v5"
 	"log"
 	"os"
 	"strings"
-
-	"github.com/jackc/pgx/v4"
 )
 
 // La structure utilisée pour créer la bd originale

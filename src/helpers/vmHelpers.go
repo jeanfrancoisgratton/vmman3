@@ -52,6 +52,8 @@ func Wait4Shutdown(vm *libvirt.Domain, vmname string) {
 			if bIsActive {
 				n -= 1
 				time.Sleep(1 * time.Second)
+			} else {
+				n = 0
 			}
 		}
 		bIsActive, _ = vm.IsActive()
@@ -64,11 +66,16 @@ func Wait4Shutdown(vm *libvirt.Domain, vmname string) {
 
 // GetStorage4VM() : Lists all disks from VM
 func GetStorage4VM(vmname string) ([]string, []string) {
+	var hypervisor string
 	creds := Json2creds()
 	ctx := context.Background()
 	//var poolName string
 	//var configuredDisks []string
-	_, _, hypervisor := SplitConnectURI(ConnectURI)
+	if ConnectURI == "qemu:///system" {
+		hypervisor, _ = os.Hostname()
+	} else {
+		_, _, hypervisor = SplitConnectURI(ConnectURI)
+	}
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 
 	dbconn, err := pgx.Connect(ctx, connString)
@@ -121,7 +128,7 @@ func getStoragePoolPaths(dbconn *pgx.Conn, pools []string, hypervisor string) []
 	var pathname string
 
 	for _, sp := range pools {
-		sqlQuery := fmt.Sprintf("SELECT sppath FROM storagepools WHERE spname='%s' AND dhypervisor='%s';", sp, hypervisor)
+		sqlQuery := fmt.Sprintf("SELECT sppath FROM storagepools WHERE spname='%s' AND (spowner='%s' or spowner='any');", sp, hypervisor)
 		err := dbconn.QueryRow(context.Background(), sqlQuery).Scan(&pathname)
 		if err != nil {
 			panic(err)

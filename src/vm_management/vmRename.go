@@ -13,7 +13,7 @@ import (
 
 func Rename(args []string) {
 	var snapshotflags libvirt.DomainSnapshotListFlags
-	
+
 	if len(args) < 2 {
 		fmt.Println("You need to provide a new name for the VM. Aborting")
 		os.Exit(0)
