@@ -13,8 +13,8 @@ import (
 
 func Rename(args []string) {
 	var snapshotflags libvirt.DomainSnapshotListFlags
-	var bIsActive bool
-	if len(args < 2) {
+	
+	if len(args) < 2 {
 		fmt.Println("You need to provide a new name for the VM. Aborting")
 		os.Exit(0)
 	}
@@ -37,6 +37,7 @@ func Rename(args []string) {
 		fmt.Println("You cannot rename " + oldName + " as this VM holds snapshots. The snapshots need to be removed, first.")
 		os.Exit(1)
 	}
+	helpers.Wait4Shutdown(vm, oldName)
 	vm.Rename(newName, 0)
 	fmt.Println("%s --> %s", oldName, newName)
 }
