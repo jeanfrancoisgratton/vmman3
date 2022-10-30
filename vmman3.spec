@@ -58,6 +58,13 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Sun Oct 30 2022 builder <builder@famillegratton.net> 0.525-0
+- Completed vm rm (jean-francois@famillegratton.net)
+- Completed vmRename (jean-francois@famillegratton.net)
+- New samples, new subcommand: vm rename (jean-francois@famillegratton.net)
+- Sync zenika-> (jean-francois@famillegratton.net)
+- sync across devices (jean-francois@famillegratton.net)
+
 * Sat Oct 22 2022 builder <builder@famillegratton.net> 0.510-0
 - Tag bump, db subcommands completed for this release, new table (jean-
   francois@famillegratton.net)
