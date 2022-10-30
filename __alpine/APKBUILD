@@ -2,7 +2,7 @@
 # PACKAGER: APK Builder <builder@famillegratton.net>
 pkgname=vmman3
 pkgver=0.525
-pkgrel=0
+pkgrel=1
 pkgdir=/data/packages
 builddir="$startdir/src/BUILD"
 pkgdesc="GO-based QEMU virtual machines manager"
