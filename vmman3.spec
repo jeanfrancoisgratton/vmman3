@@ -58,6 +58,10 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Sun Oct 30 2022 builder <builder@famillegratton.net> 0.525-1
+- vm-rename was not attached in cmd/ (jean-francois@famillegratton.net)
+- Doc update (jean-francois@famillegratton.net)
+
 * Sun Oct 30 2022 builder <builder@famillegratton.net> 0.525-0
 - Completed vm rm (jean-francois@famillegratton.net)
 - Completed vmRename (jean-francois@famillegratton.net)
