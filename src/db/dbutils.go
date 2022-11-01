@@ -15,7 +15,8 @@ import (
 )
 
 // This might get converted to generics, at some point
-func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) ([]interface{}, []interface{}, []interface{}, []interface{}) {
+// func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters) ([]interface{}, []interface{}, []interface{}, []interface{}) {
+func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates) ([]interface{}, []interface{}, []interface{}) {
 	dbH := make([]interface{}, len(hyps))
 	for i, v := range hyps {
 		dbH[i] = v
@@ -28,12 +29,13 @@ func interface2struct(hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStat
 	for i, v := range vms {
 		dbVMs[i] = v
 	}
-	dbC := make([]interface{}, len(vmc))
-	for i, v := range vmc {
-		dbC[i] = v
-	}
+	//dbC := make([]interface{}, len(vmc))
+	//for i, v := range vmc {
+	//	dbC[i] = v
+	//}
 
-	return dbH, dbSP, dbVMs, dbC
+	//return dbH, dbSP, dbVMs, dbC
+	return dbH, dbSP, dbVMs
 }
 
 // Drop() : drop database

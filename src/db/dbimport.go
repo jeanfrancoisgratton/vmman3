@@ -20,7 +20,7 @@ func Import(directory string) {
 	hypervisors := getHypervisorTable(directory)
 	storagePools := getStoragePoolTable(directory)
 	vmStates := getVMStatesTable(directory)
-	vmClusters := getClustersTable(directory)
+	//vmClusters := getClustersTable(directory)
 	templates := getTemplatesTable(directory)
 	disks := getDisksTable(directory)
 
@@ -34,14 +34,16 @@ func Import(directory string) {
 	}
 	defer dbconn.Close(ctx)
 
-	structs2DB(dbconn, hypervisors, storagePools, vmStates, vmClusters, templates, disks)
+	//structs2DB(dbconn, hypervisors, storagePools, vmStates, vmClusters, templates, disks)
+	structs2DB(dbconn, hypervisors, storagePools, vmStates, templates, disks)
 	updateSequences(dbconn)
 }
 
 // structs2DB() : Injecte les structures dans la BD
 // Ce n'est pas la méthode la plus efficace : on fait un INSERT par ligne, mais la quantité
 // De données par table ne justifie pas l'emploi de transactions
-func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters, tpt []dbTemplates, dsk []dbDisks) {
+// func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters, tpt []dbTemplates, dsk []dbDisks) {
+func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, tpt []dbTemplates, dsk []dbDisks) {
 	ctx := context.Background()
 	// hyperviseurs
 	for _, h := range hyps {
@@ -71,14 +73,14 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 			panic(err)
 		}
 	}
-	// clusters
-	for _, c := range vmc {
-		sqlStr := fmt.Sprintf("INSERT INTO clusters (cid, cname) VALUES (%d,'%s');", c.CID, c.Cname)
-		_, err := dbconn.Exec(ctx, sqlStr)
-		if err != nil {
-			panic(err)
-		}
-	}
+	//// clusters
+	//for _, c := range vmc {
+	//	sqlStr := fmt.Sprintf("INSERT INTO clusters (cid, cname) VALUES (%d,'%s');", c.CID, c.Cname)
+	//	_, err := dbconn.Exec(ctx, sqlStr)
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//}
 	// templates
 	for _, t := range tpt {
 		sqlStr := fmt.Sprintf("INSERT INTO templates (tid, tname, towner, tstoragepool) "+
@@ -101,7 +103,8 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vm
 
 // updateSequences() : Le nextvalue n'est pas mis à jour après un db import
 func updateSequences(dbconn *pgx.Conn) {
-	var vmid, hid, spid, cid, tid uint8
+	//var vmid, hid, spid, cid, tid uint8
+	var vmid, hid, spid, tid uint8
 	var did uint
 	ctx := context.Background()
 	err := dbconn.QueryRow(ctx, "SELECT MAX(vmid) FROM vmstates;").Scan(&vmid)
@@ -116,10 +119,10 @@ func updateSequences(dbconn *pgx.Conn) {
 	if err != nil {
 		panic(err)
 	}
-	err = dbconn.QueryRow(ctx, "SELECT MAX(cid) FROM clusters;").Scan(&cid)
-	if err != nil {
-		panic(err)
-	}
+	//err = dbconn.QueryRow(ctx, "SELECT MAX(cid) FROM clusters;").Scan(&cid)
+	//if err != nil {
+	//	panic(err)
+	//}
 	err = dbconn.QueryRow(ctx, "SELECT MAX(tid) FROM templates;").Scan(&tid)
 	if err != nil {
 		panic(err)
@@ -143,11 +146,11 @@ func updateSequences(dbconn *pgx.Conn) {
 	if err != nil {
 		panic(err)
 	}
-	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS clusters_cid_seq RESTART WITH %d;", cid+1)
-	_, err = dbconn.Exec(ctx, sqlStr)
-	if err != nil {
-		panic(err)
-	}
+	//sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS clusters_cid_seq RESTART WITH %d;", cid+1)
+	//_, err = dbconn.Exec(ctx, sqlStr)
+	//if err != nil {
+	//	panic(err)
+	//}
 	sqlStr = fmt.Sprintf("ALTER SEQUENCE IF EXISTS templates_tid_seq RESTART WITH %d;", tid+1)
 	_, err = dbconn.Exec(ctx, sqlStr)
 	if err != nil {
@@ -212,22 +215,22 @@ func getVMStatesTable(directory string) []dbVmStates {
 	return vms
 }
 
-func getClustersTable(directory string) []dbClusters {
-	var dbc []dbClusters
-	fname := "clusters.json"
-	if !helpers.CheckNOENT(directory, fname) {
-		os.Exit(1)
-	}
-	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
-	if err != nil {
-		log.Printf("jsonFile.Get err   #%v ", err)
-	}
-	err = json.Unmarshal(jsonFile, &dbc)
-	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
-	return dbc
-}
+//func getClustersTable(directory string) []dbClusters {
+//	var dbc []dbClusters
+//	fname := "clusters.json"
+//	if !helpers.CheckNOENT(directory, fname) {
+//		os.Exit(1)
+//	}
+//	jsonFile, err := os.ReadFile(helpers.BuildPath(directory, fname))
+//	if err != nil {
+//		log.Printf("jsonFile.Get err   #%v ", err)
+//	}
+//	err = json.Unmarshal(jsonFile, &dbc)
+//	if err != nil {
+//		log.Fatalf("Unmarshal: %v", err)
+//	}
+//	return dbc
+//}
 
 func getTemplatesTable(directory string) []dbTemplates {
 	var dbt []dbTemplates
