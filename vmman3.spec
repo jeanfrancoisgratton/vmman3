@@ -2,8 +2,8 @@
 %define _build_id_links none
 %define _name   vmman3
 %define _prefix /opt
-%define _version 0.525
-%define _rel 1
+%define _version 0.550
+%define _rel 0
 %define _arch x86_64
 
 Name:       vmman3

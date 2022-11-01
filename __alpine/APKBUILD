@@ -1,8 +1,8 @@
 # Maintainer: Jean-Francois Gratton <jean-francois@famillegratton.net>
 # PACKAGER: APK Builder <builder@famillegratton.net>
 pkgname=vmman3
-pkgver=0.525
-pkgrel=1
+pkgver=0.550
+pkgrel=0
 pkgdir=/data/packages
 builddir="$startdir/src/BUILD"
 pkgdesc="GO-based QEMU virtual machines manager"
