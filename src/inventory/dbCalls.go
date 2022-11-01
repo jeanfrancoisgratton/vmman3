@@ -43,7 +43,9 @@ func getInfoFromDB(hostname string, hypervisor string) (string, string, string) 
 	err = dbconn.QueryRow(ctx, querystring).
 		Scan(&statechange, &operatingsystem, &storagepool)
 	if err != nil {
-		panic(err)
+		fmt.Println("Query = ", querystring)
+		fmt.Println("Error:", err)
+		os.Exit(-1)
 	}
 
 	return statechange, operatingsystem, storagepool

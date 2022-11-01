@@ -10,7 +10,7 @@ import (
 )
 
 // renameCmd represents the rename command
-var renameCmd = &cobra.Command{
+var vmrenameCmd = &cobra.Command{
 	Use:   "rename",
 	Short: "Rename a VM",
 	Long:  `This command will rename a virtual machine. If the machine is running will be shut down before.`,
@@ -20,8 +20,8 @@ var renameCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(renameCmd)
-	vmCmd.AddCommand(vmRmCmd)
+	rootCmd.AddCommand(vmrenameCmd)
+	vmCmd.AddCommand(vmrenameCmd)
 
 	// Here you will define your flags and configuration settings.
 

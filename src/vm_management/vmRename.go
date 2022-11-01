@@ -5,7 +5,9 @@
 package vm_management
 
 import (
+	"context"
 	"fmt"
+	"github.com/jackc/pgx/v5"
 	"libvirt.org/go/libvirt"
 	"os"
 	"vmman3/helpers"
@@ -38,6 +40,43 @@ func Rename(args []string) {
 		os.Exit(1)
 	}
 	helpers.Wait4Shutdown(vm, oldName)
-	vm.Rename(newName, 0)
-	fmt.Println("%s --> %s", oldName, newName)
+	err = vm.Rename(newName, 0)
+	if err != nil {
+		return
+	}
+	fmt.Println(fmt.Sprintf("%s --> %s", oldName, newName))
+
+	UpdateRenamedVMinDB(oldName, newName)
+}
+
+// Replace the old VM name with the new one in the vmstate and disks tables
+func UpdateRenamedVMinDB(oldname string, newname string) {
+	var hypervisor string
+	if helpers.ConnectURI == "qemu:///system" {
+		hypervisor, _ = os.Hostname()
+	} else {
+		_, _, hypervisor = helpers.SplitConnectURI(helpers.ConnectURI)
+	}
+
+	creds := helpers.Json2creds()
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
+	dbconn, err := pgx.Connect(context.Background(), connString)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+	defer dbconn.Close(context.Background())
+
+	//sq := fmt.Sprintf("UPDATE disks SET dvm='%s' WHERE dvm='%s' AND dhypervisor='%s';", newname, oldname, hypervisor)
+	_, err = dbconn.Exec(context.Background(), fmt.Sprintf("UPDATE disks SET dvm='%s' WHERE dvm='%s' AND dhypervisor='%s';", newname, oldname, hypervisor))
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
+	//sq = fmt.Sprintf("UPDATE vmstate SET vmname='%s' WHERE vmname='%s' AND vmhypervisor='%s';", newname, oldname, hypervisor)
+	_, err = dbconn.Exec(context.Background(), fmt.Sprintf("UPDATE vmstates SET vmname='%s' WHERE vmname='%s' AND vmhypervisor='%s';", newname, oldname, hypervisor))
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
 }
