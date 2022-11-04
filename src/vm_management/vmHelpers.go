@@ -2,7 +2,7 @@
 // src/helpers/vmHelpers.go
 // 2022-10-16 10:08:00
 
-package helpers
+package vm_management
 
 import (
 	"context"
@@ -13,11 +13,12 @@ import (
 	"os"
 	"strings"
 	"time"
+	"vmman3/helpers"
 )
 
-// VmStateChange() : updates the database with current VM state
-func VmStateChange(hypervisor string, vmname string) {
-	creds := Json2creds()
+// vmStateChange() : updates the database with current VM state
+func vmStateChange(hypervisor string, vmname string) {
+	creds := helpers.Json2creds()
 	ctx := context.Background()
 	newDate := time.Now().Format("2006.01.02 15:04:05")
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
@@ -39,10 +40,10 @@ func VmStateChange(hypervisor string, vmname string) {
 	}
 }
 
-// Wait4Shutdown() : Tries 15 seconds to gracefully shutdown the VM, if not it will shutdown forcefully
-func Wait4Shutdown(vm *libvirt.Domain, vmname string) {
+// wait4Shutdown() : Tries 15 seconds to gracefully shutdown the VM, if not it will shutdown forcefully
+func wait4Shutdown(vm *libvirt.Domain, vmname string) {
 	var bIsActive = false
-	fmt.Println("Will await that the VM " + vmname + " gracefully shuts down on " + ConnectURI)
+	fmt.Println("Will await that the VM " + vmname + " gracefully shuts down on " + helpers.ConnectURI)
 	bIsActive, _ = vm.IsActive()
 	if bIsActive {
 		n := 15
@@ -64,17 +65,17 @@ func Wait4Shutdown(vm *libvirt.Domain, vmname string) {
 	}
 }
 
-// GetStorage4VM() : Lists all disks from VM
-func GetStorage4VM(vmname string) ([]string, []string) {
+// getStorage4VM() : Lists all disks from VM
+func getStorage4VM(vmname string) ([]string, []string) {
 	var hypervisor string
-	creds := Json2creds()
+	creds := helpers.Json2creds()
 	ctx := context.Background()
 	//var poolName string
 	//var configuredDisks []string
-	if ConnectURI == "qemu:///system" {
+	if helpers.ConnectURI == "qemu:///system" {
 		hypervisor, _ = os.Hostname()
 	} else {
-		_, _, hypervisor = SplitConnectURI(ConnectURI)
+		_, _, hypervisor = helpers.SplitConnectURI(helpers.ConnectURI)
 	}
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 

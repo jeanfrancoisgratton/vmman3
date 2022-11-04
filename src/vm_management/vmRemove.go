@@ -49,7 +49,7 @@ func Remove(args []string) {
 			}
 		}
 		// Shut the VM down, if active
-		helpers.Wait4Shutdown(domain, vmname)
+		wait4Shutdown(domain, vmname)
 		fmt.Println(vmname + " now shutdown. Proceeding to removal from inventory.")
 		err = domain.UndefineFlags(libvirt.DOMAIN_UNDEFINE_SNAPSHOTS_METADATA)
 		if err != nil {
@@ -60,7 +60,7 @@ func Remove(args []string) {
 			}
 		}
 		if !helpers.BkeepStorage {
-			poolPaths, vmDisks = helpers.GetStorage4VM(vmname)
+			poolPaths, vmDisks = getStorage4VM(vmname)
 			removeStorage(poolPaths, vmDisks)
 		}
 		// Remove all VM information from the various tables
