@@ -4,6 +4,9 @@
 
 package vm_management
 
-func Create(args []string) {
+// Create() : Create a new VM with the following params:
 
+// vm create VM_NAME TEMPLATE IP_ADDR [-p storage pool]
+func Create(args []string) {
+	
 }
