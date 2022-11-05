@@ -1,13 +1,12 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+// vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
+// src/cmd/vm-console.go
+// 2022-11-05 17:55:36
 
-*/
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"vmman3/vm_management"
 )
 
 // consoleCmd represents the console command
@@ -21,12 +20,12 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("console called")
+		vm_management.Console(args[0])
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(consoleCmd)
+	vmCmd.AddCommand(consoleCmd)
 
 	// Here you will define your flags and configuration settings.
 
