@@ -58,6 +58,21 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Sat Nov 05 2022 builder <builder@famillegratton.net> 0.550-0
+- Completed vm console (jean-francois@famillegratton.net)
+- libvirt.Connect has been moved in the helpers package; fixed issue with vm
+  stopall -a not working (jean-francois@famillegratton.net)
+- Minor fixes in vm start-stop (jean-francois@famillegratton.net)
+- Completed virsh xmldump (jean-francois@famillegratton.net)
+- Plugged a memory leak with libvirt (jean-francois@famillegratton.net)
+- Added FIXME file (jean-francois@famillegratton.net)
+- moved vmHelpers in the proper package (jean-francois@famillegratton.net)
+- Sync between branch chg (jean-francois@famillegratton.net)
+- First vm create stub... this one is the biggie.... (jean-
+  francois@famillegratton.net)
+- Completed DB updates in vm rename (jean-francois@famillegratton.net)
+- Removed the clusters table (jean-francois@famillegratton.net)
+
 * Sun Oct 30 2022 builder <builder@famillegratton.net> 0.525-1
 - vm-rename was not attached in cmd/ (jean-francois@famillegratton.net)
 - Doc update (jean-francois@famillegratton.net)
