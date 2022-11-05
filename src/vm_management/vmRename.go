@@ -34,6 +34,7 @@ func Rename(args []string) {
 		}
 	}
 	vm, _ := conn.LookupDomainByName(oldName)
+	defer vm.Free()
 	numsnap, _ := vm.SnapshotNum(snapshotflags)
 	if numsnap > 0 {
 		fmt.Println("You cannot rename " + oldName + " as this VM holds snapshots. The snapshots need to be removed, first.")

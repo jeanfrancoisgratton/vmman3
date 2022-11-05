@@ -29,6 +29,7 @@ func Start(args []string) {
 	for _, vmname := range args {
 		var host string
 		domain, _ := conn.LookupDomainByName(vmname)
+		defer domain.Free()
 
 		bIsActive, _ = domain.IsActive()
 		if bIsActive {

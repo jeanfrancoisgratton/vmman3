@@ -36,6 +36,7 @@ func Remove(args []string) {
 	for _, vmname := range args {
 		//var host string
 		domain, err := conn.LookupDomainByName(vmname)
+		defer domain.Free()
 		if err != nil {
 			lverr, ok := err.(libvirt.Error)
 			if ok {
