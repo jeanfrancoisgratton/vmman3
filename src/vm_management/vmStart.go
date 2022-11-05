@@ -36,7 +36,7 @@ func Start(args []string) {
 			fmt.Printf("Domain %s on %s is already up\n", vmname, helpers.ConnectURI)
 		} else {
 			err := domain.Create()
-			fmt.Printf("Domain %s is starting ...", vmname)
+			fmt.Printf("Domain %s is starting... ", vmname)
 			if err != nil {
 				fmt.Printf("\nERROR :\n")
 				fmt.Println(err)

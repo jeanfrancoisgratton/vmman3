@@ -35,8 +35,8 @@ func Stop(args []string) {
 		if !bIsActive {
 			fmt.Printf("Domain %s on %s is already shut down\n", vmname, helpers.ConnectURI)
 		} else {
-			err := domain.DestroyFlags(libvirt.DOMAIN_DESTROY_GRACEFUL)
-			fmt.Printf("Domain %s is being shut down ...", vmname)
+			err := domain.ShutdownFlags(libvirt.DOMAIN_SHUTDOWN_DEFAULT)
+			fmt.Printf("Domain %s is being shut down... ", vmname)
 			if err != nil {
 				fmt.Printf("\nERROR :\n")
 				fmt.Println(err)

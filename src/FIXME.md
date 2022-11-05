@@ -1,2 +1,2 @@
-- vmman vm stopall fails on vm alpinedev or alpinestorage
-- vmman stopall -a will not work at all (silently returns)
+- [x] vmman vm stopall fails on vm alpinedev or alpinestorage
+- [ ] vmman stopall -a will not work at all (silently returns)

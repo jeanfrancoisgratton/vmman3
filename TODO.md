@@ -43,3 +43,7 @@ This needs to be reset (drop sequence, recreate with higher value).
 [   ] - New package : cluster (? might not need this one anymore, unsure)
 
 [ - ] - Minor: show uptime when VM is up, otherwise show Last status change
+
+Nice to have:<br>
+func (d *Domain) GetGuestInfo(types DomainGuestInfoTypes, flags uint32) (*DomainGuestInfo, error)<br>
+https://gitlab.com/libvirt/libvirt-go-module/-/blob/v1.8007.0/domain.go#L5527
