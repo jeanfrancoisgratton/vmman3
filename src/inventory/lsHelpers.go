@@ -39,25 +39,13 @@ func getStateHelper(state libvirt.DomainState) string {
 
 // getVMList() : Ammasse la liste des VMs sur cet hyperviseur
 func GetVMlist() []libvirt.Domain {
-	conn, err := libvirt.NewConnect(helpers.ConnectURI)
-	if err != nil {
-		lverr, ok := err.(libvirt.Error)
-		if ok && (lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error") ||
-			lverr.Message == "internal error: unexpected qemu URI path '/system/', try qemu:///system" {
-			fmt.Printf("Hypervisor %s is offline\n", helpers.ConnectURI)
-			return nil
-		} else {
-			panic(err)
-		}
-	}
+	conn := helpers.Connect2HVM()
+	defer conn.Close()
 
 	doms, err := conn.ListAllDomains(libvirt.CONNECT_LIST_DOMAINS_ACTIVE | libvirt.CONNECT_LIST_DOMAINS_INACTIVE)
-
 	if err != nil {
 		fmt.Println("Error in inventory.GetVMlist() : ", err)
 	}
-
-	defer conn.Close()
 	return doms
 }
 

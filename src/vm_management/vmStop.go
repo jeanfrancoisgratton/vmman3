@@ -8,23 +8,15 @@ import (
 	"fmt"
 	"libvirt.org/go/libvirt"
 	"os"
+	"vmman3/db"
 	"vmman3/helpers"
 	"vmman3/inventory"
 )
 
 func Stop(args []string) {
 	var bIsActive bool
-	conn, err := libvirt.NewConnect(helpers.ConnectURI)
-
-	if err != nil {
-		lverr, ok := err.(libvirt.Error)
-		if ok && lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" {
-			fmt.Printf("Hypervisor %s is offline\n", helpers.ConnectURI)
-			return
-		} else {
-			panic(err)
-		}
-	}
+	conn := helpers.Connect2HVM()
+	defer conn.Close()
 
 	for _, vmname := range args {
 		var host string
@@ -55,15 +47,32 @@ func Stop(args []string) {
 }
 
 func StopAll() {
+	var hyps []db.DbHypervisors
 	var vmlist []string
-	domains := inventory.GetVMlist()
 
-	for _, domain := range domains {
-		var _, err = domain.GetID()
-		if err == nil { // this means GetID() returned an ID, thus the VM is not shutdown (could be paused)
-			vmname, _ := domain.GetName()
-			vmlist = append(vmlist, vmname)
-		}
+	// we need the hypervisors' list, except when BSingleHypervisor is false
+	if helpers.BAllHypervisors {
+		hyps = inventory.ListHypervisors()
+	} else {
+		// This means we already have a valid ConnectURI, either qemu://system, or a qemu+ssh:// one
+		hyps = []db.DbHypervisors{{HID: 0, Hname: helpers.ConnectURI, Haddress: helpers.ConnectURI}}
 	}
-	Stop(vmlist)
+
+	// First step: get the connection URI for a given hypervisor, and then iterate+connect on them
+	for _, hyp := range hyps {
+		if hyp.Hname != hyp.Haddress {
+			// this here means that we have to build the URI from the DB because BAllHypervisors == true
+			helpers.ConnectURI = fmt.Sprintf("qemu+ssh://%s@%s/system", hyp.Hconnectinguser, hyp.Hname)
+		}
+		domains := inventory.GetVMlist()
+		for _, domain := range domains {
+			var _, err = domain.GetID()
+			if err == nil { // this means GetID() returned an ID, thus the VM is not shutdown (could be paused)
+				vmname, _ := domain.GetName()
+				vmlist = append(vmlist, vmname)
+			}
+		}
+		Stop(vmlist)
+		vmlist = nil
+	}
 }

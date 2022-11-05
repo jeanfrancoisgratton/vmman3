@@ -6,7 +6,6 @@ package vm_management
 
 import (
 	"fmt"
-	"libvirt.org/go/libvirt"
 	"os"
 	"vmman3/helpers"
 	"vmman3/inventory"
@@ -14,17 +13,9 @@ import (
 
 func Start(args []string) {
 	var bIsActive bool
-	conn, err := libvirt.NewConnect(helpers.ConnectURI)
 
-	if err != nil {
-		lverr, ok := err.(libvirt.Error)
-		if ok && lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" {
-			fmt.Printf("Hypervisor %s is offline\n", helpers.ConnectURI)
-			return
-		} else {
-			panic(err)
-		}
-	}
+	conn := helpers.Connect2HVM()
+	defer conn.Close()
 
 	for _, vmname := range args {
 		var host string
