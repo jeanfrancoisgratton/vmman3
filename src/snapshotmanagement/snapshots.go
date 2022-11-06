@@ -8,10 +8,11 @@ import (
 	"libvirt.org/go/libvirt"
 )
 
-func GetCurrentSnapshotName(conn libvirt.Connect, vmname string) string {
-	var vm, _ = conn.LookupDomainByName(vmname)
+func GetCurrentSnapshotName(conn *libvirt.Connect, vmname string) string {
+	domain, _ := conn.LookupDomainByName(vmname)
+	defer domain.Free()
 	var currentSnapshot = "none"
-	var snapshots, _ = vm.ListAllSnapshots(0)
+	var snapshots, _ = domain.ListAllSnapshots(0)
 
 	for _, snapshot := range snapshots {
 		var isCurrent, _ = snapshot.IsCurrent(0)

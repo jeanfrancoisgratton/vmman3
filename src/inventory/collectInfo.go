@@ -58,7 +58,7 @@ func collectInfo(hypervisorname string) []vmInfo {
 		defer d.Free()
 		numsnap, _ = d.SnapshotNum(snapshotflags)
 		if numsnap > 0 {
-			i.viCurrentSnapshot = snapshotmanagement.GetCurrentSnapshotName(*conn, i.viName)
+			i.viCurrentSnapshot = snapshotmanagement.GetCurrentSnapshotName(conn, i.viName)
 		} else {
 			i.viCurrentSnapshot = "n/a"
 		}
