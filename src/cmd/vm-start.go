@@ -5,7 +5,7 @@
 package cmd
 
 import (
-	"vmman3/vm_management"
+	"vmman3/vmmanagement"
 
 	"github.com/spf13/cobra"
 )
@@ -19,7 +19,7 @@ var vmstartCmd = &cobra.Command{
 
 If more than a single VM needs to be started, you just add them to the commandline, space-separated..`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vm_management.Start(args)
+		vmmanagement.Start(args)
 	},
 }
 

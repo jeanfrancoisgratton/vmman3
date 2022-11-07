@@ -6,7 +6,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"vmman3/vm_management"
+	"vmman3/vmmanagement"
 )
 
 // xmldumpCmd represents the xmldump command
@@ -15,7 +15,7 @@ var xmldumpCmd = &cobra.Command{
 	Short: "Dumps the VM definition in an XML file",
 	Long:  `This the equivalent of virsh xmldump, where you specify as arguments the VM name and the target XML file.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vm_management.XmlDump(args[0], args[1])
+		vmmanagement.XmlDump(args[0], args[1])
 	},
 }
 

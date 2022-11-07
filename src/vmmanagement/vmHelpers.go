@@ -2,7 +2,7 @@
 // src/helpers/vmHelpers.go
 // 2022-10-16 10:08:00
 
-package vm_management
+package vmmanagement
 
 import (
 	"context"

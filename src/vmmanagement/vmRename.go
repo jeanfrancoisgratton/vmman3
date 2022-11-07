@@ -1,8 +1,8 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// src/vm_management/vmRename.go
+// src/vmmanagement/vmRename.go
 // 2022-10-29 19:04:58
 
-package vm_management
+package vmmanagement
 
 import (
 	"context"

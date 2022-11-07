@@ -5,7 +5,7 @@
 package cmd
 
 import (
-	"vmman3/vm_management"
+	"vmman3/vmmanagement"
 
 	"github.com/spf13/cobra"
 )
@@ -17,8 +17,8 @@ var resetCmd = &cobra.Command{
 	Short:   "Restart a single or multiple VM(s)",
 	Long:    `The list of VMs needing to be restarted has to be space-separated`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vm_management.Stop(args)
-		vm_management.Start(args)
+		vmmanagement.Stop(args)
+		vmmanagement.Start(args)
 	},
 }
 

@@ -1,8 +1,8 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// src/vm_management/vmRemove.go
+// src/vmmanagement/vmRemove.go
 // 2022-10-22 12:42:35
 
-package vm_management
+package vmmanagement
 
 import (
 	"context"

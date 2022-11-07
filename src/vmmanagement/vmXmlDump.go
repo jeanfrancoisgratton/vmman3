@@ -1,8 +1,8 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// src/vm_management/vmXmlDump.go
+// src/vmmanagement/vmXmlDump.go
 // 2022-11-05 13:45:39
 
-package vm_management
+package vmmanagement
 
 import (
 	"libvirt.org/go/libvirt"

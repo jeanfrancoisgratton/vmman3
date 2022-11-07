@@ -78,7 +78,7 @@ func serialize(v interface{}, filename string) error {
 	if err != nil {
 		return err
 	}
-	data, err = json.Marshal(v)
+	data, err = json.MarshalIndent(v, "", "  ")
 	if err != nil {
 		return err
 	}

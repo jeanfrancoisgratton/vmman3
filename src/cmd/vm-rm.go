@@ -6,7 +6,7 @@ package cmd
 
 import (
 	"vmman3/helpers"
-	"vmman3/vm_management"
+	"vmman3/vmmanagement"
 
 	"github.com/spf13/cobra"
 )
@@ -18,7 +18,7 @@ var vmRmCmd = &cobra.Command{
 	Long: `This will shut the VM down if running, and optionally offer to keep its storage.
 By default the storage is also removed.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vm_management.Remove(args)
+		vmmanagement.Remove(args)
 	},
 }
 

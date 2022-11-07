@@ -6,7 +6,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"vmman3/vm_management"
+	"vmman3/vmmanagement"
 )
 
 // renameCmd represents the rename command
@@ -15,7 +15,7 @@ var vmrenameCmd = &cobra.Command{
 	Short: "Rename a VM",
 	Long:  `This command will rename a virtual machine. If the machine is running will be shut down before.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vm_management.Rename(args)
+		vmmanagement.Rename(args)
 	},
 }
 
