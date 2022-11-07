@@ -1,22 +1,22 @@
-// Copyright © 2022 Jean-Francois Gratton <jean-francois@famillegratton.net>
+// vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
+// src/cmd/snap.go
+// 2022-11-06 11:44:19
 
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 )
 
 // snapCmd represents the snap command
 var snapCmd = &cobra.Command{
-	Use:   "snap",
-	Short: "Snapshot management command",
-	Long: `Snapshot management:
+	Use:     "snap",
+	Aliases: []string{"snapshot"},
+	Short:   "Snapshot management subcommand",
+	Long: `This is where you manage all snapshots on a given VM.
 
-List, add or remove a snapshot.`,
-	// TODO : replace this command below with a snap help text
+Subcommands include : list, add, remove`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("A subcommand { create | ls | rm } must be passed to the snap command")
 	},
 }
 
