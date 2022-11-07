@@ -1,1 +1,16 @@
-[{"id":1,"name":"alpine_storage","pool":"vmpool","vm":"alpine_storage","hypervisor":"bergen"},{"id":2,"name":"alpine_storage2","pool":"bergen","vm":"alpine_storage","hypervisor":"bergen"}]
+[
+  {
+    "id": 1,
+    "name": "alpine_storage",
+    "pool": "vmpool",
+    "vm": "alpinestorage",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 2,
+    "name": "alpine_storage2",
+    "pool": "bergen",
+    "vm": "alpinestorage",
+    "hypervisor": "bergen"
+  }
+]

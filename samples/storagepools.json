@@ -1,1 +1,32 @@
-[{"id":1,"name":"isos","path":"/vmpool/isos","owner":"any"},{"id":2,"name":"oslo","path":"/vmpool/oslo","owner":"oslo"},{"id":3,"name":"bergen","path":"/vmpool/bergen","owner":"bergen"},{"id":4,"name":"vmpool","path":"/vmpool","owner":"any"},{"id":5,"name":"templates","path":"/vmpool/templates","owner":"any"}]
+[
+  {
+    "id": 1,
+    "name": "isos",
+    "path": "/vmpool/isos",
+    "owner": "any"
+  },
+  {
+    "id": 2,
+    "name": "oslo",
+    "path": "/vmpool/oslo",
+    "owner": "oslo"
+  },
+  {
+    "id": 3,
+    "name": "bergen",
+    "path": "/vmpool/bergen",
+    "owner": "bergen"
+  },
+  {
+    "id": 4,
+    "name": "vmpool",
+    "path": "/vmpool",
+    "owner": "any"
+  },
+  {
+    "id": 5,
+    "name": "templates",
+    "path": "/vmpool/templates",
+    "owner": "any"
+  }
+]

@@ -1,1 +1,6 @@
-[{"id":1,"name":"kubernetes_dev          "}]
+[
+  {
+    "id": 1,
+    "name": "kubernetes_dev"
+  }
+]

@@ -1,1 +1,16 @@
-[{"id":1,"name":"debian","owner":"oslo","storagepool":"oslo","os":"linux"},{"id":2,"name":"alpine","owner":"bergen","storagepool":"vmpool","os":"linux"}]
+[
+  {
+    "id": 1,
+    "name": "debian",
+    "owner": "oslo",
+    "storagepool": "oslo",
+    "os": "linux"
+  },
+  {
+    "id": 2,
+    "name": "alpine",
+    "owner": "bergen",
+    "storagepool": "vmpool",
+    "os": "linux"
+  }
+]
