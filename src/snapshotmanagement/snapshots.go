@@ -59,5 +59,28 @@ func ListSnapshots(vmname string) {
 	displaySnapshots(snaps, vmname)
 }
 
+// TODO: add capability to delete children snapshots (hint: VIR_DOMAIN_SNAPSHOT_DELETE_CHILDREN)
 // RemoveSnapshots() : Removes snapshot of a given VM
-func RemoveSnapshot(vmname string, snapshotname string) {}
+func RemoveSnapshot(vmname string, snapshotname string) {
+	var snap *libvirt.DomainSnapshot
+	conn := helpers.Connect2HVM()
+	defer conn.Close()
+
+	domain, _ := conn.LookupDomainByName(vmname)
+	defer domain.Free()
+	numsnap, _ := domain.SnapshotNum(0)
+	if numsnap == 0 {
+		fmt.Printf("Domain %s has no snapshot\n", vmname)
+		os.Exit(0)
+	}
+
+	helpers.Wait4Shutdown(domain, vmname)
+	if snapshotname == "" {
+		snapshotname = GetCurrentSnapshotName(conn, vmname)
+	}
+	err := snap.Delete(0)
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-1)
+	}
+}
