@@ -84,3 +84,6 @@ func RemoveSnapshot(vmname string, snapshotname string) {
 		os.Exit(-1)
 	}
 }
+
+// CreateSnapshot() : create a snaspshot on the given VM
+func CreateSnapshot(vmname string, snapname string) {}
