@@ -4,7 +4,15 @@
 
 package snapshotmanagement
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/jedib0t/go-pretty/v6/text"
+	"os"
+	"time"
+	"vmman3/helpers"
+)
 
 // Snapshot XML definitions
 type ParentElement struct {
@@ -13,7 +21,40 @@ type ParentElement struct {
 }
 type SnapshotXMLstruct struct {
 	SnapshotName    string        `xml:"name"`
-	CreationTime    uint64        `xml:"creationTime"`
+	CreationTime    int64         `xml:"creationTime"`
 	Parent          ParentElement `xml:"parent"`
 	CurrentSnapshot bool
+}
+
+// displaySnapshots() : will display the actual snapshot info in a table
+func displaySnapshots(snaps []SnapshotXMLstruct, vmname string) {
+
+	helpers.SurroundText(fmt.Sprintf("All snapshots on %s/%s", helpers.ConnectURI, vmname), false)
+
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+	t.AppendHeader(table.Row{"Snapshot name", "Current", "Parent", "Creation time"})
+
+	for _, snapshot := range snaps {
+
+		// time.Unix(image.Created, 0).Format("2006.01.02 15:04:05")
+		tcreated := time.Unix(snapshot.CreationTime, 0).Format("2006.01.02 15:04:05")
+		t.AppendRow([]interface{}{snapshot.SnapshotName, snapshot.CurrentSnapshot, snapshot.Parent.ParentName, tcreated})
+
+	}
+	t.SortBy([]table.SortBy{
+		{Name: "Snapshot name", Mode: table.Asc},
+	})
+	t.SetStyle(table.StyleDefault)
+	t.Style().Options.DrawBorder = false
+	//t.Style().Options.SeparateColumns = false
+	t.Style().Format.Header = text.FormatDefault
+	t.SetRowPainter(func(row table.Row) text.Colors {
+		switch row[1] {
+		case true:
+			return text.Colors{text.FgHiGreen}
+		}
+		return nil
+	})
+	t.Render()
 }

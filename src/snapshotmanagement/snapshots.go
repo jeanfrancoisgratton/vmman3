@@ -12,6 +12,7 @@ import (
 	"vmman3/helpers"
 )
 
+// GetCurrentSnapshotName() : Gets the name of the current snapshot for a given VM
 func GetCurrentSnapshotName(conn *libvirt.Connect, vmname string) string {
 	domain, _ := conn.LookupDomainByName(vmname)
 	defer domain.Free()
@@ -28,6 +29,7 @@ func GetCurrentSnapshotName(conn *libvirt.Connect, vmname string) string {
 	return currentSnapshot
 }
 
+// ListSnapshots() : Lists all snapshots on current VM
 func ListSnapshots(vmname string) {
 	var snapXMLdata SnapshotXMLstruct
 	var snaps []SnapshotXMLstruct
@@ -54,4 +56,5 @@ func ListSnapshots(vmname string) {
 			snaps = append(snaps, snapXMLdata)
 		}
 	}
+	displaySnapshots(snaps, vmname)
 }
