@@ -12,20 +12,16 @@ import (
 // consoleCmd represents the console command
 var consoleCmd = &cobra.Command{
 	Use:   "console",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Connects the terminal to the VM console",
+	Long: `Will connect you to the VM console.
+Press CTRL+] to disconnect.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		vmmanagement.Console(args[0])
 	},
 }
 
 func init() {
-	vmCmd.AddCommand(consoleCmd)
+	rootCmd.AddCommand(consoleCmd)
 
 	// Here you will define your flags and configuration settings.
 

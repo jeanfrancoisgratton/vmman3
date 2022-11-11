@@ -5,6 +5,7 @@
 package cmd
 
 import (
+	"time"
 	"vmman3/vmmanagement"
 
 	"github.com/spf13/cobra"
@@ -18,6 +19,7 @@ var resetCmd = &cobra.Command{
 	Long:    `The list of VMs needing to be restarted has to be space-separated`,
 	Run: func(cmd *cobra.Command, args []string) {
 		vmmanagement.Stop(args)
+		time.Sleep(5 * time.Second) // needed otherwise vmStart will think that the VM is already up
 		vmmanagement.Start(args)
 	},
 }

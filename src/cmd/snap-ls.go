@@ -5,6 +5,8 @@
 package cmd
 
 import (
+	"fmt"
+	"os"
 	"vmman3/snapshotmanagement"
 
 	"github.com/spf13/cobra"
@@ -12,8 +14,9 @@ import (
 
 // snapLSCmd represents the snapLS command
 var snapLSCmd = &cobra.Command{
-	Use:   "ls",
-	Short: "Lists all snapshots of a given VM",
+	Use:     "ls",
+	Aliases: []string{"list"},
+	Short:   "Lists all snapshots of a given VM",
 	//	Long: `A longer description that spans multiple lines and likely contains examples
 	//and usage of using your command. For example:
 	//
@@ -21,6 +24,10 @@ var snapLSCmd = &cobra.Command{
 	//This application is a tool to generate the needed files
 	//to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			fmt.Println("Usage: vmman {snap|snapshot} {ls|list} VirtualMachine")
+			os.Exit(0)
+		}
 		snapshotmanagement.ListSnapshots(args[0])
 	},
 }
