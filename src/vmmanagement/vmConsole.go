@@ -19,7 +19,11 @@ import (
 //	conn := helpers.Connect2HVM()
 //	defer conn.Close()
 //
-//	domain, _ := conn.LookupDomainByName(vmname)
+//	domain := helpers.GetDomain(conn, vmname)
+//	if domain == nil {
+//		os.Exit(0)
+//	}
+//	defer domain.Free()
 //	isup, _ := domain.IsActive()
 //	if !isup {
 //		fmt.Printf("%s needs to be up in order to access its console.")

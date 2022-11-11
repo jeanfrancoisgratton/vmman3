@@ -25,24 +25,16 @@ func Remove(args []string) {
 
 	for _, vmname := range args {
 		//var host string
-		domain, err := conn.LookupDomainByName(vmname)
-		defer domain.Free()
-		if err != nil {
-			lverr, ok := err.(libvirt.Error)
-			if ok {
-				if strings.HasPrefix(lverr.Message, "Domain not found") {
-					fmt.Println(lverr.Message)
-					continue
-				} else {
-					fmt.Println(lverr.Message)
-					os.Exit(-1)
-				}
-			}
+		domain := helpers.GetDomain(conn, vmname)
+		if domain == nil {
+			os.Exit(0)
 		}
+		defer domain.Free()
+
 		// Shut the VM down, if active
 		helpers.Wait4Shutdown(domain, vmname)
 		fmt.Println(vmname + " now shutdown. Proceeding to removal from inventory.")
-		err = domain.UndefineFlags(libvirt.DOMAIN_UNDEFINE_SNAPSHOTS_METADATA)
+		err := domain.UndefineFlags(libvirt.DOMAIN_UNDEFINE_SNAPSHOTS_METADATA)
 		if err != nil {
 			lverr, ok := err.(libvirt.Error)
 			if ok {

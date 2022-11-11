@@ -54,9 +54,12 @@ func collectInfo(hypervisorname string) []vmInfo {
 			i.viIPaddress = ""
 		}
 		// SNAPSHOT INFO
-		d, _ := conn.LookupDomainByName(i.viName)
-		defer d.Free()
-		numsnap, _ = d.SnapshotNum(snapshotflags)
+		domain := helpers.GetDomain(conn, i.viName)
+		if domain == nil {
+			continue
+		}
+		defer domain.Free()
+		numsnap, _ = domain.SnapshotNum(snapshotflags)
 		if numsnap > 0 {
 			i.viCurrentSnapshot = snapshotmanagement.GetCurrentSnapshotName(conn, i.viName)
 		} else {

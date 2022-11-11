@@ -1,5 +1,5 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// src/vmmanagement/vmXmlDump.go
+// src/vmmanagement/vmDumpXML.go
 // 2022-11-05 13:45:39
 
 package vmmanagement
@@ -21,7 +21,7 @@ func XmlDump(vmname string, xmlfile string) {
 	conn := helpers.Connect2HVM()
 	defer conn.Close()
 
-	domain, _ := conn.LookupDomainByName(vmname)
+	domain := helpers.GetDomain(conn, vmname)
 	defer domain.Free()
 
 	helpers.Wait4Shutdown(domain, vmname)

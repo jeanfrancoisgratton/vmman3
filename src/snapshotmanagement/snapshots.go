@@ -14,9 +14,13 @@ import (
 
 // GetCurrentSnapshotName() : Gets the name of the current snapshot for a given VM
 func GetCurrentSnapshotName(conn *libvirt.Connect, vmname string) string {
-	domain, _ := conn.LookupDomainByName(vmname)
-	defer domain.Free()
 	var currentSnapshot = "none"
+
+	domain := helpers.GetDomain(conn, vmname)
+	if domain == nil {
+		os.Exit(0)
+	}
+	defer domain.Free()
 	var snapshots, _ = domain.ListAllSnapshots(0)
 
 	for _, snapshot := range snapshots {
@@ -36,7 +40,10 @@ func ListSnapshots(vmname string) {
 	conn := helpers.Connect2HVM()
 	defer conn.Close()
 
-	domain, _ := conn.LookupDomainByName(vmname)
+	domain := helpers.GetDomain(conn, vmname)
+	if domain == nil {
+		os.Exit(0)
+	}
 	defer domain.Free()
 	numsnap, _ := domain.SnapshotNum(0)
 	if numsnap == 0 {
@@ -66,7 +73,10 @@ func RemoveSnapshot(vmname string, snapshotname string) {
 	conn := helpers.Connect2HVM()
 	defer conn.Close()
 
-	domain, _ := conn.LookupDomainByName(vmname)
+	domain := helpers.GetDomain(conn, vmname)
+	if domain == nil {
+		os.Exit(0)
+	}
 	defer domain.Free()
 	numsnap, _ := domain.SnapshotNum(0)
 	if numsnap == 0 {

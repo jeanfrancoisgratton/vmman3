@@ -20,7 +20,10 @@ func Stop(args []string) {
 
 	for _, vmname := range args {
 		var host string
-		domain, _ := conn.LookupDomainByName(vmname)
+		domain := helpers.GetDomain(conn, vmname)
+		if domain == nil {
+			os.Exit(0)
+		}
 		defer domain.Free()
 
 		bIsActive, _ = domain.IsActive()

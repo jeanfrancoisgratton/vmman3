@@ -33,15 +33,18 @@ func Rename(args []string) {
 			panic(err)
 		}
 	}
-	vm, _ := conn.LookupDomainByName(oldName)
-	defer vm.Free()
-	numsnap, _ := vm.SnapshotNum(snapshotflags)
+	domain := helpers.GetDomain(conn, oldName)
+	if domain == nil {
+		os.Exit(0)
+	}
+	defer domain.Free()
+	numsnap, _ := domain.SnapshotNum(snapshotflags)
 	if numsnap > 0 {
 		fmt.Println("You cannot rename " + oldName + " as this VM holds snapshots. The snapshots need to be removed, first.")
 		os.Exit(1)
 	}
-	helpers.Wait4Shutdown(vm, oldName)
-	err = vm.Rename(newName, 0)
+	helpers.Wait4Shutdown(domain, oldName)
+	err = domain.Rename(newName, 0)
 	if err != nil {
 		return
 	}

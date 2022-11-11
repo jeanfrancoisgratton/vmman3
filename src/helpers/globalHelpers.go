@@ -7,9 +7,12 @@ package helpers
 import (
 	"fmt"
 	"libvirt.org/go/libvirt"
+	"os"
+	"strings"
 	"time"
 )
 
+// Connect2HVM() : connects to the hypervisor, returning the Connect object
 func Connect2HVM() *libvirt.Connect {
 	conn, err := libvirt.NewConnect(ConnectURI)
 	if err != nil {
@@ -23,6 +26,24 @@ func Connect2HVM() *libvirt.Connect {
 	}
 
 	return conn
+}
+
+// GetDomain() : Connects to the VM (domain), returning the Domainobject
+func GetDomain(conn *libvirt.Connect, vmname string) *libvirt.Domain {
+	domain, err := conn.LookupDomainByName(vmname)
+	if err != nil {
+		lverr, ok := err.(libvirt.Error)
+		if ok {
+			if strings.HasPrefix(lverr.Message, "Domain not found") {
+				fmt.Println(lverr.Message)
+				return nil
+			} else {
+				fmt.Println(lverr.Message)
+				os.Exit(-1)
+			}
+		}
+	}
+	return domain
 }
 
 // Wait4Shutdown() : Tries 15 seconds to gracefully shutdown the VM, if not it will shutdown forcefully
