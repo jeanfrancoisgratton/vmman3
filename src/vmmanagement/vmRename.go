@@ -40,7 +40,7 @@ func Rename(args []string) {
 		fmt.Println("You cannot rename " + oldName + " as this VM holds snapshots. The snapshots need to be removed, first.")
 		os.Exit(1)
 	}
-	wait4Shutdown(vm, oldName)
+	helpers.Wait4Shutdown(vm, oldName)
 	err = vm.Rename(newName, 0)
 	if err != nil {
 		return

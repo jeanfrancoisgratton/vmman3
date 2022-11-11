@@ -24,7 +24,7 @@ func XmlDump(vmname string, xmlfile string) {
 	domain, _ := conn.LookupDomainByName(vmname)
 	defer domain.Free()
 
-	wait4Shutdown(domain, vmname)
+	helpers.Wait4Shutdown(domain, vmname)
 	data, _ := domain.GetXMLDesc(libvirt.DOMAIN_XML_SECURE | libvirt.DOMAIN_XML_INACTIVE | libvirt.DOMAIN_XML_MIGRATABLE)
 
 	file, _ := os.Create(xmlfile)

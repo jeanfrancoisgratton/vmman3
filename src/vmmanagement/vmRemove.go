@@ -40,7 +40,7 @@ func Remove(args []string) {
 			}
 		}
 		// Shut the VM down, if active
-		wait4Shutdown(domain, vmname)
+		helpers.Wait4Shutdown(domain, vmname)
 		fmt.Println(vmname + " now shutdown. Proceeding to removal from inventory.")
 		err = domain.UndefineFlags(libvirt.DOMAIN_UNDEFINE_SNAPSHOTS_METADATA)
 		if err != nil {
