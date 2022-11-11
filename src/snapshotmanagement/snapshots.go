@@ -58,3 +58,6 @@ func ListSnapshots(vmname string) {
 	}
 	displaySnapshots(snaps, vmname)
 }
+
+// RemoveSnapshots() : Removes snapshot of a given VM
+func RemoveSnapshot(vmname string, snapshotname string) {}
