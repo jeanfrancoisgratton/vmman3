@@ -11,8 +11,9 @@ import (
 
 // rmsnapCmd represents the rmsnap command
 var rmsnapCmd = &cobra.Command{
-	Use:   "rm",
-	Short: "Remove snapshot",
+	Use:     "rm",
+	Aliases: []string{"del"},
+	Short:   "Remove snapshot",
 	Long: `Removes the current snapshot from the VM.
 
 NOTE: The snapshot cannot be removed if a child snapshot is present.`,

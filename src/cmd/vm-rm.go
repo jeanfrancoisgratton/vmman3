@@ -13,8 +13,9 @@ import (
 
 // vmRmCmd represents the vmRm command
 var vmRmCmd = &cobra.Command{
-	Use:   "rm",
-	Short: "Remove a VM",
+	Use:     "rm",
+	Aliases: []string{"del"},
+	Short:   "Remove a VM",
 	Long: `This will shut the VM down if running, and optionally offer to keep its storage.
 By default the storage is also removed.`,
 	Run: func(cmd *cobra.Command, args []string) {
