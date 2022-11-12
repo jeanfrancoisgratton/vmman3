@@ -58,6 +58,18 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Sat Nov 12 2022 builder <builder@famillegratton.net> 0.650-0
+- Completed hypervisor subcommand (jean-francois@famillegratton.net)
+- hypervisor stub (jean-francois@famillegratton.net)
+- Added extra field to dbCreds (now renamed envCreds), version bump (jean-
+  francois@famillegratton.net)
+- hypervisor subcommand stub (jean-francois@famillegratton.net)
+- Helpers refactoring, version bump (missing a file) (jean-
+  francois@famillegratton.net)
+- Version bump, doc update (jean-francois@famillegratton.net)
+- Updates to README, TODO and FIXME; fix in args handling of vmman vm xmldump
+  (jean-francois@famillegratton.net)
+
 * Fri Nov 11 2022 builder <builder@famillegratton.net> 0.600-0
 - vmman snap subcommands completed; version bump (jean-
   francois@famillegratton.net)
