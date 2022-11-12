@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"libvirt.org/go/libvirt"
 	"os"
+	"strings"
 	"vmman3/helpers"
 )
 
@@ -69,7 +70,6 @@ func ListSnapshots(vmname string) {
 // TODO: add capability to delete children snapshots (hint: VIR_DOMAIN_SNAPSHOT_DELETE_CHILDREN)
 // RemoveSnapshots() : Removes snapshot of a given VM
 func RemoveSnapshot(vmname string, snapshotname string) {
-	var snap *libvirt.DomainSnapshot
 	conn := helpers.Connect2HVM()
 	defer conn.Close()
 
@@ -88,12 +88,76 @@ func RemoveSnapshot(vmname string, snapshotname string) {
 	if snapshotname == "" {
 		snapshotname = GetCurrentSnapshotName(conn, vmname)
 	}
-	err := snap.Delete(0)
+	snap, err := domain.SnapshotLookupByName(snapshotname, 0)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
+
+	err = snap.Delete(0)
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-1)
 	}
 }
 
-// CreateSnapshot() : create a snaspshot on the given VM
-func CreateSnapshot(vmname string, snapname string) {}
+// RemoveSnapshots() : Removes snapshot of a given VM
+func RevertSnapshot(vmname string, snapshotname string) {
+	var snap *libvirt.DomainSnapshot
+	conn := helpers.Connect2HVM()
+	defer conn.Close()
+
+	domain := helpers.GetDomain(conn, vmname)
+	if domain == nil {
+		os.Exit(0)
+	}
+	defer domain.Free()
+	numsnap, _ := domain.SnapshotNum(0)
+	if numsnap == 0 {
+		fmt.Printf("Domain %s has no snapshot\n", vmname)
+		os.Exit(0)
+	}
+	helpers.Wait4Shutdown(domain, vmname)
+	if snapshotname == "" {
+		snapshotname = GetCurrentSnapshotName(conn, vmname)
+	}
+	snap, err := domain.SnapshotLookupByName(snapshotname, 0)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
+	err = snap.RevertToSnapshot(0)
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-1)
+	}
+}
+
+// CreateSnapshot() : Creates a snaspshot on the given VM
+func CreateSnapshot(vmname string, snapshotname string) {
+	//var dsnap *libvirt.DomainSnapshot
+	conn := helpers.Connect2HVM()
+	defer conn.Close()
+
+	domain := helpers.GetDomain(conn, vmname)
+	if domain == nil {
+		os.Exit(0)
+	}
+	defer domain.Free()
+
+	helpers.Wait4Shutdown(domain, vmname)
+
+	snapXML := `<domainsnapshot>
+		<description>DESCRIPTION</description>
+		<name>SNAPNAME</name>
+</domainsnapshot>`
+	snapXML = strings.Replace(snapXML, "DESCRIPTION", "vmman3-generated snapshot", 1)
+	snapXML = strings.Replace(snapXML, "SNAPNAME", snapshotname, 1)
+
+	_, err := domain.CreateSnapshotXML(snapXML, 0)
+	if err != nil {
+		lverr, _ := err.(libvirt.Error)
+		fmt.Println(lverr.Message)
+		os.Exit(-1)
+	}
+}

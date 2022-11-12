@@ -32,4 +32,5 @@ NOTE: The snapshot cannot be removed if a child snapshot is present.`,
 }
 
 func init() {
+	snapCmd.AddCommand(rmsnapCmd)
 }
