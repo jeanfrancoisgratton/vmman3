@@ -17,17 +17,17 @@ import (
 
 // CreateDatabase() : action du db bootstrap
 func CreateDatabase() {
-	var creds helpers.DbCredsStruct
+	var envCreds helpers.EnvironmentStruct
 
 	rcFile, ok := helpers.CheckIfConfigExists()
 	if ok {
-		creds = helpers.Json2creds()
+		envCreds = helpers.Json2creds()
 	} else {
-		creds = getCreds()
-		helpers.Creds2json(rcFile, creds)
+		envCreds = getCreds()
+		helpers.Creds2json(rcFile, envCreds)
 	}
 
-	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", creds.RootUsr, creds.RootPasswd, creds.Hostname, creds.Port)
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/postgres", envCreds.RootUsr, envCreds.RootPasswd, envCreds.Hostname, envCreds.Port)
 
 	dbconn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
@@ -36,47 +36,47 @@ func CreateDatabase() {
 	}
 	defer dbconn.Close(context.Background())
 
-	if createUser(dbconn, creds.DbUsr, creds.DbPasswd) {
-		createTablesSchemas(creds)
+	if createUser(dbconn, envCreds.DbUsr, envCreds.DbPasswd) {
+		createTablesSchemas(envCreds)
 	}
 }
 
 // getCreds() : collecte les credentials nécessaires pour se connecter à la BD PGSQL, et créer la BD vmman
-func getCreds() helpers.DbCredsStruct {
-	var dbCreds helpers.DbCredsStruct
+func getCreds() helpers.EnvironmentStruct {
+	var envCreds helpers.EnvironmentStruct
 	var err error
 
 	fmt.Print("Please enter the database hostname: ")
-	_, err = fmt.Scanln(&dbCreds.Hostname)
+	_, err = fmt.Scanln(&envCreds.Hostname)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
 	fmt.Print("Please enter the database port: ")
-	_, err = fmt.Scanln(&dbCreds.Port)
+	_, err = fmt.Scanln(&envCreds.Port)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
 	fmt.Print("Please enter the administrative account username: ")
-	_, err = fmt.Scanln(&dbCreds.RootUsr)
+	_, err = fmt.Scanln(&envCreds.RootUsr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
-	dbCreds.RootPasswd = helpers.GetPassword("Please enter that account's password: ")
+	envCreds.RootPasswd = helpers.GetPassword("Please enter that account's password: ")
 
 	fmt.Print("Please enter the application's username: ")
-	_, err = fmt.Scanln(&dbCreds.DbUsr)
+	_, err = fmt.Scanln(&envCreds.DbUsr)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
 		os.Exit(-1)
 	}
 
-	dbCreds.DbPasswd = helpers.GetPassword("Please enter the application's user password: ")
+	envCreds.DbPasswd = helpers.GetPassword("Please enter the application's user password: ")
 
 	fmt.Println()
-	return dbCreds
+	return envCreds
 }
 
 // createUser() : crée le user vmman
@@ -99,6 +99,5 @@ func createUser(dbconn *pgx.Conn, username string, passwd string) bool {
 	dbconn.Exec(ctx, "ALTER USER "+username+" CREATEDB;")
 	dbconn.Exec(ctx, "ALTER USER "+username+" WITH SUPERUSER;")
 	dbconn.Exec(ctx, "ALTER DEFAULT PRIVILEGES FOR USER "+username+" IN SCHEMA vmman.public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO "+username+";")
-
 	return true
 }

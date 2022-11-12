@@ -14,7 +14,7 @@ import (
 
 // createTablesSchemas() : crée la bd, schemas et tables
 // TODO : transactions, anyone ? :p
-func createTablesSchemas(creds helpers.DbCredsStruct) {
+func createTablesSchemas(creds helpers.EnvironmentStruct) {
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 	ctx := context.Background()
 

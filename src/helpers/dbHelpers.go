@@ -14,16 +14,6 @@ import (
 	"strings"
 )
 
-// La structure utilisée pour créer la bd originale
-type DbCredsStruct struct {
-	Hostname   string `json:"hostname" yaml:"hostname"`
-	Port       int    `json:"port" yaml:"port"`
-	RootUsr    string `json:"rootusr" yaml:"rootusr"`
-	RootPasswd string `json:"rootpasswd" yaml:"rootpasswd"`
-	DbUsr      string `json:"dbusr" yaml:"dbusr"`
-	DbPasswd   string `json:"dbpasswd" yaml:"dbpasswd"`
-}
-
 // BuildConnectURI() : Builds a PGSQL connection string from the ConnectURI string
 func BuildConnectURI(host string) string {
 	var username string
@@ -57,8 +47,8 @@ func SplitConnectURI(uri string) (string, string, string) {
 	return protoStr[0], user, hypervisor
 }
 
-// creds2json() : sérialise la structure dbCredsStruct dans un fichier JSON
-func Creds2json(jsonFile string, creds DbCredsStruct) {
+// creds2json() : sérialise la structure EnvironmentStruct dans un fichier JSON
+func Creds2json(jsonFile string, creds EnvironmentStruct) {
 	jStream, err := json.MarshalIndent(creds, "", "  ")
 	if err != nil {
 		fmt.Println("Error", err)
@@ -66,8 +56,8 @@ func Creds2json(jsonFile string, creds DbCredsStruct) {
 	os.WriteFile(jsonFile, jStream, 0600)
 }
 
-func Json2creds() DbCredsStruct {
-	var payload DbCredsStruct
+func Json2creds() EnvironmentStruct {
+	var payload EnvironmentStruct
 	rcDir, _ := os.UserHomeDir()
 	rcFile := rcDir + "/.config/vmman3/" + EnvironmentFile
 	jFile, _ := os.ReadFile(rcFile)

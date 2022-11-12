@@ -15,7 +15,7 @@ func Changelog() {
 	fmt.Print(`
 VERSION		DATE			COMMENT
 -------		----			-------
-0.700		2022.11.11		hypervisor subcommands
+0.650		2022.11.11		hypervisor subcommands
 0.600		2022.11.11		snapshot subcommands completed
 0.525		2022.10.30		completed vm rename and vm rm
 0.510		2022.10.22		vmman ls near-completion, completed DB commands for now
