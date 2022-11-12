@@ -13,7 +13,7 @@ Summary:    vmman
 
 Group:      virtualMachines/orchestration
 License:    GPL2.0
-URL:        http://git.famillegratton.net:3000/devops/vmman3
+URL:        https://git.famillegratton.net:3000/devops/vmman3
 
 Source0:    %{name}-%{_version}.tar.gz
 BuildArchitectures: x86_64

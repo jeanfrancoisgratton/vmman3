@@ -75,6 +75,13 @@ func getCreds() helpers.EnvironmentStruct {
 
 	envCreds.DbPasswd = helpers.GetPassword("Please enter the application's user password: ")
 
+	fmt.Print("Please enter the default hypervisor connecting username: ")
+	_, err = fmt.Scanln(&envCreds.HypervisorDefaultUser)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "\nError: %s\n\n", err)
+		os.Exit(-1)
+	}
+
 	fmt.Println()
 	return envCreds
 }

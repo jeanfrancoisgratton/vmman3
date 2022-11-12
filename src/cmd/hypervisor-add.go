@@ -13,15 +13,11 @@ import (
 
 // hypervisorAddCmd represents the hypervisorAdd command
 var hypervisorAddCmd = &cobra.Command{
-	Use:   "hypervisorAdd",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "add",
+	Short: "Adds an hypervisor to the DB",
+	Long: `This is where you add an hypervisor in the DB, with its up address (or resolvable hostname) and connecting username.
 
-// USAGE: vmman hypervisor add HYPERVISOR_NAME HYPERVISOR_ADDR HYPERVISOR_USER
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+USAGE: vmman hypervisor add HYPERVISOR_NAME HYPERVISOR_ADDR HYPERVISOR_USER`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 3 {
 			fmt.Println("USAGE: vmman hypervisor add HYPERVISOR_NAME HYPERVISOR_ADDR HYPERVISOR_USER")
