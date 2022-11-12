@@ -8,7 +8,10 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v5"
+	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/jedib0t/go-pretty/v6/text"
 	"os"
+	"vmman3/db"
 	"vmman3/helpers"
 )
 
@@ -59,4 +62,52 @@ func DelHypervisor(name, user string) {
 		os.Exit(-2)
 	}
 	fmt.Printf("Completed:\n%s\n", sqlString)
+}
+
+// ListHypervisors() : lists all hypervisors
+func ListHypervisors() {
+	var hypervisor db.DbHypervisors
+	var hypervisors []db.DbHypervisors
+	envCreds := helpers.Json2creds()
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", envCreds.RootUsr, envCreds.RootPasswd, envCreds.Hostname, envCreds.Port)
+
+	dbconn, err := pgx.Connect(context.Background(), connString)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+	defer dbconn.Close(context.Background())
+
+	rows, err := dbconn.Query(context.Background(), "SELECT * from hypervisors ORDER BY hid")
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		retcode := rows.Scan(&hypervisor.HID, &hypervisor.Hname, &hypervisor.Haddress, &hypervisor.Hconnectinguser)
+		if retcode != nil {
+			fmt.Println("Error:", retcode)
+			os.Exit(-9)
+		}
+		hypervisors = append(hypervisors, hypervisor)
+	}
+	helpers.SurroundText("Registered hypervisors", false)
+
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+	t.AppendHeader(table.Row{"ID", "Name", "Address", "Connecting user"})
+
+	for _, hypervisor := range hypervisors {
+		t.AppendRow([]interface{}{hypervisor.HID, hypervisor.Hname, hypervisor.Haddress, hypervisor.Hconnectinguser})
+	}
+	t.SortBy([]table.SortBy{
+		{Name: "ID", Mode: table.Asc},
+		{Name: "Name", Mode: table.Asc},
+	})
+	t.SetStyle(table.StyleDefault)
+	//t.Style().Options.DrawBorder = false
+	//t.Style().Options.SeparateColumns = false
+	t.Style().Format.Header = text.FormatDefault
+	t.Render()
 }

@@ -66,7 +66,6 @@ func VmInventory() {
 		}
 		// time.Unix(image.Created, 0).Format("2006.01.02 15:04:05")
 		t.AppendRow([]interface{}{sID, vmspec.viName, vmspec.viState, vmspec.viMem, vmspec.viCpu, vmspec.viSnapshot, vmspec.viCurrentSnapshot, vmspec.viIPaddress, vmspec.viLastStatusChange, vmspec.viHypervisor, vmspec.viOperatingSystem, vmspec.viStoragePool})
-
 	}
 	t.SortBy([]table.SortBy{
 		{Name: "ID", Mode: table.Asc},
