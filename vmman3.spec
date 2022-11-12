@@ -2,7 +2,7 @@
 %define _build_id_links none
 %define _name   vmman3
 %define _prefix /opt
-%define _version 0.600
+%define _version 0.700
 %define _rel 0
 %define _arch x86_64
 
@@ -195,7 +195,7 @@ strip %{_prefix}/bin/%{name}
 - Completed SEQUENCE update (jean-francois@famillegratton.net)
 - Now SEQUENCE nextvals are updated after db import (jean-
   francois@famillegratton.net)
-- new sample, dock update, specfile fix (jean-francois@famillegratton.net)
+- new sample, doc update, specfile fix (jean-francois@famillegratton.net)
 - Added an extra script (jean-francois@famillegratton.net)
 - Forgot to bump version for deb package (jean-francois@famillegratton.net)
 
