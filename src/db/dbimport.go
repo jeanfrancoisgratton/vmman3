@@ -42,8 +42,8 @@ func Import(directory string) {
 // structs2DB() : Injecte les structures dans la BD
 // Ce n'est pas la méthode la plus efficace : on fait un INSERT par ligne, mais la quantité
 // De données par table ne justifie pas l'emploi de transactions
-// func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, vmc []dbClusters, tpt []dbTemplates, dsk []dbDisks) {
-func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []dbStoragePools, vms []dbVmStates, tpt []dbTemplates, dsk []dbDisks) {
+// func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []DbStoragePools, vms []dbVmStates, vmc []dbClusters, tpt []dbTemplates, dsk []dbDisks) {
+func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []DbStoragePools, vms []dbVmStates, tpt []dbTemplates, dsk []dbDisks) {
 	ctx := context.Background()
 	// hyperviseurs
 	for _, h := range hyps {
@@ -181,8 +181,8 @@ func getHypervisorTable(directory string) []DbHypervisors {
 	return hyps
 }
 
-func getStoragePoolTable(directory string) []dbStoragePools {
-	var sps []dbStoragePools
+func getStoragePoolTable(directory string) []DbStoragePools {
+	var sps []DbStoragePools
 	fname := "storagepools.json"
 	if !helpers.CheckNOENT(directory, fname) {
 		os.Exit(1)

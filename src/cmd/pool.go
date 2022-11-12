@@ -4,7 +4,6 @@ package cmd
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +13,7 @@ var poolCmd = &cobra.Command{
 	Short: "Storage pool management",
 	Long:  `Commands to manage the storage pool.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("pool called")
+		fmt.Println("You need a subcommand (add|del|ls) with vmman pool")
 	},
 }
 

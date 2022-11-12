@@ -13,7 +13,7 @@ type DbHypervisors struct {
 }
 
 // table: storagepools
-type dbStoragePools struct {
+type DbStoragePools struct {
 	SpID    uint8  `json:"id" yaml:"id"`
 	SpName  string `json:"name" yaml:"name"`
 	SpPath  string `json:"path" yaml:"path"`

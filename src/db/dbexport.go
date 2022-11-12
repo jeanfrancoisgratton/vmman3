@@ -109,8 +109,8 @@ func GetHypervisorData(dbconn *pgx.Conn) []DbHypervisors {
 }
 
 // getSPdata() : prend le contenu de la table storagePools
-func getSpData(dbconn *pgx.Conn) []dbStoragePools {
-	var sps []dbStoragePools
+func getSpData(dbconn *pgx.Conn) []DbStoragePools {
+	var sps []DbStoragePools
 
 	rows, err := dbconn.Query(context.Background(), "SELECT * from storagepools ORDER BY spid")
 	if err != nil {
@@ -119,7 +119,7 @@ func getSpData(dbconn *pgx.Conn) []dbStoragePools {
 	defer rows.Close()
 
 	for rows.Next() {
-		var sp dbStoragePools
+		var sp DbStoragePools
 		retcode := rows.Scan(&sp.SpID, &sp.SpName, &sp.SpPath, &sp.SpOwner)
 		if retcode != nil {
 			fmt.Println("Error:", retcode)
