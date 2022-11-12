@@ -58,6 +58,25 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Fri Nov 11 2022 builder <builder@famillegratton.net> 0.600-0
+- vmman snap subcommands completed; version bump (jean-
+  francois@famillegratton.net)
+- DomainLookupByName() is now in the helpers package (...and it works this
+  time) (jean-francois@famillegratton.net)
+- CreateSnapshot() stub, sync zenika-> (jean-francois@famillegratton.net)
+- Completed snap rm (jean-francois@famillegratton.net)
+- Refactoring: moved back Wait4Shutdown() in the helpers package (jean-
+  francois@famillegratton.net)
+- sync bergen-> (jean-francois@famillegratton.net)
+- Completed snap ls (jean-francois@famillegratton.net)
+- fixed vmman reset, near-completed vmman snap ls (jean-
+  francois@famillegratton.net)
+- new samples (jean-francois@famillegratton.net)
+- vm_management package refactoring and db export format change (jean-
+  francois@famillegratton.net)
+- sync bergen -> (jean-francois@famillegratton.net)
+- corrected variable mismatch (jean-francois@famillegratton.net)
+
 * Sat Nov 05 2022 builder <builder@famillegratton.net> 0.550-0
 - Completed vm console (jean-francois@famillegratton.net)
 - libvirt.Connect has been moved in the helpers package; fixed issue with vm
