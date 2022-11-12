@@ -1,3 +1,4 @@
 - [x] vmman vm stopall fails on vm alpinedev or alpinestorage
 - [x] vmman stopall -a will not work at all (silently returns)
 - [x] vmman -c $hypervisor reset : double-stop, no start
+- 

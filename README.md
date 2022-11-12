@@ -5,7 +5,6 @@ From this tool you can:
 - create/delete VMs
 - start/stop VMs
 - manage VM snapshots
-- manage VM clusters.
 - manage templated VMs (the templated VMs are the "source" VMs that get copied into your target VM)
 - edit resources (vpus, vmem, storage) of a given VM
 - manage all back-end related data

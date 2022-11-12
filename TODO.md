@@ -32,7 +32,7 @@ This needs to be reset (drop sequence, recreate with higher value).
 
 [ - ] - Template subcommands.
 
-[    ] - Completion of the snapshot package.
+[ xx ] - Completion of the snapshot package.
 
 [ x ] - Completion of the vm_management package: Stop[All]/Start[All]/Reset[All].
 
@@ -40,10 +40,14 @@ This needs to be reset (drop sequence, recreate with higher value).
 
 [ - ] - New package: resources (? could be folded into `vm_management` ?).
 
-[   ] - New package : cluster (? might not need this one anymore, unsure)
+[ .. ] - New package : cluster (? might not need this one anymore, unsure)
 
 [ - ] - Minor: show uptime when VM is up, otherwise show Last status change
 
+[  ] - Hypervisor management
+
+[ - ] - Better help handling than the defaults provided with `cobra`
+
 Nice to have:<br>
-func (d *Domain) GetGuestInfo(types DomainGuestInfoTypes, flags uint32) (*DomainGuestInfo, error)<br>
+`func (d *Domain) GetGuestInfo(types DomainGuestInfoTypes, flags uint32) (*DomainGuestInfo, error)`<br>
 https://gitlab.com/libvirt/libvirt-go-module/-/blob/v1.8007.0/domain.go#L5527
