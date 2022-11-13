@@ -1,0 +1,13 @@
+<pool type='dir'>
+  <name>bergen</name>
+  <uuid>31b281df-bac3-4f28-8786-3937ce556078</uuid>
+  <capacity unit='bytes'>0</capacity>
+  <allocation unit='bytes'>0</allocation>
+  <available unit='bytes'>0</available>
+  <source>
+  </source>
+  <target>
+    <path>/vmpool/bergen</path>
+  </target>
+</pool>
+

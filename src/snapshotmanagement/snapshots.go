@@ -15,7 +15,7 @@ import (
 
 // GetCurrentSnapshotName() : Gets the name of the current snapshot for a given VM
 func GetCurrentSnapshotName(conn *libvirt.Connect, vmname string) string {
-	var currentSnapshot = "none"
+	var currentSnapshot = "n/a"
 
 	domain := helpers.GetDomain(conn, vmname)
 	if domain == nil {
@@ -87,6 +87,10 @@ func RemoveSnapshot(vmname string, snapshotname string) {
 	helpers.Wait4Shutdown(domain, vmname)
 	if snapshotname == "" {
 		snapshotname = GetCurrentSnapshotName(conn, vmname)
+		if snapshotname == "n/a" {
+			fmt.Println("You will need to explicitely name the snapshot as this VM does not seem to have a current snapshot")
+			os.Exit(-3)
+		}
 	}
 	snap, err := domain.SnapshotLookupByName(snapshotname, 0)
 	if err != nil {
@@ -99,6 +103,8 @@ func RemoveSnapshot(vmname string, snapshotname string) {
 		fmt.Println("Error: ", err)
 		os.Exit(-1)
 	}
+
+	fmt.Printf("Snapshot %s removed from %s/%s\n", snapshotname, helpers.ConnectURI, vmname)
 }
 
 // RemoveSnapshots() : Removes snapshot of a given VM
@@ -120,6 +126,10 @@ func RevertSnapshot(vmname string, snapshotname string) {
 	helpers.Wait4Shutdown(domain, vmname)
 	if snapshotname == "" {
 		snapshotname = GetCurrentSnapshotName(conn, vmname)
+		if snapshotname == "n/a" {
+			fmt.Println("You will need to explicitely name the snapshot as this VM does not seem to have a current snapshot")
+			os.Exit(-3)
+		}
 	}
 	snap, err := domain.SnapshotLookupByName(snapshotname, 0)
 	if err != nil {
@@ -131,6 +141,8 @@ func RevertSnapshot(vmname string, snapshotname string) {
 		fmt.Println("Error: ", err)
 		os.Exit(-1)
 	}
+
+	fmt.Printf("VM %s/%s reverted to snapshot %s\n", helpers.ConnectURI, vmname, snapshotname)
 }
 
 // CreateSnapshot() : Creates a snaspshot on the given VM
@@ -160,4 +172,5 @@ func CreateSnapshot(vmname string, snapshotname string) {
 		fmt.Println(lverr.Message)
 		os.Exit(-1)
 	}
+	fmt.Printf("Snapshot %s created on %s/%s\n", snapshotname, helpers.ConnectURI, vmname)
 }

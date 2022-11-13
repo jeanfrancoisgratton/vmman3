@@ -51,3 +51,7 @@ This needs to be reset (drop sequence, recreate with higher value).
 Nice to have:<br>
 `func (d *Domain) GetGuestInfo(types DomainGuestInfoTypes, flags uint32) (*DomainGuestInfo, error)`<br>
 https://gitlab.com/libvirt/libvirt-go-module/-/blob/v1.8007.0/domain.go#L5527
+
+
+Copy templated volume to new vol:
+virsh help vol-create-from
