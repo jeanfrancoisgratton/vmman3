@@ -4,6 +4,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"fmt"
 	"vmman3/storagepool"
 
 	"github.com/spf13/cobra"
@@ -17,6 +18,7 @@ var poollistCmd = &cobra.Command{
 	Short: "Lists all pools currently configured in the DB",
 	Long:  `If a pool has been configured but has not been inserted in the database it will not show up.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("LIMITED FUNCTIONALITY !! What you see here is what's in the DB, not in QEMU")
 		storagepool.PoolList()
 	},
 }
