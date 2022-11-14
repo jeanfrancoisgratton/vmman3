@@ -1,6 +1,5 @@
 /*
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -12,16 +11,13 @@ import (
 
 // pooldelCmd represents the pooldel command
 var pooldelCmd = &cobra.Command{
-	Use:   "pooldel",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:     "r,",
+	Aliases: []string{"del"},
+	Short:   "TODO: Deletes a pool storage",
+	Long:    `TODO: This will remove a pool storage both in QEMU (libvirt) and the databse.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("pooldel called")
+		fmt.Println("pool rm NOT IMPLEMENTED")
+		//storagepool.PoolAdd(args[0])
 	},
 }
 

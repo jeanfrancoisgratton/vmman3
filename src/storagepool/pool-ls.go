@@ -11,6 +11,7 @@ import (
 	"vmman3/helpers"
 )
 
+// TODO: fetching storagePools from QEMU _and_ DB, instead of only DB
 // PoolList () : Lists all pools from the DB
 func PoolList() {
 	var storagepool db.DbStoragePools
@@ -43,16 +44,31 @@ func PoolList() {
 
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
+	//t.AppendHeader(table.Row{"ID", "Name", "Path", "Owner", "Autostart ?", "Active ?"})
 	t.AppendHeader(table.Row{"ID", "Name", "Path", "Owner"})
 
-	for _, storagepool := range storagepools {
-		t.AppendRow([]interface{}{storagepool.SpID, storagepool.SpName, storagepool.SpPath, storagepool.SpOwner})
+	for _, sp := range storagepools {
+		//var currentHost, isAutostart, isActive string
+		//if helpers.ConnectURI == "qemu:///system" {
+		//	currentHost, _ = os.Hostname()
+		//} else {
+		//	_, _, currentHost = helpers.SplitConnectURI(helpers.ConnectURI)
+		//}
+		//if sp.SpOwner != "any" && currentHost != sp.SpOwner {
+		//	isAutostart = "?"
+		//	isActive = "?"
+		//} else {
+		//	isAutostart, isActive = getPoolStatus(sp.SpName)
+		//}
+
+		//t.AppendRow([]interface{}{sp.SpID, sp.SpName, sp.SpPath, sp.SpOwner, isAutostart, isActive})
+		t.AppendRow([]interface{}{sp.SpID, sp.SpName, sp.SpPath, sp.SpOwner})
 	}
 	t.SortBy([]table.SortBy{
 		{Name: "ID", Mode: table.Asc},
 		{Name: "Name", Mode: table.Asc},
 	})
-	t.SetStyle(table.StyleDefault)
+	t.SetStyle(table.StyleLight)
 	//t.Style().Options.DrawBorder = false
 	//t.Style().Options.SeparateColumns = false
 	t.Style().Format.Header = text.FormatDefault

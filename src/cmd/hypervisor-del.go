@@ -12,8 +12,8 @@ import (
 
 // hypervisorDelCmd represents the hypervisorDel command
 var hypervisorDelCmd = &cobra.Command{
-	Use:     "del",
-	Aliases: []string{"rm", "delete"},
+	Use:     "rm",
+	Aliases: []string{"rm", "del"},
 	Short:   "Removes an hypervisor from the DB",
 	Long: `This is where you remove an hypervisor in the DB, optionally a user from an hypervisor.
 
