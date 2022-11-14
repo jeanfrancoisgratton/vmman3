@@ -36,8 +36,6 @@ func displaySnapshots(snaps []SnapshotXMLstruct, vmname string) {
 	t.AppendHeader(table.Row{"Snapshot name", "Current", "Parent", "Creation time"})
 
 	for _, snapshot := range snaps {
-
-		// time.Unix(image.Created, 0).Format("2006.01.02 15:04:05")
 		tcreated := time.Unix(snapshot.CreationTime, 0).Format("2006.01.02 15:04:05")
 		t.AppendRow([]interface{}{snapshot.SnapshotName, snapshot.CurrentSnapshot, snapshot.Parent.ParentName, tcreated})
 

@@ -68,6 +68,7 @@ func DelHypervisor(name, user string) {
 func ListHypervisors() {
 	var hypervisor db.DbHypervisors
 	var hypervisors []db.DbHypervisors
+
 	envCreds := helpers.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", envCreds.RootUsr, envCreds.RootPasswd, envCreds.Hostname, envCreds.Port)
 
@@ -110,4 +111,5 @@ func ListHypervisors() {
 	//t.Style().Options.SeparateColumns = false
 	t.Style().Format.Header = text.FormatDefault
 	t.Render()
+
 }
