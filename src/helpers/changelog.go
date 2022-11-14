@@ -15,7 +15,7 @@ func Changelog() {
 	fmt.Print(`
 VERSION		DATE			COMMENT
 -------		----			-------
-0.700		2022.11.13		vm create.....
+0.700		2022.11.13		resources management (disk, cpu, mem)
 0.660		2022.11.12		storage pool subcommands
 0.650		2022.11.11		hypervisor subcommands
 0.600		2022.11.11		snapshot subcommands completed
