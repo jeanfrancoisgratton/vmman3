@@ -1,4 +1,4 @@
-package storagepool
+package poolmanagement
 
 import (
 	"context"

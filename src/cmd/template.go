@@ -1,30 +1,43 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-*/
+// vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
+// src/cmd/templatemanagement.go
+
 package cmd
 
 import (
 	"fmt"
+	"vmman3/templatemanagement"
 
 	"github.com/spf13/cobra"
 )
 
-// templateCmd represents the template command
+// templateCmd represents the templatemanagement command
 var templateCmd = &cobra.Command{
-	Use:   "template",
+	Use:   "templatemanagement",
 	Short: "Template-related commands",
-	Long: `Here you will template commands such as:
+	Long: `Here you will templatemanagement commands such as:
 
-	- Editing template specs
+	- Editing templatemanagement specs
 	- Removing templates
 	- Adding new templates.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("template called")
+		fmt.Println("templatemanagement called")
+	},
+}
+
+// listCmd represents the list command
+var templlsCmd = &cobra.Command{
+	Use:     "ls",
+	Aliases: []string{"list"},
+	Short:   "Lists all templated VM",
+	Long:    `This subcommand will list all templated VM with some extra information.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		templatemanagement.List()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(templateCmd)
+	templateCmd.AddCommand(templlsCmd)
 
 	// Here you will define your flags and configuration settings.
 

@@ -64,7 +64,7 @@ func getStorage4VM(vmname string) ([]string, []string) {
 	// 1st: find the disks and storage pool for the given hypervisor+vm combination
 	configuredPools, configuredDisks := getDisks(dbconn, vmname, hypervisor)
 
-	// 2nd: find the storagepool paths
+	// 2nd: find the poolmanagement paths
 	poolPaths := getStoragePoolPaths(dbconn, configuredPools, hypervisor)
 	return poolPaths, configuredDisks
 }
@@ -97,7 +97,7 @@ func getDisks(dbconn *pgx.Conn, vm string, hypervisor string) ([]string, []strin
 	return configuredPools, configuredDisks
 }
 
-// getStoragePoolPaths(): Find the configured path for each defined storagepool used in the given hypervison
+// getStoragePoolPaths(): Find the configured path for each defined poolmanagement used in the given hypervison
 func getStoragePoolPaths(dbconn *pgx.Conn, pools []string, hypervisor string) []string {
 	var paths []string
 	var pathname string

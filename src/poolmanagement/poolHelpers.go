@@ -1,8 +1,8 @@
 // vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
-// src/storagepool/poolHelpers.go
+// src/poolmanagement/poolHelpers.go
 // 2022-11-13 16:18:34
 
-package storagepool
+package poolmanagement
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ func getPoolStatus(poolname string) (autostart, active string) {
 	var aactive, astart bool
 	pool, err := conn.LookupStoragePoolByName(poolname)
 	if err != nil {
-		fmt.Printf("Unable to fetch storagepool %s info: %s", poolname, err)
+		fmt.Printf("Unable to fetch poolmanagement %s info: %s", poolname, err)
 		os.Exit(-19)
 	}
 	aactive, err = pool.IsActive()

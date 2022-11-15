@@ -5,7 +5,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"vmman3/storagepool"
+	"vmman3/poolmanagement"
 )
 
 // poolCmd represents the pool command
@@ -25,7 +25,7 @@ var pooladdCmd = &cobra.Command{
 	Long:  `TODO: This will add a new pool storage both in QEMU (libvirt) and the databse.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("pool add NOT IMPLEMENTED")
-		//storagepool.PoolAdd(args[0], args[1])
+		//poolmanagement.PoolAdd(args[0], args[1])
 	},
 }
 
@@ -37,7 +37,7 @@ var pooldelCmd = &cobra.Command{
 	Long:    `TODO: This will remove a pool storage both in QEMU (libvirt) and the databse.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("pool rm NOT IMPLEMENTED")
-		//storagepool.PoolAdd(args[0])
+		//poolmanagement.PoolAdd(args[0])
 	},
 }
 
@@ -49,7 +49,7 @@ var poollistCmd = &cobra.Command{
 	Long:  `If a pool has been configured but has not been inserted in the database it will not show up.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("LIMITED FUNCTIONALITY !! What you see here is what's in the DB, not in QEMU")
-		storagepool.PoolList()
+		poolmanagement.PoolList()
 	},
 }
 
