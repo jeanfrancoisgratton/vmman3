@@ -13,7 +13,6 @@ import (
 )
 
 // createTablesSchemas() : crée la bd, schemas et tables
-// TODO : transactions, anyone ? :p
 func createTablesSchemas(creds helpers.EnvironmentStruct) {
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 	ctx := context.Background()
@@ -60,7 +59,6 @@ func createSeqs(dbconn *pgx.Conn) {
 }
 
 // createTables() : crée les tables dans la BD
-// TODO : transactions, anyone ? :p
 func createTables(dbconn *pgx.Conn) {
 	ctx := context.Background()
 	_, err := dbconn.Exec(ctx, "CREATE TABLE IF NOT EXISTS storagepools "+

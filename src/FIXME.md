@@ -4,3 +4,5 @@
 - [ ] having multiple users on a single hypervisor in DB will mess the -a option.... (hint: https://golangbyexample.com/get-current-username-golang/)
 
 = [ ] vmman1 legacy: I need to create my VM + pools under my own name.
+
+- !!! [ ] vmman ls -a not working anymore ????

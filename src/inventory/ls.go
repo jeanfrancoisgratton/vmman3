@@ -14,8 +14,6 @@ import (
 	"github.com/jedib0t/go-pretty/v6/text"
 )
 
-// LOTS of stuff to unpack in here.. FIXME
-
 func VmInventory() {
 	var hyps []db.DbHypervisors
 	var allVMspecs []vmInfo

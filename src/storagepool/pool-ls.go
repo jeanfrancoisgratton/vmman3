@@ -11,7 +11,6 @@ import (
 	"vmman3/helpers"
 )
 
-// TODO: fetching storagePools from QEMU _and_ DB, instead of only DB
 // PoolList () : Lists all pools from the DB
 func PoolList() {
 	var storagepool db.DbStoragePools
