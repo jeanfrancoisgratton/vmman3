@@ -7,9 +7,6 @@ __legend__<br>
 <br><br><br>
 __ROADMAP__
 
-[ x  ] - QEMU connection string defaults to root@some-host.
-This needs to change with both a -u param, and/or a default value in some JSON file, and/or a DB value.
-
 [ xx ] - QEMU connection string defaults to root@some-host.
 This needs to change with both a -u param, and/or a default value in some JSON file, and/or a DB value.
 
@@ -21,7 +18,7 @@ Process that it's OK (or not) to proceed.
 [ .. ] - Everything under helpers/ should be under its proper package.
 That's a relic from the Helper class in Python3's version, vmman1.
 
-[    ] - Learn GoLang Generics:
+[-] - Learn GoLang Generics:
 This might simplify (A LOT) the code, especially in the db/ package.
 That package is just ugly.
 
@@ -36,7 +33,7 @@ This needs to be reset (drop sequence, recreate with higher value).
 
 [ x ] - Completion of the vm_management package: Stop[All]/Start[All]/Reset[All].
 
-[ - ] - New package: pool_storage.
+[ xx ] - New package: pool_storage.
 
 [ - ] - New package: resources (? could be folded into `vm_management` ?).
 
@@ -44,7 +41,7 @@ This needs to be reset (drop sequence, recreate with higher value).
 
 [ - ] - Minor: show uptime when VM is up, otherwise show Last status change
 
-[  ] - Hypervisor management
+[ xx ] - Hypervisor management
 
 [ - ] - Better help handling than the defaults provided with `cobra`
 

@@ -45,6 +45,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&helpers.ConnectURI, "connection", "c", "qemu:///system", "Target hypervisor")
 	rootCmd.PersistentFlags().StringVarP(&helpers.EnvironmentFile, "environment", "e", "environment.json", "Environment file.")
 	rootCmd.PersistentFlags().BoolVarP(&helpers.BAllHypervisors, "allHypervisors", "a", false, "Make vmman multi hypervisor-aware")
+	rootCmd.PersistentFlags().StringVarP(&helpers.HypervisorUser, "hvmuser", "u", "root", "Default hypervisor user")
 }
 
 // -a will always override -c $HYPERVISOR_NAME
@@ -52,7 +53,7 @@ func initConfig() {
 	helpers.ConnectURI, _ = rootCmd.Flags().GetString("connection")
 	helpers.EnvironmentFile, _ = rootCmd.Flags().GetString("environment")
 	helpers.BAllHypervisors, _ = rootCmd.Flags().GetBool("allHypervisors")
-	//helpers.BSingleHypervisor, _ = rootCmd.Flags().GetBool("singleHypervisor")
+	helpers.HypervisorUser, _ = rootCmd.Flags().GetString("hvmuser")
 
 	// Checks if environment file name ends with ".json"
 	if !strings.HasSuffix(helpers.EnvironmentFile, ".json") {
