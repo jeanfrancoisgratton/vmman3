@@ -6,3 +6,4 @@
 - [ ] vmman1 legacy: I need to create my VM + pools under my own name.
 
 - [x] vmman ls -a not working anymore ????
+- [ ] vmman -c $HYPERVISOR vm xmldump not working on remote hypervisor
