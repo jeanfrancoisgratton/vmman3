@@ -12,7 +12,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 
-var version = "0.700 (2022.11.13)"
+var version = "0.800 (2022.11.18)"
 
 var rootCmd = &cobra.Command{
 	Use:     "vmman3",

@@ -1,7 +1,7 @@
 # Maintainer: Jean-Francois Gratton <jean-francois@famillegratton.net>
 # PACKAGER: APK Builder <builder@famillegratton.net>
 pkgname=vmman3
-pkgver=0.700
+pkgver=0.800
 pkgrel=0
 pkgdir=/data/packages
 builddir="$startdir/src/BUILD"
