@@ -17,9 +17,10 @@ func Connect2HVM() *libvirt.Connect {
 	conn, err := libvirt.NewConnect(ConnectURI)
 	if err != nil {
 		lverr, ok := err.(libvirt.Error)
-		if ok && lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" {
+		if ok && (lverr.Message == "End of file while reading data: virt-ssh-helper: cannot connect to '/var/run/libvirt/libvirt-sock': Failed to connect socket to '/var/run/libvirt/libvirt-sock': Connection refused: Input/output error" ||
+			strings.HasPrefix(lverr.Message, "Cannot recv data: ssh: connect to host")) {
 			fmt.Printf("Hypervisor %s is offline\n", ConnectURI)
-			return nil
+			os.Exit(-1)
 		} else {
 			panic(err)
 		}
