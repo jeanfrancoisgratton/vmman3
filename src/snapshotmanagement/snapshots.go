@@ -78,13 +78,17 @@ func RemoveSnapshot(vmname string, snapshotname string) {
 		os.Exit(0)
 	}
 	defer domain.Free()
+
 	numsnap, _ := domain.SnapshotNum(0)
 	if numsnap == 0 {
 		fmt.Printf("Domain %s has no snapshot\n", vmname)
 		os.Exit(0)
 	}
 
-	helpers.Wait4Shutdown(domain, vmname)
+	isup, _ := domain.IsActive()
+	if isup {
+		helpers.Wait4Shutdown(domain, vmname)
+	}
 	if snapshotname == "" {
 		snapshotname = GetCurrentSnapshotName(conn, vmname)
 		if snapshotname == "n/a" {
@@ -123,7 +127,11 @@ func RevertSnapshot(vmname string, snapshotname string) {
 		fmt.Printf("Domain %s has no snapshot\n", vmname)
 		os.Exit(0)
 	}
-	helpers.Wait4Shutdown(domain, vmname)
+
+	isup, _ := domain.IsActive()
+	if isup {
+		helpers.Wait4Shutdown(domain, vmname)
+	}
 	if snapshotname == "" {
 		snapshotname = GetCurrentSnapshotName(conn, vmname)
 		if snapshotname == "n/a" {
@@ -157,7 +165,10 @@ func CreateSnapshot(vmname string, snapshotname string) {
 	}
 	defer domain.Free()
 
-	helpers.Wait4Shutdown(domain, vmname)
+	isup, _ := domain.IsActive()
+	if isup {
+		helpers.Wait4Shutdown(domain, vmname)
+	}
 
 	snapXML := `<domainsnapshot>
 		<description>DESCRIPTION</description>

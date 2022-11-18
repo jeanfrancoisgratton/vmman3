@@ -7,5 +7,6 @@
 
 - [x] vmman ls -a not working anymore ?
 - [ ] vmman -c $HYPERVISOR vm xmldump not working on remote hypervisor
-- [ ] vmman ls -a crashes if one hypervisor is missing : needs better handling
-- [ ] vmman vm down $VM not working anymore 
+- [x] vmman ls -a crashes if one hypervisor is missing : needs better handling
+- [x] vmman vm down $VM not working anymore
+- 
