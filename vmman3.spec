@@ -58,6 +58,27 @@ strip %{_prefix}/bin/%{name}
 
 
 %changelog
+* Fri Nov 18 2022 builder <builder@famillegratton.net> 0.700-0
+- better vm state handling when managing snapshots (jean-
+  francois@famillegratton.net)
+- rough error handling when an hypervisor is missing (jean-
+  francois@famillegratton.net)
+- Sync before shutdown (jean-francois@famillegratton.net)
+- xmldump refactoring (jean-francois@famillegratton.net)
+- Sync zenika-> (jean-francois@famillegratton.net)
+- Yet another round of refactoring (jean-francois@famillegratton.net)
+- sync bergen-> (jean-francois@famillegratton.net)
+- CMD refactoring phase 2 (jean-francois@famillegratton.net)
+- MAJOR cobra refactoring: phase 1 (jean-francois@famillegratton.net)
+- version bump and vmman pool ls clarification (jean-
+  francois@famillegratton.net)
+- Completed storage pool, hypervisor subcommand fix (jean-
+  francois@famillegratton.net)
+- Misc fixes (jean-francois@famillegratton.net)
+- Minor fixes to snapshot management (jean-francois@famillegratton.net)
+- StoragePool subcommands stub (jean-francois@famillegratton.net)
+- Added hypervisor ls (jean-francois@famillegratton.net)
+
 * Sat Nov 12 2022 builder <builder@famillegratton.net> 0.650-0
 - Completed hypervisor subcommand (jean-francois@famillegratton.net)
 - hypervisor stub (jean-francois@famillegratton.net)
