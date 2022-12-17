@@ -38,6 +38,7 @@ ALL PREVIOUS INFO WILL BE LOST`,
 // dropCmd represents the drop command
 var dropCmd = &cobra.Command{
 	Use:   "drop",
+	Aliases: []string{"wipe"},
 	Short: "Drops the database",
 	Long: `The vmman database will be dropped (erased).
 
