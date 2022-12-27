@@ -2,14 +2,14 @@
 # PACKAGER: APK Builder <builder@famillegratton.net>
 pkgname=vmman3
 pkgver=0.700
-pkgrel=0
+pkgrel=1
 pkgdir=/data/packages
 builddir="$startdir/src/BUILD"
 pkgdesc="GO-based QEMU virtual machines manager"
 url="https://git.famillegratton.net:3000/devops/vmman3"
 arch=x86_64
 license=GPL2
-depends="libvirt libvirt-qemu virt-install sudo"
+depends="libvirt libvirt-qemu virt-install sudo postgresql14-contrib"
 install="$pkgname.pre-install"
 #source="$pkgname-$pkgver-$pkgrel.tar.bz2::http://localhost/$pkgname-$pkgver-$pkgrel.tar.bz2"
 

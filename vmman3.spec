@@ -3,7 +3,7 @@
 %define _name   vmman3
 %define _prefix /opt
 %define _version 0.700
-%define _rel 0
+%define _rel 1
 %define _arch x86_64
 
 Name:       vmman3
@@ -18,8 +18,8 @@ URL:        https://git.famillegratton.net:3000/devops/vmman3
 Source0:    %{name}-%{_version}.tar.gz
 BuildArchitectures: x86_64
 BuildRequires: libvirt-devel,wget,gcc
-Requires: libvirt-devel,libvirt,virt-clone,sudo
-#Obsoletes: vmman1 > 1.140
+Requires: libvirt-devel,libvirt,virt-clone,sudo,postgresql-contrib
+
 
 %description
 GoLang-based libvirt client
