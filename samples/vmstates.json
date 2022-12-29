@@ -104,7 +104,7 @@
     "name": "rocky2",
     "ip": "10.5.10.1",
     "online": false,
-    "laststatechange": "2022.11.16 16:08:56",
+    "laststatechange": "2022.12.27 08:47:24",
     "os": "rocky 8.6",
     "hypervisor": "oslo",
     "storagepool": "oslo"
@@ -124,7 +124,7 @@
     "name": "debian2",
     "ip": "10.5.10.2",
     "online": false,
-    "laststatechange": "2022.11.10 19:48:09",
+    "laststatechange": "2022.12.27 08:47:22",
     "os": "debian 11",
     "hypervisor": "oslo",
     "storagepool": "oslo"
@@ -158,5 +158,95 @@
     "os": "alpine 3.17",
     "hypervisor": "bergen",
     "storagepool": "bergen"
+  },
+  {
+    "id": 17,
+    "name": "kubem01",
+    "ip": "10.30.1.1",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:20",
+    "os": "debian 11",
+    "hypervisor": "oslo",
+    "storagepool": "vmpool"
+  },
+  {
+    "id": 18,
+    "name": "kubem02",
+    "ip": "10.30.1.2",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:57",
+    "os": "debian 11",
+    "hypervisor": "bergen",
+    "storagepool": "vmpool"
+  },
+  {
+    "id": 19,
+    "name": "kubee01",
+    "ip": "10.30.10.1",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:53",
+    "os": "alpine 3.17",
+    "hypervisor": "bergen",
+    "storagepool": "vmpool"
+  },
+  {
+    "id": 20,
+    "name": "kubew01",
+    "ip": "10.30.20.1",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:59",
+    "os": "debian 11",
+    "hypervisor": "bergen",
+    "storagepool": "vmpool"
+  },
+  {
+    "id": 21,
+    "name": "kubee02",
+    "ip": "10.30.10.2",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:55",
+    "os": "alpine 3.17",
+    "hypervisor": "bergen",
+    "storagepool": "vmpool"
+  },
+  {
+    "id": 22,
+    "name": "kubew02",
+    "ip": "10.30.20.2",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:21",
+    "os": "rocky 8.6",
+    "hypervisor": "oslo",
+    "storagepool": "vmpool"
+  },
+  {
+    "id": 23,
+    "name": "kubew03",
+    "ip": "10.30.20.3",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:22",
+    "os": "rocky 8.6",
+    "hypervisor": "oslo",
+    "storagepool": "vmpool"
+  },
+  {
+    "id": 24,
+    "name": "kubew04",
+    "ip": "10.30.20.4",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:23",
+    "os": "rocky 8.6",
+    "hypervisor": "oslo",
+    "storagepool": "vmpool"
+  },
+  {
+    "id": 25,
+    "name": "kubee03",
+    "ip": "10.30.10.3",
+    "online": false,
+    "laststatechange": "2022.12.29 07:39:18",
+    "os": "alpine 3.17",
+    "hypervisor": "oslo",
+    "storagepool": "vmpool"
   }
 ]

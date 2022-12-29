@@ -32,11 +32,11 @@ type dbVmStates struct {
 	VmStoragePool     string `json:"storagepool" yaml:"storagepool"`
 }
 
-//// table: clusters
-//type dbClusters struct {
-//	CID   uint8  `json:"id" yaml:"id"`
-//	Cname string `json:"name" yaml:"name"`
-//}
+// table: clusters
+type dbClusters struct {
+	CID   uint8  `json:"id" yaml:"id"`
+	Cname string `json:"name" yaml:"name"`
+}
 
 // table: templates
 type dbTemplates struct {

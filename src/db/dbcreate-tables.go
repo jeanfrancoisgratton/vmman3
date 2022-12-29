@@ -42,16 +42,14 @@ func createTablesSchemas(creds helpers.EnvironmentStruct) {
 // createSeqs() : crée les sequences dans la BD
 func createSeqs(dbconn *pgx.Conn) {
 	ctx := context.Background()
-	//dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS config.\"storagepools_spid_seq\" "+
-	//	"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 	dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"storagepools_spid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 	dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"hypervisors_hid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 	dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"vmstate_vmid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;")
-	//dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"clusters_cid_seq\" "+
-	//	"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
+	dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"clusters_cid_seq\" "+
+		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 	dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"templates_tid_seq\" "+
 		"INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1;")
 	dbconn.Exec(ctx, "CREATE SEQUENCE IF NOT EXISTS \"disks_did_seq\" "+
@@ -90,13 +88,13 @@ func createTables(dbconn *pgx.Conn) {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
 	}
-	//_, err = dbconn.Exec(ctx, "CREATE TABLE IF NOT EXISTS clusters "+
-	//	"(cid smallint NOT NULL DEFAULT nextval('\"clusters_cid_seq\"'::regclass), "+
-	//	"cname character varying(24) NOT NULL, CONSTRAINT clusters_pkey PRIMARY KEY (cid));")
-	//if err != nil {
-	//	fmt.Println("Error: ", err)
-	//	os.Exit(-2)
-	//}
+	_, err = dbconn.Exec(ctx, "CREATE TABLE IF NOT EXISTS clusters "+
+		"(cid smallint NOT NULL DEFAULT nextval('\"clusters_cid_seq\"'::regclass), "+
+		"cname character varying(24) NOT NULL, CONSTRAINT clusters_pkey PRIMARY KEY (cid));")
+	if err != nil {
+		fmt.Println("Error: ", err)
+		os.Exit(-2)
+	}
 	_, err = dbconn.Exec(ctx, "CREATE TABLE IF NOT EXISTS templates "+
 		"(tid smallint NOT NULL DEFAULT nextval('\"templates_tid_seq\"'::regclass), "+
 		"tname character varying(24) NOT NULL, towner character varying(24) NOT NULL, "+
@@ -124,6 +122,6 @@ func setTableOwnership(dbconn *pgx.Conn) {
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS storagepools OWNER to vmman;")
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS hypervisors OWNER to vmman;")
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS vmstates OWNER to vmman;")
-	//dbconn.Exec(ctx, "ALTER TABLE IF EXISTS clusters OWNER to vmman;")
+	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS clusters OWNER to vmman;")
 	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS disks OWNER to vmman;")
 }
