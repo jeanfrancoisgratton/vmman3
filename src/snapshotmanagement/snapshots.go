@@ -111,7 +111,7 @@ func RemoveSnapshot(vmname string, snapshotname string) {
 	fmt.Printf("Snapshot %s removed from %s/%s\n", snapshotname, helpers.ConnectURI, vmname)
 }
 
-// RemoveSnapshots() : Removes snapshot of a given VM
+// RevertSnapshot() : Reverts a VM to a named snapshot
 func RevertSnapshot(vmname string, snapshotname string) {
 	var snap *libvirt.DomainSnapshot
 	conn := helpers.Connect2HVM()

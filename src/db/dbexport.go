@@ -43,7 +43,7 @@ func Export(filename string) {
 	hypervisors := GetHypervisorData(dbconn)
 	storagePools := getSpData(dbconn)
 	vmStates := getVmStateData(dbconn)
-	//clusters := getClusterData(dbconn)
+	clusters := getClusterData(dbconn)
 	templates := getTemplateData(dbconn)
 	disks := getDisksData(dbconn)
 
@@ -56,9 +56,9 @@ func Export(filename string) {
 	if err := serialize(vmStates, "vmstates.json"); err != nil {
 		log.Fatalln(err)
 	}
-	//if err := serialize(clusters, "clusters.json"); err != nil {
-	//	log.Fatalln(err)
-	//}
+	if err := serialize(clusters, "clusters.json"); err != nil {
+		log.Fatalln(err)
+	}
 	if err := serialize(templates, "templates.json"); err != nil {
 		log.Fatalln(err)
 	}
@@ -152,27 +152,27 @@ func getVmStateData(dbconn *pgx.Conn) []dbVmStates {
 	return vmss
 }
 
-//// getClusterData() : prend le contenu de la table servers
-//func getClusterData(dbconn *pgx.Conn) []dbClusters {
-//	var clusters []dbClusters
-//
-//	rows, retcode := dbconn.Query(context.Background(), "SELECT * from clusters ORDER BY cid")
-//	if retcode != nil {
-//		fmt.Println("Error: ", retcode)
-//	}
-//	defer rows.Close()
-//
-//	for rows.Next() {
-//		var cluster dbClusters
-//		err := rows.Scan(&cluster.CID, &cluster.Cname)
-//		if err != nil {
-//			fmt.Println("Error:", err)
-//		} else {
-//			clusters = append(clusters, cluster)
-//		}
-//	}
-//	return clusters
-//}
+// getClusterData() : prend le contenu de la table servers
+func getClusterData(dbconn *pgx.Conn) []dbClusters {
+	var clusters []dbClusters
+
+	rows, retcode := dbconn.Query(context.Background(), "SELECT * from clusters ORDER BY cid")
+	if retcode != nil {
+		fmt.Println("Error: ", retcode)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var cluster dbClusters
+		err := rows.Scan(&cluster.CID, &cluster.Cname)
+		if err != nil {
+			fmt.Println("Error:", err)
+		} else {
+			clusters = append(clusters, cluster)
+		}
+	}
+	return clusters
+}
 
 // getTemplateData(): importe le contenu de la table templates
 func getTemplateData(dbconn *pgx.Conn) []dbTemplates {

@@ -18,8 +18,9 @@ var snapCmd = &cobra.Command{
 	Short:   "Snapshot management subcommand",
 	Long: `This is where you manage all snapshots on a given VM.
 
-Subcommands include : list, add, remove`,
+Subcommands include : list, add, remove, revert`,
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("You need to provide a subcommand: {create, rm, revert, ls}")
 	},
 }
 
