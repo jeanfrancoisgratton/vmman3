@@ -12,5 +12,68 @@
     "pool": "bergen",
     "vm": "alpinestorage",
     "hypervisor": "bergen"
+  },
+  {
+    "id": 3,
+    "name": "kubem01",
+    "pool": "vmpool",
+    "vm": "kubem01",
+    "hypervisor": "oslo"
+  },
+  {
+    "id": 4,
+    "name": "kubem02",
+    "pool": "vmpool",
+    "vm": "kubem02",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 5,
+    "name": "kubee01",
+    "pool": "vmpool",
+    "vm": "kubee01",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 6,
+    "name": "kubew01",
+    "pool": "vmpool",
+    "vm": "kubew01",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 7,
+    "name": "kubee02",
+    "pool": "vmpool",
+    "vm": "kubee02",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 8,
+    "name": "kubew02",
+    "pool": "vmpool",
+    "vm": "kubew02",
+    "hypervisor": "oslo"
+  },
+  {
+    "id": 9,
+    "name": "kubew03",
+    "pool": "vmpool",
+    "vm": "kubew03",
+    "hypervisor": "oslo"
+  },
+  {
+    "id": 10,
+    "name": "kubew04",
+    "pool": "vmpool",
+    "vm": "kubew04",
+    "hypervisor": "oslo"
+  },
+  {
+    "id": 11,
+    "name": "kubee03",
+    "pool": "vmpool",
+    "vm": "kubee03",
+    "hypervisor": "oslo"
   }
 ]
