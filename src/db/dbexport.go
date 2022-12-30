@@ -164,7 +164,7 @@ func getClusterData(dbconn *pgx.Conn) []dbClusters {
 
 	for rows.Next() {
 		var cluster dbClusters
-		err := rows.Scan(&cluster.CID, &cluster.Cname)
+		err := rows.Scan(&cluster.CID, &cluster.Cname, &cluster.Cclustermember)
 		if err != nil {
 			fmt.Println("Error:", err)
 		} else {

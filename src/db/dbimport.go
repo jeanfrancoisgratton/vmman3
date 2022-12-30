@@ -75,7 +75,7 @@ func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []DbStoragePools, vm
 	}
 	// clusters
 	for _, c := range vmc {
-		sqlStr := fmt.Sprintf("INSERT INTO clusters (cid, cname) VALUES (%d,'%s');", c.CID, c.Cname)
+		sqlStr := fmt.Sprintf("INSERT INTO clusters (cid, cname, cclustermember) VALUES (%d,'%s','%s');", c.CID, c.Cname, c.Cclustermember)
 		_, err := dbconn.Exec(ctx, sqlStr)
 		if err != nil {
 			panic(err)
