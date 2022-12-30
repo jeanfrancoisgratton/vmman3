@@ -10,6 +10,7 @@ import (
 	"os"
 	"vmman3/db"
 	"vmman3/helpers"
+	"github.com/jwalton/gchalk"
 )
 
 // ListClusters() : simple cluster enumeration
@@ -82,6 +83,6 @@ func RemoveCluster(args []string) {
 			panic(err)
 		}
 		//fmt.Printf("Cluster %s has been removed\n\n\n", arg)
-		fmt.Printf("Cluster %#v %#v\n", text.FgHiGreen.Sprintf("Cluster %s", arg), text.Reset.Sprintf(" has been removed.\n"))
+		fmt.Printf("Cluster %s has been %s from the database.\n", gchalk.WithBrightWhite().Bold(arg), gchalk.BrightRed("removed"))
 	}
 }
