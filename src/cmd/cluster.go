@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"vmman3/cluster"
 
 	"github.com/spf13/cobra"
 )
@@ -21,8 +22,19 @@ You can manage clusters the same way you manage single VMs: up, down, reboot, sn
 	},
 }
 
+var clusterLsCmd = &cobra.Command{
+	Use:     "ls",
+	Aliases: []string{"list"},
+	Short:   "Lists all clusters on all hypervisors",
+	Long:    `This will simply list all clusters registered on all hypervisors.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		cluster.Ls()
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(clusterCmd)
+	clusterCmd.AddCommand(clusterLsCmd)
 
 	// Here you will define your flags and configuration settings.
 
