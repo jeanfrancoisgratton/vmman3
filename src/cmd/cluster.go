@@ -1,12 +1,8 @@
-/*
-Copyright © 2022 Jean-Francois Gratton <jean-francois@famillegratton.net>
-*/
+// Copyright © 2022 Jean-Francois Gratton <jean-francois@famillegratton.net>
 package cmd
 
 import (
-	"fmt"
-	"vmman3/cluster"
-
+	"vmman3/clustermanagement"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +14,7 @@ var clusterCmd = &cobra.Command{
 
 You can manage clusters the same way you manage single VMs: up, down, reboot, snapshots, etc.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("cluster called")
+		//fmt.Println("cluster called")
 	},
 }
 
@@ -28,7 +24,7 @@ var clusterLsCmd = &cobra.Command{
 	Short:   "Lists all clusters on all hypervisors",
 	Long:    `This will simply list all clusters registered on all hypervisors.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cluster.ListClusters()
+		clustermanagement.ListClusters()
 	},
 }
 
@@ -39,7 +35,7 @@ var clusterDelCmd = &cobra.Command{
 	Long: `NOTE:
 The cluster will be removed from the cluster list, but the VMs comprising the deleted cluster will NOT be removed.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cluster.RemoveCluster(args)
+		clustermanagement.RemoveCluster(args)
 	},
 }
 
