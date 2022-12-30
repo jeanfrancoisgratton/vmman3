@@ -1,252 +1,252 @@
 [
   {
     "id": 1,
-    "name": "alpine",
+    "vm name": "alpine",
     "ip": "10.5.1.5",
     "online": false,
-    "laststatechange": "2022.11.10 20:12:24",
+    "last state change": "2022.11.10 20:12:24",
     "os": "alpine 3.17",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 2,
-    "name": "alpinedev",
+    "vm name": "alpinedev",
     "ip": "10.80.1.3",
     "online": false,
-    "laststatechange": "2022.11.13 09:10:41",
+    "last state change": "2022.11.13 09:10:41",
     "os": "alpine 3.17",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 3,
-    "name": "win11",
+    "vm name": "win11",
     "ip": "10.8.1.3",
     "online": false,
-    "laststatechange": "n/a",
+    "last state change": "n/a",
     "os": "windows 11",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 4,
-    "name": "win10",
+    "vm name": "win10",
     "ip": "10.8.1.1",
     "online": false,
-    "laststatechange": "n/a",
+    "last state change": "n/a",
     "os": "windows 10",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 5,
-    "name": "win7",
+    "vm name": "win7",
     "ip": "10.8.1.2",
     "online": false,
-    "laststatechange": "n/a",
+    "last state change": "n/a",
     "os": "windows 7",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 6,
-    "name": "debian",
+    "vm name": "debian",
     "ip": "10.5.1.2",
     "online": false,
-    "laststatechange": "2022.11.05 17:05:02",
+    "last state change": "2022.11.05 17:05:02",
     "os": "debian 11",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 7,
-    "name": "fedora",
+    "vm name": "fedora",
     "ip": "10.5.1.3",
     "online": false,
-    "laststatechange": "n/a",
+    "last state change": "n/a",
     "os": "fedora 35",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 8,
-    "name": "rocky",
+    "vm name": "rocky",
     "ip": "10.5.1.1",
     "online": false,
-    "laststatechange": "2022.11.16 16:11:26",
+    "last state change": "2022.11.16 16:11:26",
     "os": "rocky 8.6",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 9,
-    "name": "ubuntu",
+    "vm name": "ubuntu",
     "ip": "10.5.1.5",
     "online": false,
-    "laststatechange": "n/a",
+    "last state change": "n/a",
     "os": "ubuntu 22.04",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 10,
-    "name": "fedora2",
+    "vm name": "fedora2",
     "ip": "10.5.10.3",
     "online": false,
-    "laststatechange": "2022.11.10 19:52:57",
+    "last state change": "2022.11.10 19:52:57",
     "os": "fedora 35",
     "hypervisor": "oslo",
-    "storagepool": "oslo"
+    "storage pool": "oslo"
   },
   {
     "id": 11,
-    "name": "rocky2",
+    "vm name": "rocky2",
     "ip": "10.5.10.1",
     "online": false,
-    "laststatechange": "2022.12.27 08:47:24",
+    "last state change": "2022.12.27 08:47:24",
     "os": "rocky 8.6",
     "hypervisor": "oslo",
-    "storagepool": "oslo"
+    "storage pool": "oslo"
   },
   {
     "id": 12,
-    "name": "ubuntu2",
+    "vm name": "ubuntu2",
     "ip": "10.5.10.4",
     "online": false,
-    "laststatechange": "2022.11.10 19:56:13",
+    "last state change": "2022.11.10 19:56:13",
     "os": "ubuntu 22.04",
     "hypervisor": "oslo",
-    "storagepool": "oslo"
+    "storage pool": "oslo"
   },
   {
     "id": 13,
-    "name": "debian2",
+    "vm name": "debian2",
     "ip": "10.5.10.2",
     "online": false,
-    "laststatechange": "2022.12.27 08:47:22",
+    "last state change": "2022.12.27 08:47:22",
     "os": "debian 11",
     "hypervisor": "oslo",
-    "storagepool": "oslo"
+    "storage pool": "oslo"
   },
   {
     "id": 14,
-    "name": "dockertest",
+    "vm name": "dockertest",
     "ip": "10.17.1.1",
     "online": true,
-    "laststatechange": "2022.10.22 15:57:57",
+    "last state change": "2022.10.22 15:57:57",
     "os": "rocky 8.6",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 15,
-    "name": "alpine2",
+    "vm name": "alpine2",
     "ip": "10.5.10.5",
     "online": false,
-    "laststatechange": "2022.11.10 20:12:23",
+    "last state change": "2022.11.10 20:12:23",
     "os": "alpine 3.17",
     "hypervisor": "oslo",
-    "storagepool": "oslo"
+    "storage pool": "oslo"
   },
   {
     "id": 16,
-    "name": "alpinestorage",
+    "vm name": "alpinestorage",
     "ip": "10.19.20.21",
     "online": false,
-    "laststatechange": "2022.11.05 11:11:23",
+    "last state change": "2022.11.05 11:11:23",
     "os": "alpine 3.17",
     "hypervisor": "bergen",
-    "storagepool": "bergen"
+    "storage pool": "bergen"
   },
   {
     "id": 17,
-    "name": "kubem01",
+    "vm name": "kubem01",
     "ip": "10.30.1.1",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:20",
+    "last state change": "2022.12.29 07:39:20",
     "os": "debian 11",
     "hypervisor": "oslo",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   },
   {
     "id": 18,
-    "name": "kubem02",
+    "vm name": "kubem02",
     "ip": "10.30.1.2",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:57",
+    "last state change": "2022.12.29 07:39:57",
     "os": "debian 11",
     "hypervisor": "bergen",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   },
   {
     "id": 19,
-    "name": "kubee01",
+    "vm name": "kubee01",
     "ip": "10.30.10.1",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:53",
+    "last state change": "2022.12.29 07:39:53",
     "os": "alpine 3.17",
     "hypervisor": "bergen",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   },
   {
     "id": 20,
-    "name": "kubew01",
+    "vm name": "kubew01",
     "ip": "10.30.20.1",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:59",
+    "last state change": "2022.12.29 07:39:59",
     "os": "debian 11",
     "hypervisor": "bergen",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   },
   {
     "id": 21,
-    "name": "kubee02",
+    "vm name": "kubee02",
     "ip": "10.30.10.2",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:55",
+    "last state change": "2022.12.29 07:39:55",
     "os": "alpine 3.17",
     "hypervisor": "bergen",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   },
   {
     "id": 22,
-    "name": "kubew02",
+    "vm name": "kubew02",
     "ip": "10.30.20.2",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:21",
+    "last state change": "2022.12.29 07:39:21",
     "os": "rocky 8.6",
     "hypervisor": "oslo",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   },
   {
     "id": 23,
-    "name": "kubew03",
+    "vm name": "kubew03",
     "ip": "10.30.20.3",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:22",
+    "last state change": "2022.12.29 07:39:22",
     "os": "rocky 8.6",
     "hypervisor": "oslo",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   },
   {
     "id": 24,
-    "name": "kubew04",
+    "vm name": "kubew04",
     "ip": "10.30.20.4",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:23",
+    "last state change": "2022.12.29 07:39:23",
     "os": "rocky 8.6",
     "hypervisor": "oslo",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   },
   {
     "id": 25,
-    "name": "kubee03",
+    "vm name": "kubee03",
     "ip": "10.30.10.3",
     "online": false,
-    "laststatechange": "2022.12.29 07:39:18",
+    "last state change": "2022.12.29 07:39:18",
     "os": "alpine 3.17",
     "hypervisor": "oslo",
-    "storagepool": "vmpool"
+    "storage pool": "vmpool"
   }
 ]

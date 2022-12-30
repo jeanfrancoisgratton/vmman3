@@ -1,14 +1,14 @@
 [
   {
     "id": 11,
-    "name": "oslo",
+    "hypervisor name": "oslo",
     "address": "10.2.1.1",
-    "connectinguser": "jfgratton"
+    "connecting user": "jfgratton"
   },
   {
     "id": 12,
-    "name": "bergen",
+    "hypervisor name": "bergen",
     "address": "10.3.1.1",
-    "connectinguser": "jfgratton"
+    "connecting user": "jfgratton"
   }
 ]

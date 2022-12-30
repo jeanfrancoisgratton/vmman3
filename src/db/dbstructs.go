@@ -7,15 +7,15 @@ package db
 // table: hypervisors
 type DbHypervisors struct {
 	HID             uint8  `json:"id" yaml:"id"`
-	Hname           string `json:"name" yaml:"name"`
+	Hname           string `json:"hypervisor name" yaml:"hypervisor name"`
 	Haddress        string `json:"address" yaml:"address"`
-	Hconnectinguser string `json:"connectinguser" yaml:"connectinguser"`
+	Hconnectinguser string `json:"connecting user" yaml:"connecting user"`
 }
 
 // table: storagepools
 type DbStoragePools struct {
 	SpID    uint8  `json:"id" yaml:"id"`
-	SpName  string `json:"name" yaml:"name"`
+	SpName  string `json:"storage pool name" yaml:"storage pool name"`
 	SpPath  string `json:"path" yaml:"path"`
 	SpOwner string `json:"owner" yaml:"owner"`
 }
@@ -23,35 +23,35 @@ type DbStoragePools struct {
 // table: vmstates
 type dbVmStates struct {
 	VmID              uint8  `json:"id" yaml:"id"`
-	VmName            string `json:"name" yaml:"name"`
+	VmName            string `json:"vm name" yaml:"vm name"`
 	VmIP              string `json:"ip" yaml:"ip"`
 	VmOnline          bool   `json:"online" yaml:"online"`
-	VmLastStateChange string `json:"laststatechange" yaml:"laststatechange"`
+	VmLastStateChange string `json:"last state change" yaml:"last state change"`
 	VmOperatingSystem string `json:"os" yaml:"vmos"`
 	VmHypervisor      string `json:"hypervisor" yaml:"hypervisor"`
-	VmStoragePool     string `json:"storagepool" yaml:"storagepool"`
+	VmStoragePool     string `json:"storage pool" yaml:"storage pool"`
 }
 
 // table: clusters
 type dbClusters struct {
 	CID            uint8  `json:"id" yaml:"id"`
-	Cname          string `json:"clustername" yaml:"clustername"`
-	Cclustermember string `json:"clustermember" yaml:"clustermember"`
+	Cname          string `json:"cluster name" yaml:"cluster name"`
+	Cclustermember string `json:"cluster member" yaml:"cluster member"`
 }
 
 // table: templates
 type dbTemplates struct {
 	TID              uint8  `json:"id" yaml:"id"`
-	Tname            string `json:"name" yaml:"name"`
+	Tname            string `json:"template name" yaml:"template name"`
 	Towner           string `json:"owner" yaml:"owner"`
-	TstoragePool     string `json:"storagepool" yaml:"storagepool"`
+	TstoragePool     string `json:"storage pool" yaml:"storage pool"`
 	ToperatingSystem string `json:"os" yaml:"os"`
 }
 
 type dbDisks struct {
 	DID         uint   `json:"id" yaml:"id"`
-	Dname       string `json:"name" yaml:"name"`
-	Dpool       string `json:"pool" yaml:"pool"`
+	Dname       string `json:"disk name" yaml:"disk name"`
+	Dpool       string `json:"storage pool" yaml:"storage pool"`
 	Dvm         string `json:"vm" yaml:"vm"`
 	Dhypervisor string `json:"hypervisor" yaml:"hypervisor"`
 }

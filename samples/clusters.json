@@ -1,27 +1,27 @@
 [
   {
     "id": 1,
-    "name": "kubernetes_dev",
-    "clustermember": "oslo:kubee03"
+    "cluster name": "kubernetes_dev",
+    "cluster member": "oslo:kubee03"
   },
   {
     "id": 2,
-    "name": "kubernetes_dev",
-    "clustermember": "bergen:kubee01"
+    "cluster name": "kubernetes_dev",
+    "cluster member": "bergen:kubee01"
   },
   {
     "id": 3,
-    "name": "test",
-    "clustermember": "oslo:alpinestorage"
+    "cluster name": "test",
+    "cluster member": "oslo:alpinestorage"
   },
   {
     "id": 4,
-    "name": "alpine",
-    "clustermember": "bergen:alpine"
+    "cluster name": "alpine",
+    "cluster member": "bergen:alpine"
   },
   {
     "id": 5,
-    "name": "alpine",
-    "clustermember": "oslo:alpine2"
+    "cluster name": "alpine",
+    "cluster member": "oslo:alpine2"
   }
 ]

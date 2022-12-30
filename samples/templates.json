@@ -1,16 +1,16 @@
 [
   {
     "id": 1,
-    "name": "debian",
+    "template name": "debian",
     "owner": "oslo",
-    "storagepool": "oslo",
+    "storage pool": "oslo",
     "os": "linux"
   },
   {
     "id": 2,
-    "name": "alpine",
+    "template name": "alpine",
     "owner": "bergen",
-    "storagepool": "vmpool",
+    "storage pool": "vmpool",
     "os": "linux"
   }
 ]
