@@ -33,7 +33,7 @@ type dbVmStates struct {
 }
 
 // table: clusters
-type dbClusters struct {
+type DbClusters struct {
 	CID            uint8  `json:"id" yaml:"id"`
 	Cname          string `json:"cluster name" yaml:"cluster name"`
 	Cclustermember string `json:"cluster member" yaml:"cluster member"`

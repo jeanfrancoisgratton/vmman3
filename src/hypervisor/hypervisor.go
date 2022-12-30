@@ -70,7 +70,7 @@ func ListHypervisors() {
 	var hypervisors []db.DbHypervisors
 
 	envCreds := helpers.Json2creds()
-	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", envCreds.RootUsr, envCreds.RootPasswd, envCreds.Hostname, envCreds.Port)
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", envCreds.DbUsr, envCreds.DbPasswd, envCreds.Hostname, envCreds.Port)
 
 	dbconn, err := pgx.Connect(context.Background(), connString)
 	if err != nil {
@@ -111,5 +111,4 @@ func ListHypervisors() {
 	//t.Style().Options.SeparateColumns = false
 	t.Style().Format.Header = text.FormatDefault
 	t.Render()
-
 }

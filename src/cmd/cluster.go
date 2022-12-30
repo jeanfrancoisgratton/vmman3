@@ -28,13 +28,25 @@ var clusterLsCmd = &cobra.Command{
 	Short:   "Lists all clusters on all hypervisors",
 	Long:    `This will simply list all clusters registered on all hypervisors.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cluster.Ls()
+		cluster.ListClusters()
+	},
+}
+
+var clusterDelCmd = &cobra.Command{
+	Use:     "rm",
+	Aliases: []string{"del", "delete", "remove"},
+	Short:   "Remove cluster from cluster list",
+	Long: `NOTE:
+The cluster will be removed from the cluster list, but the VMs comprising the deleted cluster will NOT be removed.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		cluster.RemoveCluster(args)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(clusterCmd)
 	clusterCmd.AddCommand(clusterLsCmd)
+	clusterCmd.AddCommand(clusterDelCmd)
 
 	// Here you will define your flags and configuration settings.
 

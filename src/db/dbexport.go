@@ -153,8 +153,8 @@ func getVmStateData(dbconn *pgx.Conn) []dbVmStates {
 }
 
 // getClusterData() : prend le contenu de la table servers
-func getClusterData(dbconn *pgx.Conn) []dbClusters {
-	var clusters []dbClusters
+func getClusterData(dbconn *pgx.Conn) []DbClusters {
+	var clusters []DbClusters
 
 	rows, retcode := dbconn.Query(context.Background(), "SELECT * from clusters ORDER BY cid")
 	if retcode != nil {
@@ -163,7 +163,7 @@ func getClusterData(dbconn *pgx.Conn) []dbClusters {
 	defer rows.Close()
 
 	for rows.Next() {
-		var cluster dbClusters
+		var cluster DbClusters
 		err := rows.Scan(&cluster.CID, &cluster.Cname, &cluster.Cclustermember)
 		if err != nil {
 			fmt.Println("Error:", err)

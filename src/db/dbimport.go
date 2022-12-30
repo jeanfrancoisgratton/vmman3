@@ -42,7 +42,7 @@ func Import(directory string) {
 // structs2DB() : Injecte les structures dans la BD
 // Ce n'est pas la méthode la plus efficace : on fait un INSERT par ligne, mais la quantité
 // De données par table ne justifie pas l'emploi de transactions
-func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []DbStoragePools, vms []dbVmStates, vmc []dbClusters, tpt []dbTemplates, dsk []dbDisks) {
+func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []DbStoragePools, vms []dbVmStates, vmc []DbClusters, tpt []dbTemplates, dsk []dbDisks) {
 	//func structs2DB(dbconn *pgx.Conn, hyps []DbHypervisors, sps []DbStoragePools, vms []dbVmStates, tpt []dbTemplates, dsk []dbDisks) {
 	ctx := context.Background()
 	// hyperviseurs
@@ -215,8 +215,8 @@ func getVMStatesTable(directory string) []dbVmStates {
 	return vms
 }
 
-func getClustersTable(directory string) []dbClusters {
-	var dbc []dbClusters
+func getClustersTable(directory string) []DbClusters {
+	var dbc []DbClusters
 	fname := "clusters.json"
 	if !helpers.CheckNOENT(directory, fname) {
 		os.Exit(1)

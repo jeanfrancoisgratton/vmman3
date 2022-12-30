@@ -47,7 +47,8 @@ func Remove(args []string) {
 			removeStorage(poolPaths, vmDisks)
 		}
 		// Remove all VM information from the various tables
-		removeFromDB(vmname, poolPaths, vmDisks)
+		//removeFromDB(vmname, poolPaths, vmDisks)
+		removeFromDB(vmname)
 
 		fmt.Println("VM %s has been removed.", vmname)
 	}
@@ -69,7 +70,8 @@ func removeStorage(paths []string, disks []string) {
 }
 
 // removeFromDB(): we wipe all VM info from the DB
-func removeFromDB(vmname string, poolPaths []string, vmDisks []string) {
+// func removeFromDB(vmname string, poolPaths []string, vmDisks []string) {
+func removeFromDB(vmname string) {
 	var hypervisor string
 	creds := helpers.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
