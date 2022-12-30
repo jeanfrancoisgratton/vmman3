@@ -1,6 +1,27 @@
 [
   {
     "id": 1,
-    "name": "kubernetes_dev"
+    "name": "kubernetes_dev",
+    "clustermember": "oslo:kubee03"
+  },
+  {
+    "id": 2,
+    "name": "kubernetes_dev",
+    "clustermember": "bergen:kubee01"
+  },
+  {
+    "id": 3,
+    "name": "test",
+    "clustermember": "oslo:alpinestorage"
+  },
+  {
+    "id": 4,
+    "name": "alpine",
+    "clustermember": "bergen:alpine"
+  },
+  {
+    "id": 5,
+    "name": "alpine",
+    "clustermember": "oslo:alpine2"
   }
 ]
