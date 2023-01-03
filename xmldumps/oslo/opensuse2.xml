@@ -1,16 +1,16 @@
 <domain type='kvm'>
-  <name>debian</name>
-  <uuid>485d6490-281c-4c0f-9541-b855a849253d</uuid>
+  <name>opensuse2</name>
+  <uuid>2dc5cd50-9cdd-4c5b-8495-f1dd87d30adf</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
-      <libosinfo:os id="http://debian.org/debian/11"/>
+      <libosinfo:os id="http://opensuse.org/opensuse/tumbleweed"/>
     </libosinfo:libosinfo>
   </metadata>
-  <memory unit='KiB'>786432</memory>
-  <currentMemory unit='KiB'>786432</currentMemory>
+  <memory unit='KiB'>2097152</memory>
+  <currentMemory unit='KiB'>2097152</currentMemory>
   <vcpu placement='static'>1</vcpu>
   <os>
-    <type arch='x86_64' machine='pc-q35-6.1'>hvm</type>
+    <type arch='x86_64' machine='pc-q35-7.0'>hvm</type>
     <boot dev='hd'/>
   </os>
   <features>
@@ -35,8 +35,14 @@
     <emulator>/usr/bin/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
-      <source file='/vmpool/oslo/debian2.qcow2'/>
+      <source file='/vmpool/oslo/opensuse2.qcow2'/>
+      <target dev='vda' bus='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
       <target dev='sda' bus='sata'/>
+      <readonly/>
       <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
     <controller type='usb' index='0' model='qemu-xhci' ports='15'>
@@ -119,11 +125,8 @@
     <controller type='virtio-serial' index='0'>
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </controller>
-    <controller type='scsi' index='0' model='virtio-scsi'>
-      <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
-    </controller>
     <interface type='bridge'>
-      <mac address='52:54:00:95:ad:63'/>
+      <mac address='52:54:00:7b:53:b5'/>
       <source bridge='br0'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
@@ -150,6 +153,7 @@
     <input type='mouse' bus='ps2'/>
     <graphics type='spice' autoport='yes'>
       <listen type='address'/>
+      <image compression='off'/>
     </graphics>
     <sound model='ich9'>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1b' function='0x0'/>
