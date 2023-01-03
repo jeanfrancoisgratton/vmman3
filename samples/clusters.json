@@ -10,11 +10,6 @@
     "cluster member": "bergen:kubee01"
   },
   {
-    "id": 3,
-    "cluster name": "test",
-    "cluster member": "oslo:alpinestorage"
-  },
-  {
     "id": 4,
     "cluster name": "alpine",
     "cluster member": "bergen:alpine"

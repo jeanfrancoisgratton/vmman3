@@ -75,5 +75,40 @@
     "storage pool": "vmpool",
     "vm": "kubee03",
     "hypervisor": "oslo"
+  },
+  {
+    "id": 12,
+    "disk name": "opensuse2",
+    "storage pool": "oslo",
+    "vm": "opensuse2",
+    "hypervisor": "oslo"
+  },
+  {
+    "id": 13,
+    "disk name": "debian",
+    "storage pool": "bergen",
+    "vm": "debian",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 14,
+    "disk name": "fedora",
+    "storage pool": "bergen",
+    "vm": "fedora",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 15,
+    "disk name": "rocky",
+    "storage pool": "bergen",
+    "vm": "rocky",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 16,
+    "disk name": "ubuntu",
+    "storage pool": "bergen",
+    "vm": "ubuntu",
+    "hypervisor": "bergen"
   }
 ]
