@@ -2,8 +2,8 @@
 package cmd
 
 import (
-	"vmman3/clustermanagement"
 	"github.com/spf13/cobra"
+	"vmman3/clustermanagement"
 )
 
 // clusterCmd represents the cluster command
@@ -39,10 +39,24 @@ The cluster will be removed from the cluster list, but the VMs comprising the de
 	},
 }
 
+var clusterAddCmd = &cobra.Command{
+	Use: "add",
+	//Aliases: []string{"del", "delete", "remove"},
+	Short: "Add a cluster and its members (VMs) to the database",
+	Long: `NOTE:
+A typical entry looks like this: hypervisor:vm, for instance:
+vmmand cluster add kvm01:server03, where kvm01 is the hypervisor, and server03 is a VM.
+You can enter multiple members at once.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		clustermanagement.AddCluster(args)
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(clusterCmd)
 	clusterCmd.AddCommand(clusterLsCmd)
 	clusterCmd.AddCommand(clusterDelCmd)
+	clusterCmd.AddCommand(clusterAddCmd)
 
 	// Here you will define your flags and configuration settings.
 

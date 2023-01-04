@@ -12,6 +12,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"vmman3/clustermanagement"
 	"vmman3/helpers"
 )
 
@@ -49,6 +50,7 @@ func Remove(args []string) {
 		// Remove all VM information from the various tables
 		//removeFromDB(vmname, poolPaths, vmDisks)
 		removeFromDB(vmname)
+		clustermanagement.RemoveFromCluster(vmname)
 
 		fmt.Println("VM %s has been removed.", vmname)
 	}

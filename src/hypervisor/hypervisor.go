@@ -112,3 +112,7 @@ func ListHypervisors() {
 	t.Style().Format.Header = text.FormatDefault
 	t.Render()
 }
+
+func AddtoCluster(member []string) {
+
+}

@@ -6,11 +6,11 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
+	"github.com/jwalton/gchalk"
 	"log"
 	"os"
 	"vmman3/db"
 	"vmman3/helpers"
-	"github.com/jwalton/gchalk"
 )
 
 // ListClusters() : simple cluster enumeration
@@ -64,7 +64,6 @@ func ListClusters() {
 
 // RemoveCluster() : remove the cluster or list of clusters
 func RemoveCluster(args []string) {
-	//var hypervisor string
 	creds := helpers.Json2creds()
 	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
 	ctx := context.Background()
@@ -77,6 +76,33 @@ func RemoveCluster(args []string) {
 	defer dbconn.Close(ctx)
 
 	for _, arg := range args {
+		sqlQuery := fmt.Sprintf("DELETE FROM clusters WHERE cname='%s';", arg)
+		_, err = dbconn.Exec(ctx, sqlQuery)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Printf("Cluster %s has been removed\n\n\n", arg)
+		fmt.Printf("Cluster %s has been %s from the database.\n", gchalk.WithBrightWhite().Bold(arg), gchalk.BrightRed("removed"))
+	}
+}
+
+// AddCluster() : add a cluster and members
+func AddCluster(args []string) {
+	creds := helpers.Json2creds()
+	connString := fmt.Sprintf("postgresql://%s:%s@%s:%d/vmman", creds.DbUsr, creds.DbPasswd, creds.Hostname, creds.Port)
+	ctx := context.Background()
+
+	dbconn, err := pgx.Connect(ctx, connString)
+	if err != nil {
+		log.Fatalln(err)
+		os.Exit(1)
+	}
+	defer dbconn.Close(ctx)
+
+	for _, arg := range args {
+		if memberIsValid(arg) {
+
+		}
 		sqlQuery := fmt.Sprintf("DELETE FROM clusters WHERE cname='%s';", arg)
 		_, err = dbconn.Exec(ctx, sqlQuery)
 		if err != nil {
