@@ -12,7 +12,7 @@ import (
 
 // templateCmd represents the templatemanagement command
 var templateCmd = &cobra.Command{
-	Use:   "templatemanagement",
+	Use:   "template",
 	Short: "Template-related commands",
 	Long: `Here you will templatemanagement commands such as:
 
