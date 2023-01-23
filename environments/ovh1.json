@@ -1,0 +1,10 @@
+{
+  "hostname": "ovh1.famillegratton.net",
+  "port": 65432,
+  "rootusr": "jfgratton",
+  "rootpasswd": "jiefg000",
+  "dbusr": "vmman",
+  "dbpasswd": "vmman",
+  "defaulthypervisoruser": "root",
+  "promptforwipe": "no"
+}
