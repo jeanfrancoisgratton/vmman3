@@ -1,13 +1,9 @@
-/*
-Copyright © 2022 Jean-Francois Gratton <jean-francois@famillegratton.net>
-*/
+// Copyright © 2022 Jean-Francois Gratton <jean-francois@famillegratton.net>
 package cmd
 
 import (
-	"fmt"
-	"vmman3/cluster"
-
 	"github.com/spf13/cobra"
+	"vmman3/clustermanagement"
 )
 
 // clusterCmd represents the cluster command
@@ -18,7 +14,7 @@ var clusterCmd = &cobra.Command{
 
 You can manage clusters the same way you manage single VMs: up, down, reboot, snapshots, etc.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("cluster called")
+		//fmt.Println("cluster called")
 	},
 }
 
@@ -28,7 +24,7 @@ var clusterLsCmd = &cobra.Command{
 	Short:   "Lists all clusters on all hypervisors",
 	Long:    `This will simply list all clusters registered on all hypervisors.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cluster.ListClusters()
+		clustermanagement.ListClusters()
 	},
 }
 
@@ -39,7 +35,20 @@ var clusterDelCmd = &cobra.Command{
 	Long: `NOTE:
 The cluster will be removed from the cluster list, but the VMs comprising the deleted cluster will NOT be removed.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cluster.RemoveCluster(args)
+		clustermanagement.RemoveCluster(args)
+	},
+}
+
+var clusterAddCmd = &cobra.Command{
+	Use: "add",
+	//Aliases: []string{"del", "delete", "remove"},
+	Short: "Add a cluster and its members (VMs) to the database",
+	Long: `NOTE:
+A typical entry looks like this: hypervisor:vm, for instance:
+vmmand cluster add kvm01:server03, where kvm01 is the hypervisor, and server03 is a VM.
+You can enter multiple members at once.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		clustermanagement.AddCluster(args)
 	},
 }
 
@@ -47,6 +56,7 @@ func init() {
 	rootCmd.AddCommand(clusterCmd)
 	clusterCmd.AddCommand(clusterLsCmd)
 	clusterCmd.AddCommand(clusterDelCmd)
+	clusterCmd.AddCommand(clusterAddCmd)
 
 	// Here you will define your flags and configuration settings.
 
