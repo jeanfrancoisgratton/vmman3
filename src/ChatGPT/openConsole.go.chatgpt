@@ -1,0 +1,51 @@
+// vmman3 : Écrit par Jean-François Gratton (jean-francois@famillegratton.net)
+// src/ChatGPT/openConsole.go
+// 2023-01-27 09:52:16
+
+/*
+1. Install the libvirt Go bindings by running go get libvirt.org/go/libvirt
+2. Import the libvirt package in your Go code: import "libvirt.org/go/libvirt"
+3. Connect to the libvirt daemon using the libvirt.Connect function:
+
+conn, err := libvirt.Connect("qemu:///system")
+if err != nil {
+    panic(err)
+}
+
+4. Lookup the domain you want to open a console on by calling conn.LookupDomainByName or conn.LookupDomainByUUID,
+for example:
+
+dom, err := conn.LookupDomainByName("mydomain")
+if err != nil {
+    panic(err)
+}
+
+5. Open the console by calling dom.OpenConsole:
+
+console, err := dom.OpenConsole("xen", libvirt.DomainConsoleFlags(0))
+if err != nil {
+    panic(err)
+}
+
+6. Read and write to the console using the console variable, for example:
+
+go func() {
+    defer console.Close()
+    defer conn.Close()
+
+    for {
+        buf := make([]byte, 32)
+        n, err := console.Read(buf)
+        if err != nil {
+            panic(err)
+        }
+        if n == 0 {
+            break
+        }
+        fmt.Printf("%s", buf[:n])
+    }
+}()
+
+Please note that this is just a basic example and you may need to handle more edge cases, like closing the console
+and connection properly, and handle errors properly.
+*/
