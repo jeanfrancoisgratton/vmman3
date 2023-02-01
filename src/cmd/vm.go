@@ -93,9 +93,12 @@ var startallCmd = &cobra.Command{
 
 // xmldumpCmd represents the xmldump command
 var xmldumpCmd = &cobra.Command{
-	Use:   "xmldump",
-	Short: "Dumps the VM definition in an XML file",
-	Long:  `This the equivalent of virsh xmldump, where you specify as arguments the VM name and the target XML file.`,
+	Use:     "xmldump",
+	Short:   "Dumps the VM definition in an XML file",
+	Aliases: []string{"dumpxml"},
+	Long:    `This the equivalent of virsh xmldump, where you specify as arguments the VM name and the target XML file.`,
+	Example: "vmman vm xmldump vmname xmlfile.",
+
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 2 {
 			fmt.Println("USAGE: vmman vm xmldump VMNAME XMLFILE")

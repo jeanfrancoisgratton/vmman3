@@ -1,13 +1,13 @@
 <domain type='kvm'>
   <name>ubuntu</name>
-  <uuid>cf278f0b-9b5c-4c97-88bf-84ac4e06b658</uuid>
+  <uuid>3174dfd7-e5e2-4964-aa78-7a31de8e90a4</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
       <libosinfo:os id="http://ubuntu.com/ubuntu/22.10"/>
     </libosinfo:libosinfo>
   </metadata>
-  <memory unit='KiB'>2097152</memory>
-  <currentMemory unit='KiB'>2097152</currentMemory>
+  <memory unit='KiB'>1048576</memory>
+  <currentMemory unit='KiB'>1048576</currentMemory>
   <vcpu placement='static'>1</vcpu>
   <os>
     <type arch='x86_64' machine='pc-q35-7.0'>hvm</type>
@@ -120,7 +120,7 @@
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </controller>
     <interface type='bridge'>
-      <mac address='52:54:00:5f:f1:a5'/>
+      <mac address='52:54:00:21:1c:da'/>
       <source bridge='br0'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>

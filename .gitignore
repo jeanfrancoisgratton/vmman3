@@ -5,11 +5,12 @@
 *.exe
 
 # Folders
-_obj
-_test
-.vscode
-.idea
+_obj/
+_test/
+.vscode/
+.idea/
 __debian/
+ChatGPT/
 
 # mac hidden files
 .DS_Store

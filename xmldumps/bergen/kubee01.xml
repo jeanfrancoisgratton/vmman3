@@ -1,9 +1,9 @@
 <domain type='kvm'>
-  <name>debian</name>
-  <uuid>cccc5374-4a29-416d-ac1c-e0042a6877e3</uuid>
+  <name>kubee01</name>
+  <uuid>69815855-dfaa-4f63-aa66-89b9d323ae39</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
-      <libosinfo:os id="http://debian.org/debian/11"/>
+      <libosinfo:os id="http://alpinelinux.org/alpinelinux/3.16"/>
     </libosinfo:libosinfo>
   </metadata>
   <memory unit='KiB'>1048576</memory>
@@ -35,7 +35,7 @@
     <emulator>/usr/bin/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
-      <source file='/vmpool/bergen/debian.qcow2'/>
+      <source file='/vmpool/kubee01.qcow2'/>
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
     </disk>
@@ -120,7 +120,7 @@
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </controller>
     <interface type='bridge'>
-      <mac address='52:54:00:41:cb:35'/>
+      <mac address='52:54:00:e5:c2:12'/>
       <source bridge='br0'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
@@ -153,7 +153,7 @@
       <address type='pci' domain='0x0000' bus='0x00' slot='0x1b' function='0x0'/>
     </sound>
     <video>
-      <model type='virtio' heads='1' primary='yes'/>
+      <model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1' primary='yes'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
     </video>
     <redirdev bus='usb' type='spicevmc'>

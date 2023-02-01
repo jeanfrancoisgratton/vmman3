@@ -1,13 +1,13 @@
 <domain type='kvm'>
   <name>alpine</name>
-  <uuid>6f564dfb-561d-432d-8dde-3aeff0f9657d</uuid>
+  <uuid>5f4ab275-3d46-4f59-96d0-08be3500976b</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
       <libosinfo:os id="http://alpinelinux.org/alpinelinux/3.16"/>
     </libosinfo:libosinfo>
   </metadata>
-  <memory unit='KiB'>786432</memory>
-  <currentMemory unit='KiB'>786432</currentMemory>
+  <memory unit='KiB'>1048576</memory>
+  <currentMemory unit='KiB'>1048576</currentMemory>
   <vcpu placement='static'>1</vcpu>
   <os>
     <type arch='x86_64' machine='pc-q35-7.0'>hvm</type>
@@ -120,7 +120,7 @@
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </controller>
     <interface type='bridge'>
-      <mac address='52:54:00:19:28:e6'/>
+      <mac address='52:54:00:85:30:c1'/>
       <source bridge='br0'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>

@@ -1,6 +1,6 @@
 <domain type='kvm'>
   <name>rocky</name>
-  <uuid>de0745fd-3924-4974-a48b-8885fc09ed6d</uuid>
+  <uuid>6c93d151-052e-4629-8a59-24902b25fb44</uuid>
   <metadata>
     <libosinfo:libosinfo xmlns:libosinfo="http://libosinfo.org/xmlns/libvirt/domain/1.0">
       <libosinfo:os id="http://rockylinux.org/rocky/9"/>
@@ -38,6 +38,12 @@
       <source file='/vmpool/bergen/rocky.qcow2'/>
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <target dev='sda' bus='sata'/>
+      <readonly/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
     <controller type='usb' index='0' model='qemu-xhci' ports='15'>
       <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
@@ -120,7 +126,7 @@
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </controller>
     <interface type='bridge'>
-      <mac address='52:54:00:12:c0:d7'/>
+      <mac address='52:54:00:76:8d:9f'/>
       <source bridge='br0'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
