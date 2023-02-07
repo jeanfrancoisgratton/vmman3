@@ -1,6 +1,6 @@
 module vmman3
 
-go 1.19
+go 1.20
 
 require (
 	github.com/jackc/pgx/v5 v5.0.3
