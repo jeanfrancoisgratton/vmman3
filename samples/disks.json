@@ -117,5 +117,26 @@
     "storage pool": "bergen",
     "vm": "opensuse",
     "hypervisor": "bergen"
+  },
+  {
+    "id": 19,
+    "disk name": "win7",
+    "storage pool": "bergen",
+    "vm": "win7",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 20,
+    "disk name": "androidemu1",
+    "storage pool": "bergen",
+    "vm": "androidemu1",
+    "hypervisor": "bergen"
+  },
+  {
+    "id": 21,
+    "disk name": "win10",
+    "storage pool": "bergen",
+    "vm": "win10",
+    "hypervisor": "bergen"
   }
 ]

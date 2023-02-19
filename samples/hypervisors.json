@@ -3,12 +3,12 @@
     "id": 11,
     "hypervisor name": "oslo",
     "address": "10.2.1.1",
-    "connecting user": "jfgratton"
+    "connecting user": "root"
   },
   {
     "id": 12,
     "hypervisor name": "bergen",
     "address": "10.3.1.1",
-    "connecting user": "jfgratton"
+    "connecting user": "root"
   }
 ]
