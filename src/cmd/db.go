@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"os"
 	"vmman3/db"
+	"vmman3/helpers"
 )
 
 // dbCmd represents the db command
@@ -37,9 +38,9 @@ ALL PREVIOUS INFO WILL BE LOST`,
 
 // dropCmd represents the drop command
 var dropCmd = &cobra.Command{
-	Use:   "drop",
+	Use:     "drop",
 	Aliases: []string{"wipe"},
-	Short: "Drops the database",
+	Short:   "Drops the database",
 	Long: `The vmman database will be dropped (erased).
 
 WARNING : This is irreversible !`,
@@ -92,4 +93,6 @@ func init() {
 	dbCmd.AddCommand(dropCmd)
 	dbCmd.AddCommand(dbExportCmd)
 	dbCmd.AddCommand(dbImportCmd)
+
+	dropCmd.PersistentFlags().BoolVarP(&helpers.DbDropAssumeYes, "yes", "y", false, "Assume yes to all questions")
 }

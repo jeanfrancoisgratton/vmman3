@@ -45,11 +45,13 @@ func Drop() {
 	ctx := context.Background()
 	var confirmation string
 
-	fmt.Print("WARNING !!! Host: " + creds.Hostname + ": This operation is irreversible. Are you sure you want to continue [Y/n] ? ")
-	fmt.Scanln(&confirmation)
+	if !helpers.DbDropAssumeYes {
+		fmt.Print("WARNING !!! Host: " + creds.Hostname + ": This operation is irreversible. Are you sure you want to continue [Y/n] ? ")
+		fmt.Scanln(&confirmation)
 
-	if !strings.HasPrefix(strings.ToLower(confirmation), "y") {
-		os.Exit(0)
+		if !strings.HasPrefix(strings.ToLower(confirmation), "y") {
+			os.Exit(0)
+		}
 	}
 
 	dbconn, err := pgx.Connect(ctx, connString)

@@ -9,7 +9,9 @@ var EnvironmentFile string
 var ConnectURI string
 var BkeepStorage = false
 var HypervisorUser = "root"
-var SingleHypervisor = false
+
+// var SingleHypervisor = false
+var DbDropAssumeYes = false
 
 // La structure utilisée pour créer la bd originale
 type EnvironmentStruct struct {

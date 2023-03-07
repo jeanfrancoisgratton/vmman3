@@ -9,4 +9,4 @@
 - [ ] vmman -c $HYPERVISOR vm xmldump not working on remote hypervisor
 - [x] vmman ls -a crashes if one hypervisor is missing : needs better handling
 - [x] vmman vm down $VM not working anymore
-- 
+- [ ] vmman db drop -y is not working
