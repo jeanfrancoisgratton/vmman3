@@ -77,13 +77,6 @@
     "hypervisor": "oslo"
   },
   {
-    "id": 12,
-    "disk name": "opensuse2",
-    "storage pool": "oslo",
-    "vm": "opensuse2",
-    "hypervisor": "oslo"
-  },
-  {
     "id": 13,
     "disk name": "debian",
     "storage pool": "bergen",
@@ -109,13 +102,6 @@
     "disk name": "ubuntu",
     "storage pool": "bergen",
     "vm": "ubuntu",
-    "hypervisor": "bergen"
-  },
-  {
-    "id": 18,
-    "disk name": "opensuse",
-    "storage pool": "bergen",
-    "vm": "opensuse",
     "hypervisor": "bergen"
   },
   {

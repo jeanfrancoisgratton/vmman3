@@ -52,7 +52,7 @@ func Remove(args []string) {
 		removeFromDB(vmname)
 		clustermanagement.RemoveFromCluster(vmname)
 
-		fmt.Println("VM %s has been removed.", vmname)
+		fmt.Println(fmt.Sprintf("VM %s has been removed.", vmname))
 	}
 }
 
@@ -92,13 +92,13 @@ func removeFromDB(vmname string) {
 	defer dbconn.Close(ctx)
 
 	// Table: vmstates
-	sqlQuery := fmt.Sprintf("DELETE FROM vmstates WHERE vmname='%s' AND vmhypervisor='%';", vmname, hypervisor)
+	sqlQuery := fmt.Sprintf("DELETE FROM vmstates WHERE vmname='%s' AND vmhypervisor='%s';", vmname, hypervisor)
 	_, err = dbconn.Exec(ctx, sqlQuery)
 	if err != nil {
 		panic(err)
 	}
 	// Table: disks
-	sqlQuery = fmt.Sprintf("DELETE FROM disks WHERE vmname='%s' AND vmhypervisor='%';", vmname, hypervisor)
+	sqlQuery = fmt.Sprintf("DELETE FROM disks WHERE dvm='%s' AND dhypervisor='%s';", vmname, hypervisor)
 	_, err = dbconn.Exec(ctx, sqlQuery)
 	if err != nil {
 		panic(err)

@@ -110,7 +110,7 @@ func createTables(dbconn *pgx.Conn) {
 		"(did integer NOT NULL DEFAULT nextval('\"disks_did_seq\"'::regclass), "+
 		"dname character varying(50) NOT NULL, dpool character varying(50) NOT NULL, "+
 		"dvm character varying(24) NOT NULL, dhypervisor character varying(24) NOT NULL, "+
-		"CONSTRAINT disks_pkey PRIMARY KEY (did));")
+		"CONSTRAINT diskVM PRIMARY KEY (dname, dvm));")
 	if err != nil {
 		fmt.Println("Error: ", err)
 		os.Exit(-2)
@@ -120,9 +120,8 @@ func createTables(dbconn *pgx.Conn) {
 // setTableOwnership() : change la propriété des tables pour vmman
 func setTableOwnership(dbconn *pgx.Conn) {
 	ctx := context.Background()
-	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS storagepools OWNER to vmman;")
-	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS hypervisors OWNER to vmman;")
-	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS vmstates OWNER to vmman;")
-	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS clusters OWNER to vmman;")
-	dbconn.Exec(ctx, "ALTER TABLE IF EXISTS disks OWNER to vmman;")
+	for _, i := range []string{"storagepools", "hypervisors", "vmstates", "clusters", "disks"} {
+		sql := fmt.Sprintf("ALTER TABLE IF EXISTS %s OWNER TO vmman;", i)
+		dbconn.Exec(ctx, sql)
+	}
 }

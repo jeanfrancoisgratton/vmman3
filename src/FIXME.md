@@ -11,3 +11,4 @@
 - [x] vmman vm down $VM not working anymore
 - [x] vmman db drop -y is not working
 - [ ] `vmman rm` SQL error in vmman3/vmmanagement.removeFromDB
+- [x] Table `disks` allowed for duplicate dname + dvm combinations
