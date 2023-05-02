@@ -31,6 +31,7 @@ GoLang-based libvirt client
 %build
 cd %{_sourcedir}/%{_name}-%{_version}/src
 PATH=$PATH:/opt/go/bin go build -o %{_sourcedir}/%{_name} .
+strip %{_sourcedir}/%{_name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT

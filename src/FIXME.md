@@ -12,3 +12,4 @@
 - [x] vmman db drop -y is not working
 - [x] `vmman rm` SQL error in vmman3/vmmanagement.removeFromDB
 - [x] Table `disks` allowed for duplicate dname + dvm combinations
+- [ ] Add more verbose error output when `vmman ls` cannot connect to QEMU guest agent (show which VM)
