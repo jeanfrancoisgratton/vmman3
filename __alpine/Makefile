@@ -3,9 +3,8 @@ all:
 	go build . -o ./vmman3.exe
 
 prepare:
-	sudo /opt/bin/install_golang.sh `head -1 ${SRCDIR}/go.version` amd64
+	sudo /opt/bin/install_golang.sh 1.19.9 amd64
 	sudo apk update
-	sudo apk add --no-cache pkgconfig libvirt libvirt-dev gcc musl-dev
 
 install:
 	test -d $(DESTDIR)$(PREFIX)/bin || mkdir -p $(DESTDIR)$(PREFIX)/bin

@@ -15,11 +15,10 @@ install="$pkgname.pre-install"
 
 build() {
 	pwd
-	mkdir -p "$builddir" && cd "$builddir"/.. && rm -rf BUILD && cp -R "$startdir"/../src . && mv src BUILD
+    mkdir -p "$builddir" && cd "$builddir"/.. && rm -rf BUILD && cp -R "$startdir"/../src . && mv src BUILD
     cd "$builddir"
-    make -f "$startdir"/Makefile SRCDIR="$startdir"/../src prepare
+    make -f "$startdir"/Makefile prepare
     go build -o "$pkgname".exe .
-    strip "$pkgname".exe
 }
 
 package() {
