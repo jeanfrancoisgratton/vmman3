@@ -7,7 +7,7 @@ require (
 	github.com/jedib0t/go-pretty/v6 v6.4.6
 	github.com/jwalton/gchalk v1.3.0
 	github.com/spf13/cobra v1.7.0
-	golang.org/x/crypto v0.8.0
+	golang.org/x/crypto v0.9.0
 	libvirt.org/go/libvirt v1.8007.0
 )
 
