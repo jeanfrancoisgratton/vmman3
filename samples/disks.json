@@ -1,127 +1,113 @@
 [
   {
-    "id": 1,
-    "disk name": "alpine_storage",
-    "storage pool": "vmpool",
-    "vm": "alpinestorage",
-    "hypervisor": "bergen"
-  },
-  {
-    "id": 2,
-    "disk name": "alpine_storage2",
-    "storage pool": "bergen",
-    "vm": "alpinestorage",
-    "hypervisor": "bergen"
-  },
-  {
     "id": 3,
-    "disk name": "kubem01",
-    "storage pool": "vmpool",
+    "name": "kubem01",
+    "pool": "vmpool",
     "vm": "kubem01",
     "hypervisor": "oslo"
   },
   {
     "id": 4,
-    "disk name": "kubem02",
-    "storage pool": "vmpool",
+    "name": "kubem02",
+    "pool": "vmpool",
     "vm": "kubem02",
     "hypervisor": "bergen"
   },
   {
     "id": 5,
-    "disk name": "kubee01",
-    "storage pool": "vmpool",
+    "name": "kubee01",
+    "pool": "vmpool",
     "vm": "kubee01",
     "hypervisor": "bergen"
   },
   {
     "id": 6,
-    "disk name": "kubew01",
-    "storage pool": "vmpool",
+    "name": "kubew01",
+    "pool": "vmpool",
     "vm": "kubew01",
     "hypervisor": "bergen"
   },
   {
     "id": 7,
-    "disk name": "kubee02",
-    "storage pool": "vmpool",
+    "name": "kubee02",
+    "pool": "vmpool",
     "vm": "kubee02",
     "hypervisor": "bergen"
   },
   {
     "id": 8,
-    "disk name": "kubew02",
-    "storage pool": "vmpool",
+    "name": "kubew02",
+    "pool": "vmpool",
     "vm": "kubew02",
     "hypervisor": "oslo"
   },
   {
     "id": 9,
-    "disk name": "kubew03",
-    "storage pool": "vmpool",
+    "name": "kubew03",
+    "pool": "vmpool",
     "vm": "kubew03",
     "hypervisor": "oslo"
   },
   {
     "id": 10,
-    "disk name": "kubew04",
-    "storage pool": "vmpool",
+    "name": "kubew04",
+    "pool": "vmpool",
     "vm": "kubew04",
     "hypervisor": "oslo"
   },
   {
     "id": 11,
-    "disk name": "kubee03",
-    "storage pool": "vmpool",
+    "name": "kubee03",
+    "pool": "vmpool",
     "vm": "kubee03",
     "hypervisor": "oslo"
   },
   {
     "id": 13,
-    "disk name": "debian",
-    "storage pool": "bergen",
+    "name": "debian",
+    "pool": "bergen",
     "vm": "debian",
     "hypervisor": "bergen"
   },
   {
     "id": 14,
-    "disk name": "fedora",
-    "storage pool": "bergen",
+    "name": "fedora",
+    "pool": "bergen",
     "vm": "fedora",
     "hypervisor": "bergen"
   },
   {
     "id": 15,
-    "disk name": "rocky",
-    "storage pool": "bergen",
+    "name": "rocky",
+    "pool": "bergen",
     "vm": "rocky",
     "hypervisor": "bergen"
   },
   {
     "id": 16,
-    "disk name": "ubuntu",
-    "storage pool": "bergen",
+    "name": "ubuntu",
+    "pool": "bergen",
     "vm": "ubuntu",
     "hypervisor": "bergen"
   },
   {
     "id": 19,
-    "disk name": "win7",
-    "storage pool": "bergen",
+    "name": "win7",
+    "pool": "bergen",
     "vm": "win7",
     "hypervisor": "bergen"
   },
   {
     "id": 20,
-    "disk name": "androidemu1",
-    "storage pool": "bergen",
+    "name": "androidemu1",
+    "pool": "bergen",
     "vm": "androidemu1",
     "hypervisor": "bergen"
   },
   {
     "id": 21,
-    "disk name": "win10",
-    "storage pool": "bergen",
+    "name": "win10",
+    "pool": "bergen",
     "vm": "win10",
     "hypervisor": "bergen"
   }

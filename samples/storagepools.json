@@ -1,31 +1,31 @@
 [
   {
     "id": 1,
-    "storage pool name": "isos",
+    "name": "isos",
     "path": "/vmpool/isos",
     "owner": "any"
   },
   {
     "id": 2,
-    "storage pool name": "oslo",
+    "name": "oslo",
     "path": "/vmpool/oslo",
     "owner": "oslo"
   },
   {
     "id": 3,
-    "storage pool name": "bergen",
+    "name": "bergen",
     "path": "/vmpool/bergen",
     "owner": "bergen"
   },
   {
     "id": 4,
-    "storage pool name": "vmpool",
+    "name": "vmpool",
     "path": "/vmpool",
     "owner": "any"
   },
   {
     "id": 5,
-    "storage pool name": "templates",
+    "name": "templates",
     "path": "/vmpool/templates",
     "owner": "any"
   }
