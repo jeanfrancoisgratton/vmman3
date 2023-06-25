@@ -4,7 +4,7 @@ all:
 
 prepare:
 	sudo /opt/bin/install_golang.sh 1.20.5 amd64
-	sudo apk update
+	sudo apk update --no-cache
 	sudo apk add --no-cache pkgconfig libvirt libvirt-dev gcc musl-dev
 
 install:
