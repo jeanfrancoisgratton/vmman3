@@ -7,13 +7,6 @@
     "hypervisor": "bergen"
   },
   {
-    "id": 24,
-    "disk name": "alpinesddm",
-    "storage pool": "vmpool",
-    "vm": "alpinesddm",
-    "hypervisor": "bergen"
-  },
-  {
     "id": 25,
     "disk name": "debian",
     "storage pool": "vmpool",
