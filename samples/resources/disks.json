@@ -12,5 +12,12 @@
     "storage pool": "vmpool",
     "vm": "debian",
     "hypervisor": "bergen"
+  },
+  {
+    "id": 26,
+    "disk name": "rocky",
+    "storage pool": "bergen",
+    "vm": "rocky",
+    "hypervisor": "bergen"
   }
 ]

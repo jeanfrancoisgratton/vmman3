@@ -18,5 +18,25 @@
     "os": "debian 12",
     "hypervisor": "bergen",
     "storage pool": "bergen"
+  },
+  {
+    "id": 34,
+    "vm name": "rocky",
+    "ip": "10.5.1.1",
+    "online": false,
+    "last state change": "n/a",
+    "os": "rocky linux 9.3",
+    "hypervisor": "bergen",
+    "storage pool": "bergen"
+  },
+  {
+    "id": 35,
+    "vm name": "debtest",
+    "ip": "10.3.18.1",
+    "online": false,
+    "last state change": "n/a",
+    "os": "debian 12",
+    "hypervisor": "bergen",
+    "storage pool": "vmpool"
   }
 ]
